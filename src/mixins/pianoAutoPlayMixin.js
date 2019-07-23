@@ -133,15 +133,18 @@ export default {
 
     // sky sheet music
     autoPlaySheet (notes) {
+      const PosPerBar = 96
+      const ChannelCnt = 5
       $('.piano-key').removeClass('auto-key-active')
       //let timeUnit = (60 * 1000) / 75
       let startStmp = new Date()
-      let pressedNote
+      let pressedNote = [null,null,null,null]
 
       let totalBar = notes.length
       let curBarItor = 0
       let curBar
-      let curNoteInBar = 0
+      //let curNoteInBar = 0
+      let curNoteInBar = [0,0,0,0,0]
       console.log('Bar num:' + totalBar)
 
       curBar = notes[curBarItor]
@@ -149,9 +152,9 @@ export default {
         let curStmp = new Date()
         let curTime = curStmp - startStmp
 
-        let curTimeInBar = curTime - curBarItor * 1 * 1000
-        //console.log('CCurTimeInBar: ' + curTimeInBar)
-        if (curTimeInBar > 1 * 1000) {
+        let curPosInBar = Math.floor(PosPerBar * (curTime - curBarItor * 3 * 1000) / (3 * 1000))
+        //console.log('curPosInBar: ' + curPosInBar)
+        if (curPosInBar >= PosPerBar) {
           curBarItor++
           if (curBarItor >= totalBar) {
             setTimeout(() => {
@@ -160,22 +163,26 @@ export default {
             clearInterval(loopTimer)
             return
           } else {
-            curNoteInBar = 0
+            curNoteInBar = [0,0,0,0]
             curBar = notes[curBarItor]
           }
         }
-        if (pressedNote) {
-          $(`[data-keyCode=${pressedNote.keyCode}]`).removeClass('auto-key-active');
-        }
-        if (curNoteInBar < curBar[0].length) {
-          if (true) {
-            
-            let notename = this.mapNum2NoteName2('E', curBar[0][curNoteInBar])
-            console.log(curBar[0][curNoteInBar] + '..' + notename)
-            pressedNote = this.getNoteByName(notename)
-            if (pressedNote) $(`[data-keyCode=${pressedNote.keyCode}]`).addClass('auto-key-active')
-            this.playNote(notename)
-            curNoteInBar += 1
+        
+        for (let channel = ChannelCnt - 1; channel >= 0; channel--) {
+          if (pressedNote[channel]) {
+            $(`[data-keyCode=${pressedNote[channel].keyCode}]`).removeClass('auto-key-active');
+          }
+
+          if (curNoteInBar[channel] < curBar[channel].length) {
+            if (curPosInBar >= Math.floor(curBar[channel][curNoteInBar[channel]] / 10000)) {
+              let notename = this.mapNum2NoteName2('E', curBar[channel][curNoteInBar[channel]] % 100)
+              console.log('Play note: ' + curBar[channel][curNoteInBar[channel]] + '..' + notename)
+              pressedNote[channel] = this.getNoteByName(notename)
+              if (pressedNote[channel]) $(`[data-keyCode=${pressedNote[channel].keyCode}]`).addClass('auto-key-active')
+              this.playNote(notename)
+              curNoteInBar[channel] += 1
+              //break
+            }
           }
         }
       }
