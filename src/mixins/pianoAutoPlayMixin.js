@@ -21,18 +21,38 @@ export default {
                 '1<':'D5','2<':'E5','3<':'F#5','4<':'G5','5<':'A5','6<':'B5','7<':'C#6',
                 '1<<':'D6','2<<':'E6','3<<':'F#6','4<<':'G6','5<<':'A6','6<<':'B6','7<<':'C#7'
               },
+        'E': {
+          1:'C4', 2:'D4', 3:'E4', 4:'F4', 5:'G4',
+          6:'A4', 7:'B4', 8:'C5', 9:'D5', 10:'E5',
+          11:'F5', 12:'G5', 13:'A5', 14:'B5', 15:'C6'
+        },
       },
     }
   },
   methods: {
-    // 将简谱numNotation映射为notename
-    mapNum2NoteName(stepname = '', numNotation = '') {
-      let pitch = numNotation.match(/[#b]*[0-7][\<\>]*/g)[0]
 
-      if (pitch && stepname && this.StepMap[stepname])  {
+      // 将简谱numNotation映射为notename
+    mapNum2NoteName(stepname = '', numNotation = '') {
+        let pitch = numNotation.match(/[#b]*[0-7][\<\>]*/g)[0]
+   
+        if (pitch && stepname && this.StepMap[stepname])  {
+           let curStep = this.StepMap[stepname]
+       if (curStep && curStep[pitch]) {
+            let notename = curStep[pitch]
+             return notename
+           }
+         }
+         return ''
+        },
+  
+    // 将简谱numNotation映射为notename
+    mapNum2NoteName2(stepname = '', numNotation = 0) {
+      //let pitch = numNotation.match(/[#b]*[0-7][\<\>]*/g)[0]
+
+      if (numNotation && stepname && this.StepMap[stepname])  {
         let curStep = this.StepMap[stepname]
-        if (curStep && curStep[pitch]) {
-          let notename = curStep[pitch]
+        if (curStep && curStep[numNotation]) {
+          let notename = curStep[numNotation]
           return notename
         }
       }
@@ -58,6 +78,7 @@ export default {
       let loop = () => {
         let curStmp = new Date()
         let deltaTime = curStmp - startStmp
+        //console.log(testTimer)
         if (deltaTime > playedTime) {
           // 播放下一个音符
           if (pressedNote) {
@@ -97,15 +118,73 @@ export default {
       }
       if (targetScore) {
         this.pauseAutoPlay()
-        let step = targetScore.step
-        let speed = targetScore.speed
-        if (this.StepMap[step]) {
-          this.autoPlayNumberScore(step, targetScore.mainTrack, speed)
-          if (targetScore.backingTrack) {
-            this.autoPlayNumberScore(step, targetScore.backingTrack, speed)
+        this.autoPlaySheet(targetScore.notes)
+
+        // let step = targetScore.step
+        // let speed = targetScore.speed
+        // if (this.StepMap[step]) {
+        //   this.autoPlayNumberScore(step, targetScore.mainTrack, speed)
+        //   if (targetScore.backingTrack) {
+        //     this.autoPlayNumberScore(step, targetScore.backingTrack, speed)
+        //   }
+        // }
+      }
+    },
+
+    // sky sheet music
+    autoPlaySheet (notes) {
+      $('.piano-key').removeClass('auto-key-active')
+      //let timeUnit = (60 * 1000) / 75
+      let startStmp = new Date()
+      let pressedNote
+
+      let totalBar = notes.length
+      let curBarItor = 0
+      let curBar
+      let curNoteInBar = 0
+      console.log('Bar num:' + totalBar)
+
+      curBar = notes[curBarItor]
+      let loop = () => {
+        let curStmp = new Date()
+        let curTime = curStmp - startStmp
+
+        let curTimeInBar = curTime - curBarItor * 1 * 1000
+        //console.log('CCurTimeInBar: ' + curTimeInBar)
+        if (curTimeInBar > 1 * 1000) {
+          curBarItor++
+          if (curBarItor >= totalBar) {
+            setTimeout(() => {
+              $(`.piano-key`).removeClass('auto-key-active')
+            }, 1000)
+            clearInterval(loopTimer)
+            return
+          } else {
+            curNoteInBar = 0
+            curBar = notes[curBarItor]
+          }
+        }
+        if (pressedNote) {
+          $(`[data-keyCode=${pressedNote.keyCode}]`).removeClass('auto-key-active');
+        }
+        if (curNoteInBar < curBar[0].length) {
+          if (true) {
+            
+            let notename = this.mapNum2NoteName2('E', curBar[0][curNoteInBar])
+            console.log(curBar[0][curNoteInBar] + '..' + notename)
+            pressedNote = this.getNoteByName(notename)
+            if (pressedNote) $(`[data-keyCode=${pressedNote.keyCode}]`).addClass('auto-key-active')
+            this.playNote(notename)
+            curNoteInBar += 1
           }
         }
       }
+
+      let loopTimer = setInterval(() => {
+        loop()
+      }, 20)
+
+      this.playTimers.push(loopTimer)
     },
     pauseAutoPlay() {
       $(`.piano-key`).removeClass('auto-key-active')
