@@ -10,25 +10,28 @@
       .piano-band-img { width: 130px; height:100%; position: absolute; top: 0; left: 50%; transform: translateX(-50%); }
       .piano-tip { position: absolute; top: 50%; right: 20px; transform: translateY(-50%); color: #fff; font-size: 14px; }
     }
-    .piano-key-wrap { width: 100%; background: @c-black; overflow: hidden; position: relative;
+    .piano-key-wrap { width: 100%; height: 300px; overflow: hidden; position: relative;
       .piano-key {
         &:hover { cursor: pointer; }
       }
 
-      .wkey { display: inline-block; width: 2.775%; height: 100%; margin: 0 auto; background:#fff; background:linear-gradient(-30deg,#f5f5f5,#fff); border:1px solid #ccc; box-shadow:inset 0 1px 0px #fff,inset 0 -1px 0px #fff,inset 1px 0px 0px #fff,inset -1px 0px 0px #fff,0 4px 3px rgba(0,0,0,0.7); border-radius: 0 0 5px 5px; position: relative;
+      .wkey { display: inline-block; width: 10%; height: 30%; margin: 0 auto; background:#fff; background:linear-gradient(-30deg,#f5f5f5,#fff); border:1px solid #ccc; box-shadow:inset 0 1px 0px #fff,inset 0 -1px 0px #fff,inset 1px 0px 0px #fff,inset -1px 0px 0px #fff,0 4px 3px rgba(0,0,0,0.7); border-radius: 0 0 5px 5px; position: relative;
 
-        &:active { box-shadow:0 2px 2px rgba(0,0,0,0.4); top: -1%; height: 99%;  background:#efefef; }
-        &:active:before { content:""; border-width:250px 5px 0px; border-style:solid; border-color:transparent transparent transparent rgba(0,0,0,0.1); position: absolute; left: 0; bottom: 0; }
-        &:active:after { content:""; border-width:250px 5px 0px; border-style:solid; border-color:transparent rgba(0,0,0,0.1) transparent transparent; position: absolute; right: 0; bottom: 0; }
+        
+        &:active:before { content:""; border-width:80px 5px 0px; border-style:solid; border-color:transparent rgba(0,0,0,0.1) transparent transparent; position: absolute; right: 0; bottom: 0; }
+        &:active:after { content:""; border-width:80px 5px 0px; border-style:solid; border-color:transparent rgba(0,0,0,0.1) transparent transparent; position: absolute; right: 0; bottom: 0; }
 
         .keytip { width: 100%; color: @c-black; text-align: center; font-size: 14px; position: absolute; bottom: 5%;
           .keyname { margin-bottom: 5px; }
           .notename { color: @c-blue; font-weight: bold; }
         }
       }
-      .wkey-active { box-shadow:0 2px 2px rgba(0,0,0,0.4); top: -1%; height: 99%; background: #efefef;
-        &:before { content:""; border-width:250px 5px 0px; border-style:solid; border-color:transparent transparent transparent rgba(0,0,0,0.1); position: absolute; left: 0; bottom: 0; }
-        &:after { content:""; border-width:250px 5px 0px; border-style:solid; border-color:transparent rgba(0,0,0,0.1) transparent transparent; position: absolute; right: 0; bottom: 0; }
+      .wkey-active { width: 10%; height: 30%; box-shadow:0 2px 2px rgba(0,0,0,0.4); top: -1%;  background: #bfbfbf;
+        // &:before { content:""; border-width:250px 5px 0px; border-style:solid; border-color:transparent transparent transparent rgba(0,0,0,0.1); position: absolute; left: 0; bottom: 0; }
+        // &:after { content:""; border-width:250px 5px 0px; border-style:solid; border-color:transparent rgba(0,0,0,0.1) transparent transparent; position: absolute; right: 0; bottom: 0; }
+
+        // &:active:before { content:""; border-width:80px 5px 0px; border-style:solid; border-color:transparent rgba(0,0,0,0.1) transparent transparent; position: absolute; right: 0; bottom: 0; }
+        // &:active:after { content:""; border-width:80px 5px 0px; border-style:solid; border-color:transparent rgba(0,0,0,0.1) transparent transparent; position: absolute; right: 0; bottom: 0; }
       }
 
       .bkey { display: inline-block; width: 10%; height: 70%; background:linear-gradient(-20deg,#333,#000,#333); border-width:1px 2px 7px; border-style:solid; border-color:#666 #222 #111 #555; border-radius:0 0 2px 2px; box-shadow:inset 0px -1px 2px rgba(255,255,255,0.4),0 2px 3px rgba(0,0,0,0.4); position: absolute; top: 0; overflow: hidden;
@@ -86,19 +89,35 @@
   <div class="component-autopiano" ref="PianoComponent">
     <div class="piano-scroll-wrap">
       <div class="piano-wrap responsive-section-a" :class="{'visible': pianoShow}">
-        <div class="piano-band">
+        <!-- <div class="piano-band">
           <img class="piano-band-img" :src="bandImg" alt="">
           <div class="piano-tip">⇧ 代表 shift 键</div>
-        </div>
+        </div> -->
         <div class="piano-key-wrap">
-          <div class="piano-key wkey" v-for="note in Notes" :key="note.keyCode" :data-keyCode="note.keyCode"
-            :data-name="note.name" v-if="note.type=='white'" @click.stop="clickPianoKey($event, note.keyCode)">
+          <div class="piano-key wkey" v-for="(note,index) in Notes" :key="note.keyCode" :data-keyCode="note.keyCode"
+            :data-name="note.name" v-if="index<=4 && index>=0" @click.stop="clickPianoKey($event, note.keyCode)">
             <div class="keytip">
               <div class="keyname" v-show="showKeyName">{{note.key}}</div>
               <div class="notename" v-show="showNoteName">{{note.name}}</div>
             </div>
           </div>
-          <div class="bkey-wrap bkey-wrap1">
+          <div></div>
+          <div class="piano-key wkey" v-for="(note,index) in Notes" :key="note.keyCode" :data-keyCode="note.keyCode"
+            :data-name="note.name" v-if="index<=9 && index>=5" @click.stop="clickPianoKey($event, note.keyCode)">
+            <div class="keytip">
+              <div class="keyname" v-show="showKeyName">{{note.key}}</div>
+              <div class="notename" v-show="showNoteName">{{note.name}}</div>
+            </div>
+          </div>
+          <div></div>
+          <div class="piano-key wkey" v-for="(note,index) in Notes" :key="note.keyCode" :data-keyCode="note.keyCode"
+            :data-name="note.name" v-if="index<=14 && index>=10" @click.stop="clickPianoKey($event, note.keyCode)">
+            <div class="keytip">
+              <div class="keyname" v-show="showKeyName">{{note.key}}</div>
+              <div class="notename" v-show="showNoteName">{{note.name}}</div>
+            </div>
+          </div>
+          <!-- <div class="bkey-wrap bkey-wrap1">
             <div class="piano-key bkey" v-for="note in Notes" :key="note.keyCode" :data-keyCode="note.keyCode"
               :data-name="note.name" v-if="note.type=='black' && note.id >= 36 && note.id <= 40"
               @click.stop="clickPianoKey($event, note.keyCode)">
@@ -142,7 +161,7 @@
                 <div class="keyname" v-html="note.key" v-show="showKeyName"></div>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

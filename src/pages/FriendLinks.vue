@@ -79,7 +79,7 @@
 <script>
 import PageHeader from '@/components/PageHeader'
 import PageFooter from '@/components/Footer'
-import VueLivere from '@/components/VueLivere'
+//import VueLivere from '@/components/VueLivere'
 
 import { mapActions, mapGetters } from 'vuex'
 import { Links, Wallpaper } from '@/config'

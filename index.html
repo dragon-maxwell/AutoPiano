@@ -29,14 +29,14 @@
     if (ua.match(/mobile/i) && ua.indexOf('iPad') < 0) {
       // 是手机端浏览器 且 不是iPad
       window.isMobile = true;
-      if (window.location.pathname.indexOf('/mobile') < 0) {
-        window.location.pathname = '/mobile';
-      }
+      // if (window.location.pathname.indexOf('/mobile') < 0) {
+      //   window.location.pathname = '/mobile';
+      // }
     } else {
       window.isMobile = false;
-      if (window.location.pathname.indexOf('/mobile') >= 0) {
-        window.location.pathname = '/';
-      }
+      // if (window.location.pathname.indexOf('/mobile') >= 0) {
+      //   window.location.pathname = '/';
+      // }
     }
 
   </script>
