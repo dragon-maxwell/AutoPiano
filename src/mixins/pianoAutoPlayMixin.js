@@ -1,7 +1,7 @@
 // Mixin 说明：按照自定义简谱格式，触发piano组件的自动播放
 // 简谱英文 numbered musical notation
 import { ScoreNum } from 'config'
-
+const autoKeyActiveStyle = 'auto-key-active'
 export default {
   data () {
     return {
@@ -66,46 +66,46 @@ export default {
       }
       return timeUnit * (+factor)
     },
-    // 自动播放简谱
-    autoPlayNumberScore (step = 'C', musicScore, speed = 75) {
-      $('.piano-key').removeClass('auto-key-active')
-      let timeUnit = (60 * 1000) / speed
-      let startStmp = new Date()
-      let i = 0
-      let playedTime = 0
-      let pressedNote
+    // // 自动播放简谱
+    // autoPlayNumberScore (step = 'C', musicScore, speed = 75) {
+    //   $('.piano-key').removeClass(autoKeyActiveStyle)
+    //   let timeUnit = (60 * 1000) / speed
+    //   let startStmp = new Date()
+    //   let i = 0
+    //   let playedTime = 0
+    //   let pressedNote
 
-      let loop = () => {
-        let curStmp = new Date()
-        let deltaTime = curStmp - startStmp
-        //console.log(testTimer)
-        if (deltaTime > playedTime) {
-          // 播放下一个音符
-          if (pressedNote) {
-            $(`[data-keyCode=${pressedNote.keyCode}]`).removeClass('auto-key-active');
-          }
-          let numNotation = musicScore[i]
-          let notename = this.mapNum2NoteName(step, numNotation)
-          pressedNote = this.getNoteByName(notename)
-          if (pressedNote) $(`[data-keyCode=${pressedNote.keyCode}]`).addClass('auto-key-active')
-          this.playNote(notename)
-          playedTime += this.getNoteDuration(numNotation, timeUnit)
-          i++
-          if (i >= musicScore.length) {
-            setTimeout(() => {
-              $(`.piano-key`).removeClass('auto-key-active')
-            }, 1000)
-            clearInterval(loopTimer)
-            return
-          }
-        }
-      }
-      let loopTimer = setInterval(() => {
-        loop()
-      }, 20)
+    //   let loop = () => {
+    //     let curStmp = new Date()
+    //     let deltaTime = curStmp - startStmp
+    //     //console.log(testTimer)
+    //     if (deltaTime > playedTime) {
+    //       // 播放下一个音符
+    //       if (pressedNote) {
+    //         $(`[data-keyCode=${pressedNote.keyCode}]`).removeClass(autoKeyActiveStyle);
+    //       }
+    //       let numNotation = musicScore[i]
+    //       let notename = this.mapNum2NoteName(step, numNotation)
+    //       pressedNote = this.getNoteByName(notename)
+    //       if (pressedNote) $(`[data-keyCode=${pressedNote.keyCode}]`).addClass(autoKeyActiveStyle)
+    //       this.playNote(notename)
+    //       playedTime += this.getNoteDuration(numNotation, timeUnit)
+    //       i++
+    //       if (i >= musicScore.length) {
+    //         setTimeout(() => {
+    //           $(`.piano-key`).removeClass(autoKeyActiveStyle)
+    //         }, 1000)
+    //         clearInterval(loopTimer)
+    //         return
+    //       }
+    //     }
+    //   }
+    //   let loopTimer = setInterval(() => {
+    //     loop()
+    //   }, 20)
 
-      this.playTimers.push(loopTimer)
-    },
+    //   this.playTimers.push(loopTimer)
+    // },
     // 点击简谱列表播放音乐
     playScoreByName(name = '天空之城') {
       let targetScore
@@ -133,32 +133,64 @@ export default {
 
     // sky sheet music
     autoPlaySheet (notes) {
+      let frameCnt = -1
       const PosPerBar = 96
       const ChannelCnt = 5
-      $('.piano-key').removeClass('auto-key-active')
-      //let timeUnit = (60 * 1000) / 75
+      $('.piano-key').removeClass(autoKeyActiveStyle)
+      // 音符时长
+      let noteDur = {
+        1:PosPerBar,
+        2:PosPerBar/2,
+        4:PosPerBar/4,
+        8:PosPerBar/8,
+        16:PosPerBar/16,
+        32:PosPerBar/32,
+      }
+
       let startStmp = new Date()
-      let pressedNote = [null,null,null,null]
 
       let totalBar = notes.length
       let curBarItor = 0
       let curBar
       //let curNoteInBar = 0
       let curNoteInBar = [0,0,0,0,0]
-      console.log('Bar num:' + totalBar)
+      // 琶音队列
+      let notes2Play = []
+      // 按下的键
+      let pressedNotes = {}
+      pressedNotes.notes = []
+      pressedNotes.releaseTime = Number.MAX_VALUE
 
-      curBar = notes[curBarItor]
+      //console.log('Bar num:' + totalBar)
+
+      let playNote = (noteName, channel) => {
+        // if (pressedNote[channel]) {
+        //   $(`[data-keyCode=${pressedNote[channel].keyCode}]`).removeClass(autoKeyActiveStyle);
+        // }
+        //pressedNote[channel] = this.getNoteByName(noteName)
+            //if (pressedNote[channel]) $(`[data-keyCode=${pressedNote[channel].keyCode}]`).addClass(autoKeyActiveStyle)
+            this.playNote(noteName)
+      }
       let loop = () => {
         let curStmp = new Date()
         let curTime = curStmp - startStmp
 
-        let curPosInBar = Math.floor(PosPerBar * (curTime - curBarItor * 3 * 1000) / (3 * 1000))
+        let curPosInBar = Math.floor(PosPerBar * (curTime - curBarItor * 3.5 * 1000) / (3.5 * 1000))
         //console.log('curPosInBar: ' + curPosInBar)
+        
+        if (curTime >= pressedNotes.releaseTime) {
+          for (let i in pressedNotes.notes) {
+            $(`[data-keyCode=${pressedNotes.notes[i].keyCode}]`).removeClass(autoKeyActiveStyle);
+          }
+          pressedNotes.notes = []
+          pressedNotes.releaseTime = Number.MAX_VALUE
+        }
+        
         if (curPosInBar >= PosPerBar) {
           curBarItor++
           if (curBarItor >= totalBar) {
             setTimeout(() => {
-              $(`.piano-key`).removeClass('auto-key-active')
+              $(`.piano-key`).removeClass(autoKeyActiveStyle)
             }, 1000)
             clearInterval(loopTimer)
             return
@@ -168,33 +200,75 @@ export default {
           }
         }
         
+        let nextMinPos = PosPerBar
+        let notePosPlayedInThisFrame = -1
         for (let channel = ChannelCnt - 1; channel >= 0; channel--) {
-          if (pressedNote[channel]) {
-            $(`[data-keyCode=${pressedNote[channel].keyCode}]`).removeClass('auto-key-active');
-          }
-
+          
           if (curNoteInBar[channel] < curBar[channel].length) {
-            if (curPosInBar >= Math.floor(curBar[channel][curNoteInBar[channel]] / 10000)) {
+            let nextNotePos = Math.floor(curBar[channel][curNoteInBar[channel]] / 10000)
+            if (curPosInBar >= nextNotePos) {
               let notename = this.mapNum2NoteName2('E', curBar[channel][curNoteInBar[channel]] % 100)
-              console.log('Play note: ' + curBar[channel][curNoteInBar[channel]] + '..' + notename)
-              pressedNote[channel] = this.getNoteByName(notename)
-              if (pressedNote[channel]) $(`[data-keyCode=${pressedNote[channel].keyCode}]`).addClass('auto-key-active')
-              this.playNote(notename)
-              curNoteInBar[channel] += 1
-              //break
+          
+              // 第一音轨不算入琶音中
+              if (channel == 0) {
+                playNote(notename, channel)
+              } else {
+                notes2Play.push([notename, channel])
+                //console.log('push to' + notename + ' play queue')
+              }
+              curNoteInBar[channel] ++
+              notePosPlayedInThisFrame = nextNotePos
+              let pressedNote = this.getNoteByName(notename)
+              pressedNotes.notes.push(pressedNote)
+              if (pressedNote) $(`[data-keyCode=${pressedNote.keyCode}]`).addClass(autoKeyActiveStyle)
+
             }
+            if (nextNotePos < nextMinPos) nextMinPos = nextNotePos
+          }
+        }
+
+        if (notePosPlayedInThisFrame >= 0) {
+          console.log('1: ' + nextMinPos)
+          // 在下一个最近音符的前32分音符个位置释放按键
+          nextMinPos -= noteDur[32]
+          console.log('2: ' + nextMinPos)
+          // 如果按键时长超过一个四分音符，则设置为一个四分音符
+          if (nextMinPos - notePosPlayedInThisFrame > noteDur[4]) nextMinPos = notePosPlayedInThisFrame + noteDur[4]
+          console.log('3: ' + nextMinPos)
+          // 最短为16分音符时长
+          if (nextMinPos - notePosPlayedInThisFrame < noteDur[16]) nextMinPos = notePosPlayedInThisFrame + noteDur[16]
+          console.log('4: ' + nextMinPos)
+          pressedNotes.releaseTime = (curBarItor + nextMinPos / PosPerBar) * 3.5 * 1000
+        }
+
+        // 处理琶音
+        if (frameCnt >= 0) frameCnt++
+        if (((frameCnt % 3) == 0 || frameCnt < 0) && notes2Play.length != 0) {
+          //console.log('Play note: ' + curBar[channel][curNoteInBar[channel]] + '..' + notename)
+          let note2Play = notes2Play.shift()
+          //console.log('play ' + note2Play)
+          playNote(note2Play[0], note2Play[1])
+          if (notes2Play.length == 0) {
+            frameCnt = -1
+          }
+          else if (frameCnt < 0) {
+            frameCnt = 0
           }
         }
       }
 
+
+      curBar = notes[curBarItor]
       let loopTimer = setInterval(() => {
         loop()
       }, 20)
 
       this.playTimers.push(loopTimer)
     },
+
+    
     pauseAutoPlay() {
-      $(`.piano-key`).removeClass('auto-key-active')
+      $(`.piano-key`).removeClass(autoKeyActiveStyle)
       this.playTimers.forEach((timer) => {
         clearInterval(timer)
         timer = null
