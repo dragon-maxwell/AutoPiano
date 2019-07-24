@@ -26,7 +26,7 @@
           .notename { color: @c-blue; font-weight: bold; }
         }
       }
-      .wkey-active { width: 9%; height: 30%; box-shadow:0 2px 2px rgba(0,0,0,0.4); top: -1%;  background: #bfbfbf;
+      .wkey-active { width: 9%; height: 30%; box-shadow:0 2px 2px rgba(255,0,0,0.4); top: -1%;  background: #FF8C00;
         // &:before { content:""; border-width:250px 5px 0px; border-style:solid; border-color:transparent transparent transparent rgba(0,0,0,0.1); position: absolute; left: 0; bottom: 0; }
         // &:after { content:""; border-width:250px 5px 0px; border-style:solid; border-color:transparent rgba(0,0,0,0.1) transparent transparent; position: absolute; right: 0; bottom: 0; }
 
@@ -42,7 +42,7 @@
       }
       .bkey-active { height:101%; border-bottom-width:2px; box-shadow:inset 0px -1px 1px rgba(255,255,255,0.4),0 1px 0px rgba(0,0,0,0.8),0 2px 2px rgba(0,0,0,0.4),0 -1px 0px #000; }
 
-      .wkey.auto-key-active { width: 10%; height: 30%; box-shadow:0 2px 2px rgba(255,0,0,0.4); top: -1%;  background: #FF8C00;
+      .wkey.auto-key-active { width: 9%; height: 30%; box-shadow:0 2px 2px rgba(255,0,0,0.4); top: -1%;  background: #FF8C00;
         &:before { content:""; border-width:250px 5px 0px; border-style:solid; border-color:transparent transparent transparent rgba(0,0,0,0.1); position: absolute; top: 0; left: 0; }
         &:after { content:""; border-width:250px 5px 0px; border-style:solid; border-color:transparent rgba(0,0,0,0.1) transparent transparent; position: absolute; right: 0; left: 0; }
       }
