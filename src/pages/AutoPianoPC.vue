@@ -52,6 +52,7 @@ import RandomLyric from '@/components/RandomLyric'
 import Piano from '@/components/Piano'
 import ManualPlayScoreList from '@/components/ManualPlayScoreList'
 import AutoPlayScoreList from '@/components/AutoPlayScoreList'
+import AutoPlayCtrl from '@/components/AutoPlayCtrl'
 
 import { mapActions, mapGetters } from 'vuex'
 import { OBEvent, Wallpaper } from '@/config'
@@ -64,7 +65,8 @@ export default {
     RandomLyric,
     Piano,
     ManualPlayScoreList,
-    AutoPlayScoreList
+    AutoPlayScoreList,
+    AutoPlayCtrl
   },
   data() {
     return {
