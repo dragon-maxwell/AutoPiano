@@ -149,19 +149,19 @@ export default [
 ]
 
 export const NotesMap = [
-  { name: 'C4', file: '1.0.wav' },
-  { name: 'D4', file: '2.0.wav' },
-  { name: 'E4', file: '3.0.wav' },
-  { name: 'F4', file: '4.0.wav' },
-  { name: 'G4', file: '5.0.wav' },
-  { name: 'A4', file: '6.0.wav' },
-  { name: 'B4', file: '7.0.wav' },
-  { name: 'C5', file: '8.0.wav' },
-  { name: 'D5', file: '9.0.wav' },
-  { name: 'E5', file: '10.0.wav' },
-  { name: 'F5', file: '11.0.wav' },
-  { name: 'G5', file: '12.0.wav' },
-  { name: 'A5', file: '13.0.wav' },
-  { name: 'B5', file: '14.0.wav' },
-  { name: 'C6', file: '15.0.wav' }
+  { name: 'C4', file: '1.0.mp3' },
+  { name: 'D4', file: '2.0.mp3' },
+  { name: 'E4', file: '3.0.mp3' },
+  { name: 'F4', file: '4.0.mp3' },
+  { name: 'G4', file: '5.0.mp3' },
+  { name: 'A4', file: '6.0.mp3' },
+  { name: 'B4', file: '7.0.mp3' },
+  { name: 'C5', file: '8.0.mp3' },
+  { name: 'D5', file: '9.0.mp3' },
+  { name: 'E5', file: '10.0.mp3' },
+  { name: 'F5', file: '11.0.mp3' },
+  { name: 'G5', file: '12.0.mp3' },
+  { name: 'A5', file: '13.0.mp3' },
+  { name: 'B5', file: '14.0.mp3' },
+  { name: 'C6', file: '15.0.mp3' }
 ]
