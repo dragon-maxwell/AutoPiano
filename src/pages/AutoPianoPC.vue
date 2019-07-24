@@ -25,6 +25,7 @@
     <div class="app-content">
       <PageHeader></PageHeader>
       <RandomLyric></RandomLyric>
+      <AutoPlayCtrl></AutoPlayCtrl>
       <Piano></Piano>
       <div class="score-section responsive-section-a">
         <ManualPlayScoreList></ManualPlayScoreList>
