@@ -15,18 +15,18 @@
         &:hover { cursor: pointer; }
       }
 
-      .wkey { display: inline-block; width: 10%; height: 30%; margin: 0 auto; background:#fff; background:linear-gradient(-30deg,#f5f5f5,#fff); border:1px solid #ccc; box-shadow:inset 0 1px 0px #fff,inset 0 -1px 0px #fff,inset 1px 0px 0px #fff,inset -1px 0px 0px #fff,0 4px 3px rgba(0,0,0,0.7); border-radius: 0 0 5px 5px; position: relative;
+      .wkey { display: inline-block; width: 9%; height: 30%; margin: 0 auto; background:#fff; background:linear-gradient(-30deg,#f5f5f5,#fff); border:1px solid #ccc; box-shadow:inset 0 1px 0px #fff,inset 0 -1px 0px #fff,inset 1px 0px 0px #fff,inset -1px 0px 0px #fff,0 4px 3px rgba(0,0,0,0.7); border-radius: 0 0 5px 5px; position: relative;
 
         
-        &:active:before { content:""; border-width:80px 5px 0px; border-style:solid; border-color:transparent rgba(0,0,0,0.1) transparent transparent; position: absolute; right: 0; bottom: 0; }
-        &:active:after { content:""; border-width:80px 5px 0px; border-style:solid; border-color:transparent rgba(0,0,0,0.1) transparent transparent; position: absolute; right: 0; bottom: 0; }
+        // &:active:before { content:""; border-width:80px 5px 0px; border-style:solid; border-color:transparent rgba(0,0,0,0.1) transparent transparent; position: absolute; right: 0; bottom: 0; }
+        // &:active:after { content:""; border-width:80px 5px 0px; border-style:solid; border-color:transparent rgba(0,0,0,0.1) transparent transparent; position: absolute; right: 0; bottom: 0; }
 
         .keytip { width: 100%; color: @c-black; text-align: center; font-size: 14px; position: absolute; bottom: 5%;
           .keyname { margin-bottom: 5px; }
           .notename { color: @c-blue; font-weight: bold; }
         }
       }
-      .wkey-active { width: 10%; height: 30%; box-shadow:0 2px 2px rgba(0,0,0,0.4); top: -1%;  background: #bfbfbf;
+      .wkey-active { width: 9%; height: 30%; box-shadow:0 2px 2px rgba(0,0,0,0.4); top: -1%;  background: #bfbfbf;
         // &:before { content:""; border-width:250px 5px 0px; border-style:solid; border-color:transparent transparent transparent rgba(0,0,0,0.1); position: absolute; left: 0; bottom: 0; }
         // &:after { content:""; border-width:250px 5px 0px; border-style:solid; border-color:transparent rgba(0,0,0,0.1) transparent transparent; position: absolute; right: 0; bottom: 0; }
 
@@ -95,7 +95,9 @@
         </div> -->
         <div class="piano-key-wrap">
           <div class="piano-key wkey" v-for="(note,index) in Notes" :key="note.keyCode" :data-keyCode="note.keyCode"
-            :data-name="note.name" v-if="index<=4 && index>=0" @click.stop="clickPianoKey($event, note.keyCode)">
+            :data-name="note.name" v-if="index<=4 && index>=0" @click.stop="clickPianoKey($event, note.keyCode)" 
+            @mousedown="clickPianoKeyDown($event, note.keyCode)" @mouseup="clickPianoKeyUp($event, note.keyCode)" 
+            @touchstart="touchPianoKeyDown($event, note.keyCode)" @touchend="touchPianoKeyUp($event, note.keyCode)">
             <div class="keytip">
               <div class="keyname" v-show="showKeyName">{{note.key}}</div>
               <div class="notename" v-show="showNoteName">{{note.name}}</div>
@@ -103,7 +105,9 @@
           </div>
           <div></div>
           <div class="piano-key wkey" v-for="(note,index) in Notes" :key="note.keyCode" :data-keyCode="note.keyCode"
-            :data-name="note.name" v-if="index<=9 && index>=5" @click.stop="clickPianoKey($event, note.keyCode)">
+            :data-name="note.name" v-if="index<=9 && index>=5" @click.stop="clickPianoKey($event, note.keyCode)" 
+            @mousedown="clickPianoKeyDown($event, note.keyCode)" @mouseup="clickPianoKeyUp($event, note.keyCode)" 
+            @touchstart="touchPianoKeyDown($event, note.keyCode)" @touchend="touchPianoKeyUp($event, note.keyCode)">
             <div class="keytip">
               <div class="keyname" v-show="showKeyName">{{note.key}}</div>
               <div class="notename" v-show="showNoteName">{{note.name}}</div>
@@ -111,57 +115,14 @@
           </div>
           <div></div>
           <div class="piano-key wkey" v-for="(note,index) in Notes" :key="note.keyCode" :data-keyCode="note.keyCode"
-            :data-name="note.name" v-if="index<=14 && index>=10" @click.stop="clickPianoKey($event, note.keyCode)">
+            :data-name="note.name" v-if="index<=14 && index>=10" @click.stop="clickPianoKey($event, note.keyCode)" 
+            @mousedown="clickPianoKeyDown($event, note.keyCode)" @mouseup="clickPianoKeyUp($event, note.keyCode)" 
+            @touchstart="touchPianoKeyDown($event, note.keyCode)" @touchend="touchPianoKeyUp($event, note.keyCode)">
             <div class="keytip">
               <div class="keyname" v-show="showKeyName">{{note.key}}</div>
               <div class="notename" v-show="showNoteName">{{note.name}}</div>
             </div>
           </div>
-          <!-- <div class="bkey-wrap bkey-wrap1">
-            <div class="piano-key bkey" v-for="note in Notes" :key="note.keyCode" :data-keyCode="note.keyCode"
-              :data-name="note.name" v-if="note.type=='black' && note.id >= 36 && note.id <= 40"
-              @click.stop="clickPianoKey($event, note.keyCode)">
-              <div class="keytip">
-                <div class="keyname" v-html="note.key" v-show="showKeyName"></div>
-              </div>
-            </div>
-          </div>
-          <div class="bkey-wrap bkey-wrap2">
-            <div class="piano-key bkey" v-for="note in Notes" :key="note.keyCode" :data-keyCode="note.keyCode"
-              :data-name="note.name" v-if="note.type=='black' && note.id >= 41 && note.id <= 45"
-              @click.stop="clickPianoKey($event, note.keyCode)">
-              <div class="keytip">
-                <div class="keyname" v-html="note.key" v-show="showKeyName"></div>
-              </div>
-            </div>
-          </div>
-          <div class="bkey-wrap bkey-wrap3">
-            <div class="piano-key bkey" v-for="note in Notes" :key="note.keyCode" :data-keyCode="note.keyCode"
-              :data-name="note.name" v-if="note.type=='black' && note.id >= 46 && note.id <= 50"
-              @click.stop="clickPianoKey($event, note.keyCode)">
-              <div class="keytip">
-                <div class="keyname" v-html="note.key" v-show="showKeyName"></div>
-              </div>
-            </div>
-          </div>
-          <div class="bkey-wrap bkey-wrap4">
-            <div class="piano-key bkey" v-for="note in Notes" :key="note.keyCode" :data-keyCode="note.keyCode"
-              :data-name="note.name" v-if="note.type=='black' && note.id >= 51 && note.id <= 55"
-              @click.stop="clickPianoKey($event, note.keyCode)">
-              <div class="keytip">
-                <div class="keyname" v-html="note.key" v-show="showKeyName"></div>
-              </div>
-            </div>
-          </div>
-          <div class="bkey-wrap bkey-wrap5">
-            <div class="piano-key bkey" v-for="note in Notes" :key="note.keyCode" :data-keyCode="note.keyCode"
-              :data-name="note.name" v-if="note.type=='black' && note.id >= 56 && note.id <= 60"
-              @click.stop="clickPianoKey($event, note.keyCode)">
-              <div class="keytip">
-                <div class="keyname" v-html="note.key" v-show="showKeyName"></div>
-              </div>
-            </div>
-          </div> -->
         </div>
       </div>
     </div>
@@ -202,7 +163,6 @@ import { debounce } from '@/lib/wutils'
 
 import pianoAutoPlayMixin from '@/mixins/pianoAutoPlayMixin'
 import xmlAutoPlayMixin from '@/mixins/xmlAutoPlayMixin'
-
 
 export default {
   name: 'Piano',
@@ -362,11 +322,57 @@ export default {
         $(`.bkey`).removeClass('bkey-active')
       }, false)
     },
+
     // 鼠标操作，点击按键播放
     clickPianoKey(e, keyCode) {
-      let pressedNote = this.getNoteByKeyCode(keyCode)
-      if (pressedNote) {
-        this.playNote(pressedNote.name)
+      if(!window.isMobile){
+        let pressedNote = this.getNoteByKeyCode(keyCode)
+        if (pressedNote) {
+          this.playNote(pressedNote.name)
+        }
+      }
+    },
+
+    // 鼠标操作，mousedown
+    clickPianoKeyDown(e, keyCode) {
+      if(!window.isMobile){
+        let pressedNote = this.getNoteByKeyCode(keyCode)
+        if (pressedNote) {
+          $(`[data-keyCode=${pressedNote.keyCode}]`).addClass('wkey-active');
+        }
+      }
+    },
+
+    // 鼠标操作，mouseup
+    clickPianoKeyUp(e, keyCode) {
+      if(!window.isMobile){
+        let pressedNote = this.getNoteByKeyCode(keyCode)
+        if (pressedNote) {
+          $(`.wkey`).removeClass('wkey-active');
+        }
+      }
+    },
+
+    // 触摸操作，touchdown
+    touchPianoKeyDown(e, keyCode) {
+      if(window.isMobile){
+        let pressedNote = this.getNoteByKeyCode(keyCode)
+        if (pressedNote) {
+          this.playNote(pressedNote.name)
+          $(`[data-keyCode=${pressedNote.keyCode}]`).addClass('wkey-active');
+          // e.preventDefault();
+        }
+      }
+    },
+
+    // 触摸操作，touchup
+    touchPianoKeyUp(e, keyCode) {
+      if(window.isMobile){
+        let pressedNote = this.getNoteByKeyCode(keyCode)
+        if (pressedNote) {
+          $(`.wkey`).removeClass('wkey-active');
+          // e.preventDefault();
+        }
       }
     },
 
