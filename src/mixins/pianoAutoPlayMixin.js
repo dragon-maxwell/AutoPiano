@@ -228,16 +228,16 @@ export default {
         }
 
         if (notePosPlayedInThisFrame >= 0) {
-          console.log('1: ' + nextMinPos)
+          //.log('1: ' + nextMinPos)
           // 在下一个最近音符的前32分音符个位置释放按键
           nextMinPos -= noteDur[32]
-          console.log('2: ' + nextMinPos)
+          //console.log('2: ' + nextMinPos)
           // 如果按键时长超过一个四分音符，则设置为一个四分音符
           if (nextMinPos - notePosPlayedInThisFrame > noteDur[4]) nextMinPos = notePosPlayedInThisFrame + noteDur[4]
-          console.log('3: ' + nextMinPos)
+          //console.log('3: ' + nextMinPos)
           // 最短为16分音符时长
           if (nextMinPos - notePosPlayedInThisFrame < noteDur[16]) nextMinPos = notePosPlayedInThisFrame + noteDur[16]
-          console.log('4: ' + nextMinPos)
+          //console.log('4: ' + nextMinPos)
           pressedNotes.releaseTime = (curBarItor + nextMinPos / PosPerBar) * 3.5 * 1000
         }
 
