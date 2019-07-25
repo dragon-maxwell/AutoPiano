@@ -2,6 +2,7 @@
 // 简谱英文 numbered musical notation
 import { ScoreNum, OBEvent } from 'config'
 import Observe from 'observe'
+
 const autoKeyActiveStyle = 'auto-key-active'
 export default {
   data () {
@@ -101,6 +102,7 @@ export default {
             curNoteInBar = [0,0,0,0]
             curBar = notes[this.curBarIdx]
           }
+          Observe.$emit(OBEvent.PLAY_PROGRESS_UPDATE, this.curBarIdx + 1)
         }
         
         let nextMinPos = PosPerBar
@@ -177,7 +179,7 @@ export default {
           this.startAutoPlay()
         }
 
-        Observe.$emit(OBEvent.SHEET_MUSIC_LOADED, this.playingSheet.name)
+        Observe.$emit(OBEvent.SHEET_MUSIC_LOADED, this.playingSheet)
       }
     },
 
@@ -197,14 +199,17 @@ export default {
     // 清除自动播放计时器，清除按键样式
     clearAutoPlayTimerAndStyle () {
       $(`.piano-key`).removeClass(autoKeyActiveStyle)
-      clearInterval(this.playTimer)
-      this.playTimer = null
+      if (this.playTimer) {
+        clearInterval(this.playTimer)
+        this.playTimer = null
+      }
       Observe.$emit(OBEvent.AUTO_PLAY_STOPPED)
     },
 
     rewindPlayPos () {
       this.curBarIdx = 0
       this.curPosInBar = 0
+      Observe.$emit(OBEvent.PLAY_PROGRESS_UPDATE, this.curBarIdx + 1)
     },
   }
 }
