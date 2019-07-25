@@ -204,6 +204,8 @@ export default {
         instruments: "piano"
       }).toMaster()
 
+      this.loadSheetMusicByName('大鱼')
+
       // this.synth = new Tone.PolySynth( 10 ).toMaster()
     },
     computeEleSize() {
@@ -217,23 +219,31 @@ export default {
       window.onresize = this.computeEleSize
       window.onorientationchange = this.computeEleSize
 
-      // 数字简谱自动播放
-      Observe.$on(OBEvent.AUTO_PLAY_NUM_SCORE, (scorename) => {
-        this.playScoreByName(scorename)
+      // 载入乐谱
+      Observe.$on(OBEvent.LOAD_SHEET_MUSIC, (sheetMusicName, beginPlayAfterLoad) => {
+        this.loadSheetMusicByName(sheetMusicName, beginPlayAfterLoad)
       })
-      // XML乐谱自动播放
-      Observe.$on(OBEvent.AUTO_PLAY_XML_SCORE, (musicScore) => {
-        this.addToPlayQueue(musicScore)
-        // try {
-        //   this.playXMLScore(musicScore)
-        // } catch (e) {
-        //   console.log(e)
-        // }
+      // 播放乐谱
+      Observe.$on(OBEvent.START_AUTO_PLAY, () => {
+        this.startAutoPlay()
       })
+      // // XML乐谱自动播放
+      // Observe.$on(OBEvent.AUTO_PLAY_XML_SCORE, (musicScore) => {
+      //   this.addToPlayQueue(musicScore)
+      //   // try {
+      //   //   this.playXMLScore(musicScore)
+      //   // } catch (e) {
+      //   //   console.log(e)
+      //   // }
+      // })
       // 暂停自动播放
       Observe.$on(OBEvent.PAUSE_AUTO_PLAY, (scoreItem) => {
         this.pauseAutoPlay(scoreItem)
-        this.pauseXMLPlay()
+        // this.pauseXMLPlay()
+      })
+      // 停止自动播放
+      Observe.$on(OBEvent.STOP_AUTO_PLAY, () => {
+        this.stopAutoPlay()
       })
       Observe.$on(OBEvent.PAUSE_XML_AUTO_PLAY, (scoreItem) => {
         this.pauseXMLPlay()
