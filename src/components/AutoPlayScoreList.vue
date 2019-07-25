@@ -141,7 +141,8 @@ export default {
       this.playingItem = item
       // this.currentView = 'PLAYER'
       setTimeout(() => {
-        Observe.$emit(OBEvent.AUTO_PLAY_NUM_SCORE, item.name)
+        // Observe.$emit(OBEvent.AUTO_PLAY_NUM_SCORE, item.name)
+        Observe.$emit(OBEvent.LOAD_SHEET_MUSIC, item.name, true)
       }, 200)
     },
     clickXMLScoreItem(item) {

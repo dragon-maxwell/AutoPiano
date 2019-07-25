@@ -23,8 +23,9 @@
     <div class="app-bg" :style="appBgStyle"></div>
 
     <div class="app-content">
-      <PageHeader></PageHeader>
-      <RandomLyric></RandomLyric>
+      <!-- <PageHeader></PageHeader> -->
+      <!-- <RandomLyric></RandomLyric> -->
+      <AutoPlayCtrller></AutoPlayCtrller>
       <Piano></Piano>
       <div class="score-section responsive-section-a">
         <ManualPlayScoreList></ManualPlayScoreList>
@@ -36,7 +37,7 @@
         <ManualPlayScoreList></ManualPlayScoreList>
       </div>
       <div class="blank-page-pc" style="height: 200px;"></div>
-      <PageFooter></PageFooter>
+      <!-- <PageFooter></PageFooter> -->
     </div>
 
   </div>
@@ -51,6 +52,8 @@ import RandomLyric from '@/components/RandomLyric'
 import Piano from '@/components/Piano'
 import ManualPlayScoreList from '@/components/ManualPlayScoreList'
 import AutoPlayScoreList from '@/components/AutoPlayScoreList'
+import AutoPlayCtrller from '@/components/AutoPlayCtrller'
+
 
 import { mapActions, mapGetters } from 'vuex'
 import { OBEvent, Wallpaper } from '@/config'
@@ -63,7 +66,8 @@ export default {
     RandomLyric,
     Piano,
     ManualPlayScoreList,
-    AutoPlayScoreList
+    AutoPlayScoreList,
+    AutoPlayCtrller,
   },
   data() {
     return {

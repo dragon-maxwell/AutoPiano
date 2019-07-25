@@ -87,9 +87,10 @@
   <div id="page-mobile" class="page-mobile">
     <div class="app-bg" :style="appBgStyle"></div>
     <div class="app-content">
-      <h2 class="mobile-tip">请在电脑上用Chrome浏览器访问：www.autopiano.cn</h2>
-      <PageHeader></PageHeader>
-      <RandomLyric></RandomLyric>
+      <!-- <h2 class="mobile-tip">请在电脑上用Chrome浏览器访问：www.autopiano.cn</h2> -->
+      <!-- <PageHeader></PageHeader> -->
+      <!-- <RandomLyric></RandomLyric> -->
+      <AutoPlayCtrller></AutoPlayCtrller>
       <Piano></Piano>
       <button class="immersionModelButton" @click="openImmersionModel">进入沉浸模式</button>
       <div class="score-section">
@@ -97,7 +98,7 @@
         <AutoPlayScoreList></AutoPlayScoreList>
       </div>
       <div class="blank" style="height: 100px;"></div>
-      <PageFooter></PageFooter>
+      <!-- <PageFooter></PageFooter> -->
     </div>
   </div>
 </template>
@@ -109,6 +110,7 @@ import RandomLyric from '@/components/RandomLyric'
 import Piano from '@/components/Piano'
 import ManualPlayScoreList from '@/components/ManualPlayScoreList'
 import AutoPlayScoreList from '@/components/AutoPlayScoreList'
+import AutoPlayCtrller from '@/components/AutoPlayCtrller'
 
 export default {
   name: 'AutoPianoMobile',
@@ -118,7 +120,8 @@ export default {
     RandomLyric,
     Piano,
     ManualPlayScoreList,
-    AutoPlayScoreList
+    AutoPlayScoreList,
+    AutoPlayCtrller,
   },
   data() {
     return {
