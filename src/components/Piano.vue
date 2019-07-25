@@ -3,7 +3,7 @@
 
 .component-autopiano { width: 100%; position: relative; color: #000;
   #audioEffectCanvas { display: none; }
-  .piano-scroll-wrap { width: 100%; overflow: scroll; }
+  .piano-scroll-wrap { width: 100%; overflow: visible; }
   .piano-wrap.visible { opacity: 1; }
   .piano-wrap { width: 90%; margin: 20px auto; box-shadow: 5px 5px 20px 5px #888; border-radius: 5px; position: relative; overflow: hidden; opacity: 0;
     .piano-band { width: 100%; height: 40px; line-height: 40px; background:#000;  box-shadow:inset 0px -1px 2px rgba(255,255,255,0.4),0 2px 3px rgba(0,0,0,0.4); border-width: 3px 2px 2px; border-style:solid; border-color: #555 #222 #111 #777; position: relative;

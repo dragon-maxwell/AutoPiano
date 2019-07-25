@@ -8,6 +8,7 @@ export default new Router({
   routes: [
     { path: '/', name: 'AutoPianoPC', component: function() { return import ('@/pages/AutoPianoPC')} },
     { path: '/mobile', name: 'AutoPianoMobile', component: function() { return import ('@/pages/AutoPianoMobile')} },
+    { path: '/piano', name: 'AutoPianoMobileImmersion', component: function() { return import ('@/pages/AutoPianoMobileImmersion')} },
     { path: '/links', name: 'FriendLinks', component: function() { return import ('@/pages/FriendLinks')} },
   ]
 })

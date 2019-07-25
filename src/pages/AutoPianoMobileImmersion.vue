@@ -13,72 +13,16 @@
       }
     }
     .menu { display: none; }
-    .component-random-lyric { padding: 15px 0 15px;
-      #randomLyric { font-size: 35px; }
-    }
     .piano-wrap { width: 220%; margin-top: 20px;
       .piano-band { height: 55px; line-height: 55px; background-size: 260px 70px;
         .piano-tip { display: none; }
       }
-      .piano-key-wrap { height: 400px !important;
+      .piano-key-wrap { height: 800px !important;
         .bkey { height: calc(400px * 0.65) !important; border-radius: 0 0 10px 10px; }
         .wkey { border-radius: 0 0 12px 12px; }
       }
       .keytip { font-size: 30px; }
     }
-    #share-section { left: 0;
-      .social-share {
-        .social-share-icon { transform: scale(1.5); }
-        a { margin: 4px 13px; }
-      }
-    }
-
-    .score-section { width: 100%; margin-top: 30px; padding: 0px; display: flex; align-items: center; justify-content: space-around;
-      .score-container { width: 720px; height: 850px; padding: 20px; font-size: 30px;
-        .component-title { font-size: 40px; margin: 10px 0 20px 10px;
-          .join { display: none; }
-          .degree { right: 40px; }
-        }
-        .list-item { margin: 10px 0;
-          .num { font-size: 22px; }
-        }
-        .content-wrap { font-size: 35px; line-height: 40px;
-          .info { margin: 15px auto; }
-          .score-item-content { font-size: 35px; line-height: 40px; }
-          .score-item-lyrics { line-height: 40px; }
-        }
-      }
-    }
-  }
-  .component-page-footer { height: 75px; line-height: 75px; position: static;
-    .left-section { display: none; }
-    a { font-size: 35px; }
-  }
-  .immersionModelButton {
-    float: left;
-    min-width: 150px;
-    max-width: 250px;
-    display: block;
-    margin: 1em;
-    padding: 1em 2em;
-    border: none;
-    background: none;
-    color: inherit;
-    vertical-align: middle;
-    position: relative;
-    z-index: 1;
-    -webkit-backface-visibility: hidden;
-    -moz-osx-font-smoothing: grayscale;
-    border-radius: 50px;
-    background: #7986cb;
-    color: #fff;
-    -webkit-transition: background-color 0.3s, color 0.3s;
-    transition: background-color 0.3s, color 0.3s;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    font-size: 23px;
-    font-weight: 700;
-    // margin-left: 150px;
   }
 }
 </style>
@@ -87,17 +31,7 @@
   <div id="page-mobile" class="page-mobile">
     <div class="app-bg" :style="appBgStyle"></div>
     <div class="app-content">
-      <h2 class="mobile-tip">请在电脑上用Chrome浏览器访问：www.autopiano.cn</h2>
-      <PageHeader></PageHeader>
-      <RandomLyric></RandomLyric>
       <Piano></Piano>
-      <button class="immersionModelButton" @click="openImmersionModel">进入沉浸模式</button>
-      <div class="score-section">
-        <ManualPlayScoreList></ManualPlayScoreList>
-        <AutoPlayScoreList></AutoPlayScoreList>
-      </div>
-      <div class="blank" style="height: 100px;"></div>
-      <PageFooter></PageFooter>
     </div>
   </div>
 </template>
@@ -109,16 +43,12 @@ import RandomLyric from '@/components/RandomLyric'
 import Piano from '@/components/Piano'
 import ManualPlayScoreList from '@/components/ManualPlayScoreList'
 import AutoPlayScoreList from '@/components/AutoPlayScoreList'
+import Modal from '@/components/Modal.vue'
 
 export default {
-  name: 'AutoPianoMobile',
+  name: 'AutoPianoMobileImmersion',
   components: {
-    PageHeader,
-    PageFooter,
-    RandomLyric,
-    Piano,
-    ManualPlayScoreList,
-    AutoPlayScoreList
+    Piano
   },
   data() {
     return {
@@ -138,13 +68,6 @@ export default {
     }
   },
   methods: {
-    openImmersionModel(){
-      let routeUrl = this.$router.resolve({
-            path: "/piano",
-            query: {id:96}
-      });
-      window.open(routeUrl .href, '_blank');
-    },
     // 背景壁纸 移动端不需要设随机壁纸
     setWallPaper() {
       // 埃菲尔铁塔背景
