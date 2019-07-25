@@ -37,13 +37,7 @@
 </template>
 
 <script>
-import PageHeader from '@/components/PageHeader'
-import PageFooter from '@/components/Footer'
-import RandomLyric from '@/components/RandomLyric'
 import Piano from '@/components/Piano'
-import ManualPlayScoreList from '@/components/ManualPlayScoreList'
-import AutoPlayScoreList from '@/components/AutoPlayScoreList'
-import Modal from '@/components/Modal.vue'
 
 export default {
   name: 'AutoPianoMobileImmersion',
