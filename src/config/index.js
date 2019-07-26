@@ -29,6 +29,8 @@ export const OBEvent = {
   LOAD_SHEET_MUSIC: 'LOAD_SHEET_MUSIC',
   START_AUTO_PLAY: 'START_AUTO_PLAY',
   STOP_AUTO_PLAY: 'STOP_AUTO_PLAY',
+  // 设置播放进度
+  SET_AUTO_PLAY_PROGRESS: 'SET_AUTO_PLAY_PROGRESS',
 
   // 自动播放事件
   // 乐曲载入事件

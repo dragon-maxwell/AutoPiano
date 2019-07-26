@@ -1,12 +1,10 @@
 <style lang="less">
 @import url('../assets/style/variable.less');
-.component-auto-play-ctrller { width: 50%; min-height: 40px; padding: 5px 0; margin: 10px auto 0px 10px; text-align: left;
+.component-auto-play-ctrller { width: 50%; min-height: 40px; padding: 5px 0; margin: 10px auto 0px 20px; text-align: left;
   .sheet-music-name {font-size: 30px; margin: 5px auto 10px auto}
-  // .btns { width:200px;
   .ctrl-btns { display: inline-block; width: 100px; text-align: center; font-size:20px; font-weight:bold; line-height: 30px; background-color: #FFFFFF; color: @c-blue-d; border: 1px solid blue; border-radius: 25px; box-shadow: 2px 2px 2px #888888; cursor: pointer;
     &:hover { background-color: #CCFFFF; } }
   .progress-bar {margin: 0px 0px 0px 10px}
-  // }
 }
 </style>
 
@@ -19,7 +17,6 @@
       v-model="slider.value"
       :min="slider.minValue"
       :max="slider.maxValue"
-      :data="slider.data"
       :range="slider.range"
       :lineHeight=10
       :processStyle="{ backgroundColor: '#66CCFF' }"
@@ -39,32 +36,39 @@ export default {
     return {
       slider: {
         minValue: 1,
-        maxValue: 48,
-        value: 45,
+        maxValue: 100,
+        value: 1,
+        range: [1]
       },
       CurrentSheetMusicNameLabelText: '当前播放：没有乐谱',
+      CurrentSheetMusicTimeSignature: [],
       PlayBtnTxt: '▶',
       StopBtnTxt: '■',
       IsPlaying: false,
+      progress:0
     }
   },
   mounted() {
     Observe.$on(OBEvent.AUTO_PLAY_STOPPED, () => {
       this.IsPlaying = false
       this.PlayBtnTxt = '▶'
+      for(let i = 2; i < 1000; i++) this.slider.range.push(i)
     })
-    Observe.$on(OBEvent.AUTO_PLAY_STARTED, () => {
+    Observe.$on(OBEvent.AUTO_PLAY_STARTED, (curBar, curQnIdx) => {
       this.IsPlaying = true
       this.PlayBtnTxt = '❙ ❙'
+      this.slider.value = (curBar - 1) * this.CurrentSheetMusicTimeSignature[0] + curQnIdx
     })
     Observe.$on(OBEvent.SHEET_MUSIC_LOADED, (sheetMusic) => {
       this.CurrentSheetMusicNameLabelText = '当前播放：' + sheetMusic.name
+      this.CurrentSheetMusicTimeSignature = sheetMusic.timeSignature
       this.slider.minValue = 1
-      this.slider.maxValue = sheetMusic.notes.length
-      this.slider.value = 1
+      this.slider.maxValue = sheetMusic.notes.length * sheetMusic.timeSignature[0]
+      setTimeout(()=>{this.slider.value = 1},100)
     })
-    Observe.$on(OBEvent.PLAY_PROGRESS_UPDATE, (curPos) => {
-      this.slider.value = curPos
+    Observe.$on(OBEvent.PLAY_PROGRESS_UPDATE, (curBar, curQnIdx) => {
+      this.slider.value = (curBar - 1) * this.CurrentSheetMusicTimeSignature[0] + curQnIdx
+      progress = this.slider.value
     })
   },
   methods: {
@@ -75,20 +79,12 @@ export default {
     onStopBtnClick () {
         Observe.$emit(OBEvent.STOP_AUTO_PLAY)
     },
-    onChange () {
-      // let value = document.getElementById("autoPlayProgress").value;
-      console.log('asdasd');
-    },
-    // getPlayBtnText () {
-    //   if (this.IsPlaying) return 'Pause'
-    //   else return 'Play'
-    // },
     callbackRange (val) {
-    this.rangeValue = val
+      if (val && val != progress) { 
+        // console.log('val: ' + val + 'value: ' + this.slider.value)
+        Observe.$emit(OBEvent.SET_AUTO_PLAY_PROGRESS, val)
+      }
     },
-    testMethod() {
-      console.log('wewe')
-    }
   },
   components: {
     VueSlideBar
