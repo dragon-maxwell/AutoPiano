@@ -88,6 +88,10 @@ export default {
           this.curBarIdx++
           if (this.curBarIdx >= totalBar) {
             this.clearAutoPlayTimerAndStyle()
+            this.curBarIdx = 0
+            this.curPosInBar = 0
+            this.prevQnIdx = 0
+            Observe.$emit(OBEvent.PLAY_PROGRESS_UPDATE, this.curBarIdx + 1, 1)
             return
           } else {
             this.curNoteInBar = [0,0,0,0,0]
@@ -158,11 +162,7 @@ export default {
         }
       }
       $('.piano-key').removeClass(autoKeyActiveStyle)
-      // 音符时长，单位为 小节位置数量
-      this.noteDur = {1:PosPerBar * this.playingSheet.timeSignature[1] / this.playingSheet.timeSignature[0]}
-      for (let i = 2; i <= 32; i *= 2) {
-        this.noteDur[i] = this.noteDur[1] / i
-      }
+      
       // 按下的键
       this.pressedNotes = {}
       this.pressedNotes.notes = []
@@ -181,6 +181,11 @@ export default {
       if (this.playingSheet != targetSheetMusic) {
         this.playingSheet = targetSheetMusic
         this.curPlayBpm = this.playingSheet.bpm
+        // 音符时长，单位为 小节位置数量
+        this.noteDur = {1:PosPerBar * this.playingSheet.timeSignature[1] / this.playingSheet.timeSignature[0]}
+        for (let i = 2; i <= 32; i *= 2) {
+          this.noteDur[i] = this.noteDur[1] / i
+        }
         this.pauseAutoPlay()
         this.rewindPlayPos()
         if (beginPlayAfterLoad) {
@@ -210,10 +215,9 @@ export default {
     setAutoPlayProgress (progressPos) {
       if (this.playingSheet) {
         this.curBarIdx = Math.floor((progressPos - 1) / this.playingSheet.timeSignature[0])
-        this.curPosInBar = (progressPos - 1) % this.playingSheet.timeSignature[0]
-        // console.log('this.curBarIdx: ' + this.curBarIdx + ' this.curPosInBar: ' + this.curPosInBar)
+        this.prevQnIdx = (progressPos - 1) % this.playingSheet.timeSignature[0]
+        this.curPosInBar = this.prevQnIdx * this.noteDur[this.playingSheet.timeSignature[1]]
         this.initPlayParam()
-        this.prevQnIdx = Math.floor(this.curPosInBar / this.noteDur[this.playingSheet.timeSignature[0]])
       }
     },
 

@@ -18,7 +18,6 @@
 </template>
 
 <script>
-// import VueSlideBar from 'vue-slide-bar'
 import vueSlider from 'vue-slider-component'
 import Observe from 'observe'
 import { ScoreNum, ScoreXml, OBEvent } from 'config'
@@ -65,12 +64,12 @@ export default {
           labelActiveStyle: null
         },
       },
-      setProgressTimer: null,
       CurrentSheetMusicNameLabelText: '当前播放：没有乐谱',
       CurrentSheetMusicTimeSignature: [],
       PlayBtnTxt: '▶',
       StopBtnTxt: '■',
       IsPlaying: false,
+      // 实际播放进度
       progress:0
     }
   },
@@ -78,7 +77,6 @@ export default {
     Observe.$on(OBEvent.AUTO_PLAY_STOPPED, () => {
       this.IsPlaying = false
       this.PlayBtnTxt = '▶'
-      for(let i = 2; i < 1000; i++) this.slider.range.push(i)
     })
     Observe.$on(OBEvent.AUTO_PLAY_STARTED, (curBar, curQnIdx) => {
       this.IsPlaying = true
@@ -91,12 +89,16 @@ export default {
       this.slider.options.min = 1
       this.slider.options.max = sheetMusic.notes.length * sheetMusic.timeSignature[0]
       this.slider.value = 1
-      // setTimeout(()=>{this.slider.value = 1},100)
     })
     Observe.$on(OBEvent.PLAY_PROGRESS_UPDATE, (curBar, curQnIdx) => {
       this.slider.value = (curBar - 1) * this.CurrentSheetMusicTimeSignature[0] + curQnIdx
-      // this.progress = this.slider.value
+      this.progress = this.slider.value
     })
+  },
+  updated() {
+    if (this.slider.value != this.progress) {
+      Observe.$emit(OBEvent.SET_AUTO_PLAY_PROGRESS, this.slider.value)
+    }
   },
   methods: {
     onPlayBtnClick () {
@@ -108,7 +110,6 @@ export default {
     },
     callbackRange (val) {
       if (val && val != this.progress) { 
-        // console.log('val: ' + val + 'value: ' + this.slider.value)
         Observe.$emit(OBEvent.SET_AUTO_PLAY_PROGRESS, val)
       }
     },
