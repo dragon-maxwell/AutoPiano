@@ -68,7 +68,7 @@ export default {
     })
     Observe.$on(OBEvent.PLAY_PROGRESS_UPDATE, (curBar, curQnIdx) => {
       this.slider.value = (curBar - 1) * this.CurrentSheetMusicTimeSignature[0] + curQnIdx
-      progress = this.slider.value
+      this.progress = this.slider.value
     })
   },
   methods: {
@@ -80,7 +80,7 @@ export default {
         Observe.$emit(OBEvent.STOP_AUTO_PLAY)
     },
     callbackRange (val) {
-      if (val && val != progress) { 
+      if (val && val != this.progress) { 
         // console.log('val: ' + val + 'value: ' + this.slider.value)
         Observe.$emit(OBEvent.SET_AUTO_PLAY_PROGRESS, val)
       }
