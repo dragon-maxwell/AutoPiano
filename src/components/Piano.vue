@@ -242,12 +242,9 @@ export default {
         // this.pauseXMLPlay()
       })
       // 停止自动播放
-      Observe.$on(OBEvent.STOP_AUTO_PLAY, () => {
-        this.stopAutoPlay()
-      })
-      Observe.$on(OBEvent.PAUSE_XML_AUTO_PLAY, (scoreItem) => {
-        this.pauseXMLPlay()
-      })
+      Observe.$on(OBEvent.STOP_AUTO_PLAY, () => { this.stopAutoPlay() })
+      // 拖动播放进度条
+      Observe.$on(OBEvent.SET_AUTO_PLAY_PROGRESS, (progressPos) => { this.setAutoPlayProgress(progressPos) })
     },
     getNoteByKeyCode(keyCode) {
       // 改为更高性能的写法
