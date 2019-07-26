@@ -2,9 +2,9 @@
 @import url('../assets/style/variable.less');
 .component-auto-play-ctrller { width: 50%; min-height: 40px; padding: 5px 0; margin: 10px auto 0px 20px; text-align: left;
   .sheet-music-name {font-size: 30px; margin: 5px auto 10px auto}
-  .ctrl-btns { display: inline-block; width: 100px; text-align: center; font-size:20px; font-weight:bold; line-height: 30px; background-color: #FFFFFF; color: @c-blue-d; border: 1px solid blue; border-radius: 25px; box-shadow: 2px 2px 2px #888888; cursor: pointer;
+  .ctrl-btns { display: inline-block; width: 100px; text-align: center; font-size:20px; font-weight:bold; line-height: 30px; margin: 0px auto 40px auto; background-color: #FFFFFF; color: @c-blue-d; border: 1px solid blue; border-radius: 25px; box-shadow: 2px 2px 2px #888888; cursor: pointer;
     &:hover { background-color: #CCFFFF; } }
-  .progress-bar {margin: 0px 0px 0px 10px}
+  .progress-bar {background-color: rgb(13, 61, 65); border: 1px solid blue; border-radius: 25px;}
 }
 </style>
 
@@ -13,21 +13,13 @@
     <div class="sheet-music-name">{{CurrentSheetMusicNameLabelText}}</div>
     <div class="ctrl-btns" @click="onPlayBtnClick">{{PlayBtnTxt}}</div> 
     <div class="ctrl-btns" @click="onStopBtnClick">{{StopBtnTxt}}</div>
-    <VueSlideBar ref="apctrller"
-      v-model="slider.value"
-      :min="slider.minValue"
-      :max="slider.maxValue"
-      :range="slider.range"
-      :lineHeight=10
-      :processStyle="{ backgroundColor: '#66CCFF' }"
-      :tooltipStyles="{ color: '#FFFF99', backgroundColor: '#0099CC', borderColor: '#669999' }"
-      @callbackRange="callbackRange">
-    </VueSlideBar>
+    <vue-slider class="progress-bar" ref="slider" v-model="slider.value" v-bind="slider.options"></vue-slider>
   </div>
 </template>
 
 <script>
-import VueSlideBar from 'vue-slide-bar'
+// import VueSlideBar from 'vue-slide-bar'
+import vueSlider from 'vue-slider-component'
 import Observe from 'observe'
 import { ScoreNum, ScoreXml, OBEvent } from 'config'
 export default {
@@ -35,11 +27,45 @@ export default {
   data() {
     return {
       slider: {
-        minValue: 1,
-        maxValue: 100,
-        value: 1,
-        range: [1]
+        value: 0,
+        options: {
+          data: null,
+          eventType: 'auto',
+          width: 'auto',
+          height: 6,
+          dotSize: 16,
+          dotHeight: null,
+          dotWidth: null,
+          min: 0,
+          max: 100,
+          interval: 1,
+          show: true,
+          speed: 0.5,
+          disabled: false,
+          piecewise: false,
+          useKeyboard: false,
+          enableCross: true,
+          piecewiseStyle: false,
+          piecewiseLabel: false,
+          tooltip: 'always',
+          tooltipDir: 'top',
+          reverse: false,
+          data: null,
+          clickable: true,
+          realTime: false,
+          lazy: false,
+          formatter: null,
+          bgStyle: null,
+          sliderStyle: null,
+          processStyle: null,
+          piecewiseActiveStyle: null,
+          piecewiseStyle: null,
+          tooltipStyle: null,
+          labelStyle: null,
+          labelActiveStyle: null
+        },
       },
+      setProgressTimer: null,
       CurrentSheetMusicNameLabelText: '当前播放：没有乐谱',
       CurrentSheetMusicTimeSignature: [],
       PlayBtnTxt: '▶',
@@ -62,13 +88,14 @@ export default {
     Observe.$on(OBEvent.SHEET_MUSIC_LOADED, (sheetMusic) => {
       this.CurrentSheetMusicNameLabelText = '当前播放：' + sheetMusic.name
       this.CurrentSheetMusicTimeSignature = sheetMusic.timeSignature
-      this.slider.minValue = 1
-      this.slider.maxValue = sheetMusic.notes.length * sheetMusic.timeSignature[0]
-      setTimeout(()=>{this.slider.value = 1},100)
+      this.slider.options.min = 1
+      this.slider.options.max = sheetMusic.notes.length * sheetMusic.timeSignature[0]
+      this.slider.value = 1
+      // setTimeout(()=>{this.slider.value = 1},100)
     })
     Observe.$on(OBEvent.PLAY_PROGRESS_UPDATE, (curBar, curQnIdx) => {
       this.slider.value = (curBar - 1) * this.CurrentSheetMusicTimeSignature[0] + curQnIdx
-      this.progress = this.slider.value
+      // this.progress = this.slider.value
     })
   },
   methods: {
@@ -87,7 +114,7 @@ export default {
     },
   },
   components: {
-    VueSlideBar
+    vueSlider
   },
 }
   
