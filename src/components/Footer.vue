@@ -73,8 +73,8 @@ export default {
     return {
       supportShow: false,
       payType: 'WXPAY',
-      aliPaySrc: require('../assets/images/aliqr.png'),
-      wxPaySrc: require('../assets/images/wxqr.png')
+      // aliPaySrc: require('../assets/images/aliqr.png'),
+      // wxPaySrc: require('../assets/images/wxqr.png')
     }
   },
   mounted() {},

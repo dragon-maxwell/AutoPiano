@@ -28,7 +28,7 @@
       <AutoPlayCtrller></AutoPlayCtrller>
       <Piano></Piano>
       <div class="score-section responsive-section-a">
-        <ManualPlayScoreList></ManualPlayScoreList>
+        <!-- <ManualPlayScoreList></ManualPlayScoreList> -->
         <AutoPlayScoreList></AutoPlayScoreList>
       </div>
       <div class="right-drawer" :class="{'show': rightDrawerShow}">

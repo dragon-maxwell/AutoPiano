@@ -4,7 +4,8 @@
   .sheet-music-name {font-size: 30px; margin: 5px auto 10px auto}
   .ctrl-btns { display: inline-block; width: 100px; text-align: center; font-size:20px; font-weight:bold; line-height: 30px; margin: 0px auto 40px auto; background-color: #FFFFFF; color: @c-blue-d; border: 1px solid blue; border-radius: 25px; box-shadow: 2px 2px 2px #888888; cursor: pointer;
     &:hover { background-color: #CCFFFF; } }
-  .progress-bar {background-color: rgb(13, 61, 65); border: 1px solid blue; border-radius: 25px;}
+  .progress-bar {background-color: rgb(13, 61, 65); border: 1px solid blue; border-radius: 2px;}
+  .slider-tool-tip {border: 0px; color:rgb(255, 255, 255); background-color: rgb(0, 0, 0); font-size:20px; font-weight:bold; line-height: 22px; }
 }
 </style>
 
@@ -13,7 +14,7 @@
     <div class="sheet-music-name">{{CurrentSheetMusicNameLabelText}}</div>
     <div class="ctrl-btns" @click="onPlayBtnClick">{{PlayBtnTxt}}</div> 
     <div class="ctrl-btns" @click="onStopBtnClick">{{StopBtnTxt}}</div>
-    <vue-slider class="progress-bar" ref="slider" v-model="slider.value" v-bind="slider.options"></vue-slider>
+    <vue-slider class="progress-bar" ref="slider" @drag-start="onSliderDragStart" @drag-end="onSliderDragEnd" @callback="onSliderCallback" v-model="slider.value" v-bind="slider.options"></vue-slider>
   </div>
 </template>
 
@@ -27,12 +28,13 @@ export default {
     return {
       slider: {
         value: 0,
+        isDrag: false,
         options: {
           data: null,
           eventType: 'auto',
           width: 'auto',
-          height: 6,
-          dotSize: 16,
+          height: 30,
+          dotSize: 30,
           dotHeight: null,
           dotWidth: null,
           min: 0,
@@ -47,7 +49,7 @@ export default {
           piecewiseStyle: false,
           piecewiseLabel: false,
           tooltip: 'always',
-          tooltipDir: 'top',
+          tooltipDir: 'right',
           reverse: false,
           data: null,
           clickable: true,
@@ -60,6 +62,7 @@ export default {
           piecewiseActiveStyle: null,
           piecewiseStyle: null,
           tooltipStyle: null,
+          tooltipClass: 'slider-tool-tip',
           labelStyle: null,
           labelActiveStyle: null
         },
@@ -95,11 +98,6 @@ export default {
       this.progress = this.slider.value
     })
   },
-  updated() {
-    if (this.slider.value != this.progress) {
-      Observe.$emit(OBEvent.SET_AUTO_PLAY_PROGRESS, this.slider.value)
-    }
-  },
   methods: {
     onPlayBtnClick () {
       if (this.IsPlaying) Observe.$emit(OBEvent.PAUSE_AUTO_PLAY)
@@ -108,10 +106,18 @@ export default {
     onStopBtnClick () {
         Observe.$emit(OBEvent.STOP_AUTO_PLAY)
     },
-    callbackRange (val) {
-      if (val && val != this.progress) { 
+
+    onSliderCallback (val) {
+      if (!this.slider.isDrag) {
         Observe.$emit(OBEvent.SET_AUTO_PLAY_PROGRESS, val)
       }
+    },
+    onSliderDragStart (context) {
+      this.slider.isDrag = true
+    },
+    onSliderDragEnd (context) {
+      this.slider.isDrag = false
+      Observe.$emit(OBEvent.SET_AUTO_PLAY_PROGRESS, context.val)
     },
   },
   components: {

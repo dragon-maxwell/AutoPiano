@@ -63,8 +63,8 @@
     }
   }
 
-  .piano-options { width: 90%; height: 50px; margin: 10px auto 15px; padding: 0; position: relative;
-    .option-item-wrap { position: absolute; right: 1%; }
+  .piano-options { width: 90%; height: 50px; margin: 0px auto 15px; padding: 0; position: relative;
+    .option-item-wrap { position: absolute; left: 1%; }
     .option-item { display: inline-block; height: 50px; line-height: 50px; margin: 0 15px;
       .label {
         // Hide the ugly checkbox
@@ -175,7 +175,7 @@ export default {
       bandImg: require('../assets/images/band.png'),
       enableBlackKey: false, // 启用黑色按键
       showKeyName: true, // 显示键名
-      showNoteName: false, // 显示音符名
+      showNoteName: true, // 显示音符名
       Notes: Notes,
       synth: null,
       keydownTimer: null,

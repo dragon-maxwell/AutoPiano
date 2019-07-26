@@ -59,7 +59,7 @@
       <p class="component-title">
         <img src="../assets/images/music_cd.png" alt="" class="music-img">
         <span class="title">演奏示例</span>
-        <span class="degree">热度</span>
+        <!-- <span class="degree">热度</span> -->
       </p>
 
       <ol class="list score-list">
@@ -69,9 +69,9 @@
             {{ item.name }}
           </a>
           <i class="pause icon-pause" v-show="item.playing" @click="pauseAutoPlay(item)" />
-          <span class="difficulty-degree">
+          <!-- <span class="difficulty-degree">
             <i class="icon-heartbeat" v-for="(star, sindex) in new Array(item.degree)" :key="sindex"></i>
-          </span>
+          </span> -->
         </li>
       </ol>
 
