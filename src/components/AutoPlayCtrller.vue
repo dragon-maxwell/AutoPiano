@@ -2,8 +2,8 @@
 @import url('../assets/style/variable.less');
 .component-auto-play-ctrller { width: 50%; min-height: 40px; padding: 5px 0; margin: 10px auto 0px 20px; text-align: left;
   .sheet-music-name {font-size: 30px; margin: 5px auto 10px auto}
-  .ctrl-btns { display: inline-block; width: 100px; text-align: center; font-size:20px; font-weight:bold; line-height: 30px; margin: 0px auto 40px auto; background-color: #FFFFFF; color: @c-blue-d; border: 1px solid blue; border-radius: 25px; box-shadow: 2px 2px 2px #888888; cursor: pointer;
-    &:hover { background-color: #CCFFFF; } }
+  .ctrl-btns { display: inline-block; width: 100px; text-align: center; font-size:20px; font-weight:bold; line-height: 30px; margin-bottom: 10px; background-color: #FFFFFF; color: @c-blue-d; border: 1px solid blue; border-radius: 25px; box-shadow: 2px 2px 2px #888888; cursor: pointer;
+    &:hover { background-color: rgb(13, 61, 65); } }
   .progress-bar {background-color: rgb(13, 61, 65); border: 1px solid blue; border-radius: 2px;}
   .slider-tool-tip {border: 0px; color:rgb(255, 255, 255); background-color: rgb(0, 0, 0); font-size:20px; font-weight:bold; line-height: 22px; }
 }
@@ -69,8 +69,8 @@ export default {
       },
       CurrentSheetMusicNameLabelText: '当前播放：没有乐谱',
       CurrentSheetMusicTimeSignature: [],
-      PlayBtnTxt: '▶',
-      StopBtnTxt: '■',
+      PlayBtnTxt: 'PLAY',
+      StopBtnTxt: 'STOP',
       IsPlaying: false,
       // 实际播放进度
       progress:0
@@ -79,11 +79,11 @@ export default {
   mounted() {
     Observe.$on(OBEvent.AUTO_PLAY_STOPPED, () => {
       this.IsPlaying = false
-      this.PlayBtnTxt = '▶'
+      this.PlayBtnTxt = 'PLAY'
     })
     Observe.$on(OBEvent.AUTO_PLAY_STARTED, (curBar, curQnIdx) => {
       this.IsPlaying = true
-      this.PlayBtnTxt = '❙ ❙'
+      this.PlayBtnTxt = 'PAUSE'
       this.slider.value = (curBar - 1) * this.CurrentSheetMusicTimeSignature[0] + curQnIdx
     })
     Observe.$on(OBEvent.SHEET_MUSIC_LOADED, (sheetMusic) => {
