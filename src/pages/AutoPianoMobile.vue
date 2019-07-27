@@ -94,7 +94,7 @@
       <Piano></Piano>
       <button class="immersionModelButton" @click="openImmersionModel">进入沉浸模式</button>
       <div class="score-section">
-        <ManualPlayScoreList></ManualPlayScoreList>
+        <!-- <ManualPlayScoreList></ManualPlayScoreList> -->
         <AutoPlayScoreList></AutoPlayScoreList>
       </div>
       <div class="blank" style="height: 100px;"></div>

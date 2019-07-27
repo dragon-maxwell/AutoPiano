@@ -31,11 +31,11 @@
         <!-- <ManualPlayScoreList></ManualPlayScoreList> -->
         <AutoPlayScoreList></AutoPlayScoreList>
       </div>
-      <div class="right-drawer" :class="{'show': rightDrawerShow}">
+      <!-- <div class="right-drawer" :class="{'show': rightDrawerShow}">
         <div class="trigger" @click="toggleRightDrawer">歌曲列表</div>
         <div class="close" @click="hideRightDrawer">X</div>
         <ManualPlayScoreList></ManualPlayScoreList>
-      </div>
+      </div> -->
       <div class="blank-page-pc" style="height: 200px;"></div>
       <!-- <PageFooter></PageFooter> -->
     </div>
