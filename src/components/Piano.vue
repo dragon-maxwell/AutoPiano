@@ -158,6 +158,7 @@ import Vue from 'vue'
 import Tone from 'tone'
 import Observe from 'observe'
 import { Notes, OBEvent } from 'config'
+import { MusicKeyMap } from '@/config/notes'
 import SmapleLibrary from '@/lib/Tonejs-Instruments'
 import { debounce } from '@/lib/wutils'
 
@@ -181,7 +182,8 @@ export default {
       keydownTimer: null,
       keyLock: false,
       lastKeyCode: '',
-      lastKeyTime: 0
+      lastKeyTime: 0,
+      musicKey: 'C',
     }
   },
   mounted() {
