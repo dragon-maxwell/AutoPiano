@@ -2,9 +2,9 @@
 @import url('../assets/style/variable.less');
 .component-auto-play-ctrller { width: 50%; min-height: 40px; padding: 5px 0; margin: 10px auto 0px 20px; text-align: left;
   .sheet-music-name {font-size: 30px; margin: 5px auto 10px auto}
-  .ctrl-btns { display: inline-block; width: 100px; text-align: center; font-size:20px; font-weight:bold; line-height: 50px; margin-bottom: 10px; background-color: #FFFFFF; color: @c-blue-d; border: 1px solid blue; border-radius: 25px; box-shadow: 2px 2px 2px #888888; cursor: pointer;
-    &:hover { background-color: rgb(13, 61, 65); } }
-  .progress-bar {background-color: rgb(13, 61, 65); border: 1px solid blue; border-radius: 2px;}
+  .ctrl-btns { display: inline-block; width: 150px; word-spacing: 10px; text-align: center; font-size:20px; font-weight:bold; line-height: 50px; margin-bottom: 10px; background-color: #FFFFFF; color: @c-blue-d; border: 1px solid blue; border-radius: 25px; box-shadow: 2px 2px 2px #888888; cursor: pointer;
+    &:hover { background-color: rgb(13, 61, 65); color: rgb(193, 243, 255);} }
+  .progress-bar {background-color: rgb(13, 61, 65); border: 1px solid blue; border-radius: 2px;box-shadow: 2px 2px 2px #888888;}
   .slider-tool-tip {border: 0px; color:rgb(255, 255, 255); background-color: rgb(0, 0, 0); font-size:20px; font-weight:bold; line-height: 22px; }
 }
 </style>
@@ -14,6 +14,7 @@
     <div class="sheet-music-name">{{CurrentSheetMusicNameLabelText}}</div>
     <div class="ctrl-btns" @click="onPlayBtnClick">{{PlayBtnTxt}}</div> 
     <div class="ctrl-btns" @click="onStopBtnClick">{{StopBtnTxt}}</div>
+    <div class="ctrl-btns" @click="onKeyBtnClick">{{KeyBtnTxt}}</div>
     <vue-slider class="progress-bar" ref="slider" @drag-start="onSliderDragStart" @drag-end="onSliderDragEnd" @callback="onSliderCallback" v-model="slider.value" v-bind="slider.options"></vue-slider>
   </div>
 </template>
@@ -21,6 +22,7 @@
 <script>
 import vueSlider from 'vue-slider-component'
 import Observe from 'observe'
+import Piano from '@/components/Piano'
 import { ScoreNum, ScoreXml, OBEvent } from 'config'
 export default {
   name: 'AutoPlayCtrller',
@@ -67,10 +69,12 @@ export default {
           labelActiveStyle: null
         },
       },
+      Piano: Piano,
       CurrentSheetMusicNameLabelText: '当前播放：没有乐谱',
       CurrentSheetMusicTimeSignature: [],
       PlayBtnTxt: 'PLAY',
       StopBtnTxt: 'STOP',
+      KeyBtnTxt: 'KEY: C',
       IsPlaying: false,
       // 实际播放进度
       progress:0
@@ -97,6 +101,9 @@ export default {
       this.slider.value = (curBar - 1) * this.CurrentSheetMusicTimeSignature[0] + curQnIdx
       this.progress = this.slider.value
     })
+    Observe.$on(OBEvent.PIANO_KEY_CHANGED, (newkey) => {
+      this.KeyBtnTxt = 'KEY: ' + newkey
+    })
   },
   methods: {
     onPlayBtnClick () {
@@ -107,6 +114,9 @@ export default {
         Observe.$emit(OBEvent.STOP_AUTO_PLAY)
     },
 
+    onKeyBtnClick () {
+        Observe.$emit(OBEvent.SET_PIANO_KEY)
+    },
     onSliderCallback (val) {
       if (!this.slider.isDrag) {
         Observe.$emit(OBEvent.SET_AUTO_PLAY_PROGRESS, val)

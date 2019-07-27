@@ -183,7 +183,7 @@ export default {
       keyLock: false,
       lastKeyCode: '',
       lastKeyTime: 0,
-      musicKey: 'C',
+      curMusicKey: 0,
     }
   },
   mounted() {
@@ -229,15 +229,6 @@ export default {
       Observe.$on(OBEvent.START_AUTO_PLAY, () => {
         this.startAutoPlay()
       })
-      // // XML乐谱自动播放
-      // Observe.$on(OBEvent.AUTO_PLAY_XML_SCORE, (musicScore) => {
-      //   this.addToPlayQueue(musicScore)
-      //   // try {
-      //   //   this.playXMLScore(musicScore)
-      //   // } catch (e) {
-      //   //   console.log(e)
-      //   // }
-      // })
       // 暂停自动播放
       Observe.$on(OBEvent.PAUSE_AUTO_PLAY, (scoreItem) => {
         this.pauseAutoPlay(scoreItem)
@@ -247,6 +238,13 @@ export default {
       Observe.$on(OBEvent.STOP_AUTO_PLAY, () => { this.stopAutoPlay() })
       // 拖动播放进度条
       Observe.$on(OBEvent.SET_AUTO_PLAY_PROGRESS, (progressPos) => { this.setAutoPlayProgress(progressPos) })
+      Observe.$on(OBEvent.SET_PIANO_KEY, () => {
+        this.curMusicKey++
+        if (this.curMusicKey < 0 || this.curMusicKey >= MusicKeyMap.length) {
+          this.curMusicKey = 0
+        }
+        Observe.$emit(OBEvent.PIANO_KEY_CHANGED, MusicKeyMap[this.curMusicKey].keyName)
+      })
     },
     // 根据keyCode返回音符名称
     getNoteNameByKeyCode(keyCode) {
@@ -261,7 +259,7 @@ export default {
     getNoteNameByInstrumentKeyIdx(instrumentKeyIdx) {
       for (let i = 0; i < MusicKeyMap.length; i++) {
         let musicKey = MusicKeyMap[i]
-        if (musicKey.keyName == this.musicKey) {
+        if (musicKey.keyName == this.getCurMusicKeyName()) {
           return musicKey.nameMap[instrumentKeyIdx]
         }
       }
@@ -271,6 +269,22 @@ export default {
       // 改为更高性能的写法
       return this.Notes[instrumentKeyIdx].keyCode
     },
+
+    getCurMusicKeyName () {
+      return MusicKeyMap[this.curMusicKey].keyName
+    },
+
+    setCurMusicKey (musicKey) {
+      this.curMusicKey = 0
+      for (let i = 0; i < MusicKeyMap.length; i++) {
+        if (MusicKeyMap[i].keyName == musicKey) {
+          this.curMusicKey = i
+          break
+        }
+      }
+      Observe.$emit(OBEvent.PIANO_KEY_CHANGED, MusicKeyMap[this.curMusicKey].keyName)
+    },
+
     // 键盘操作 核心代码
     bindKeyBoradEvent() {
       const ShiftKeyCode = 16

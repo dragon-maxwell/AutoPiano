@@ -43,23 +43,6 @@ export default {
     }
   },
   methods: {
-    // // 将简谱numNotation映射为notename
-    // mapNum2NoteName(keyname = '', numNotation = 0) {
-    //   // if (numNotation && keyname && this.keyMap[keyname])  {
-    //   //   let curkey = this.keyMap[keyname]
-    //   //   if (curkey && curkey[numNotation]) {
-    //   //     let notename = curkey[numNotation]
-    //   //     return notename
-    //   //   }
-    //   // }
-    //   for (let i = 0; i < MusicKeyMap.length; i++) {
-    //     let musicKey = MusicKeyMap[i]
-    //     if (musicKey.keyName == keyname) {
-    //       return musicKey.nameMap[numNotation - 1]
-    //     }
-    //   }
-    //   return ''
-    // },
     // 计算一个小节的时长
     millisecondsPerBar() {
       if (this.playingSheet) {
@@ -189,6 +172,7 @@ export default {
       }
       if (this.playingSheet != targetSheetMusic) {
         this.playingSheet = targetSheetMusic
+        this.setCurMusicKey(targetSheetMusic.key)
         this.curPlayBpm = this.playingSheet.bpm
         // 音符时长，单位为 小节位置数量
         this.noteDur = {1:PosPerBar * this.playingSheet.timeSignature[1] / this.playingSheet.timeSignature[0]}

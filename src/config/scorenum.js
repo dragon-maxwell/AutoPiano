@@ -43,7 +43,7 @@ const ScoreNum = [
   },
   {
     name: '测试用的假大鱼',
-    key: 'C',
+    key: 'D',
     timeSignature: [4,4],
     bpm: '88',
     notes: [
