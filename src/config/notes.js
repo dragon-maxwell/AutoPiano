@@ -131,21 +131,21 @@ const noteBaseUrl = '/static/notes/'
 // ]
 
 export default [
-  {id: 1, name: 'C4', keyCode: '81', key: 'Q', url: noteBaseUrl + '1.0.mp3', type: 'white'},
-  {id: 2, name: 'D4', keyCode: '87', key: 'W', url: noteBaseUrl + '2.0.mp3', type: 'white'},
-  {id: 3, name: 'E4', keyCode: '69', key: 'E', url: noteBaseUrl + '3.0.mp3', type: 'white'},
-  {id: 4, name: 'F4', keyCode: '82', key: 'R', url: noteBaseUrl + '4.0.mp3', type: 'white'},
-  {id: 5, name: 'G4', keyCode: '84', key: 'T', url: noteBaseUrl + '5.0.mp3', type: 'white'},
-  {id: 6, name: 'A4', keyCode: '65', key: 'A', url: noteBaseUrl + '6.0.mp3', type: 'white'},
-  {id: 7, name: 'B4', keyCode: '83', key: 'S', url: noteBaseUrl + '7.0.mp3', type: 'white'},
-  {id: 8, name: 'C5', keyCode: '68', key: 'D', url: noteBaseUrl + '8.0.mp3', type: 'white'},
-  {id: 9, name: 'D5', keyCode: '70', key: 'F', url: noteBaseUrl + '9.0.mp3', type: 'white'},
-  {id: 10, name: 'E5', keyCode: '71', key: 'G', url: noteBaseUrl + '10.0.mp3', type: 'white'},
-  {id: 26, name: 'F5', keyCode: '90', key: 'Z', url: noteBaseUrl + '11.0.mp3', type: 'white'},
-  {id: 32, name: 'G5', keyCode: '88', key: 'X', url: noteBaseUrl + '12.0.mp3', type: 'white'},
-  {id: 14, name: 'A5', keyCode: '67', key: 'C', url: noteBaseUrl + '13.0.mp3', type: 'white'},
-  {id: 27, name: 'B5', keyCode: '86', key: 'V', url: noteBaseUrl + '14.0.mp3', type: 'white'},
-  {id: 28, name: 'C6', keyCode: '66', key: 'B', url: noteBaseUrl + '15.0.mp3', type: 'white'}
+  {keyCode: '81', key: 'Q'},
+  {keyCode: '87', key: 'W'},
+  {keyCode: '69', key: 'E'},
+  {keyCode: '82', key: 'R'},
+  {keyCode: '84', key: 'T'},
+  {keyCode: '65', key: 'A'},
+  {keyCode: '83', key: 'S'},
+  {keyCode: '68', key: 'D'},
+  {keyCode: '70', key: 'F'},
+  {keyCode: '71', key: 'G'},
+  {keyCode: '90', key: 'Z'},
+  {keyCode: '88', key: 'X'},
+  {keyCode: '67', key: 'C'},
+  {keyCode: '86', key: 'V'},
+  {keyCode: '66', key: 'B'}
 ]
 
 export const MusicKeyMap = [

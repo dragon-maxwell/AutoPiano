@@ -213,9 +213,9 @@ export default {
     computeEleSize() {
       let wkey_width = $('.piano-key-wrap').width() / 36;
       let wkey_height = wkey_width * 7;
-      let bkey_height = wkey_height * 0.7;
+      // let bkey_height = wkey_height * 0.7;
       $('.piano-key-wrap').height(wkey_height);
-      $('.bkey').height(bkey_height);
+      // $('.bkey').height(bkey_height);
     },
     setListener() {
       window.onresize = this.computeEleSize
@@ -248,35 +248,28 @@ export default {
       // 拖动播放进度条
       Observe.$on(OBEvent.SET_AUTO_PLAY_PROGRESS, (progressPos) => { this.setAutoPlayProgress(progressPos) })
     },
-    getNoteByKeyCode(keyCode) {
-      // 改为更高性能的写法
-      let target
-      let len = this.Notes.length || 0
-      for (let i = 0; i < len; i++) {
-        let note = this.Notes[i]
-        if (note.keyCode == keyCode) {
-          target = note
-          break
+    // 根据keyCode返回音符名称
+    getNoteNameByKeyCode(keyCode) {
+      for (let i = 0; i < this.Notes.length; i++) {
+        if (this.Notes[i].keyCode == keyCode) {
+          return this.getNoteNameByInstrumentKeyIdx(i)
         }
       }
-      return target
+      return ''
     },
-    // 根据虚拟按键编码[1,15]返回音符名称
-    getNoteNameByVirtualKeyCode(virtualKeyCode) {
-      
-    },
-    getNoteByName(name = 'C4') {
-      // 改为更高性能的写法
-      let target
-      let len = this.Notes.length || 0
-      for (let i = 0; i < len; i++) {
-        let note = this.Notes[i]
-        if (note.name == name) {
-          target = note
-          break
+    // 根据虚拟按键编码[0,14]返回音符名称
+    getNoteNameByInstrumentKeyIdx(instrumentKeyIdx) {
+      for (let i = 0; i < MusicKeyMap.length; i++) {
+        let musicKey = MusicKeyMap[i]
+        if (musicKey.keyName == this.musicKey) {
+          return musicKey.nameMap[instrumentKeyIdx]
         }
       }
-      return target
+      return ''
+    },
+    getKeyCodeByInstrumentKeyIdx(instrumentKeyIdx) {
+      // 改为更高性能的写法
+      return this.Notes[instrumentKeyIdx].keyCode
     },
     // 键盘操作 核心代码
     bindKeyBoradEvent() {
@@ -332,16 +325,16 @@ export default {
           this.enableBlackKey = false;
         }
         $(`.wkey`).removeClass('wkey-active')
-        $(`.bkey`).removeClass('bkey-active')
+        // $(`.bkey`).removeClass('bkey-active')
       }, false)
     },
 
     // 鼠标操作，点击按键播放
     clickPianoKey(e, keyCode) {
       if(!window.isMobile){
-        let pressedNote = this.getNoteByKeyCode(keyCode)
-        if (pressedNote) {
-          this.playNote(pressedNote.name)
+        let pressedNoteName = this.getNoteNameByKeyCode(keyCode)
+        if (pressedNoteName) {
+          this.playNote(pressedNoteName)
         }
       }
     },
@@ -349,9 +342,9 @@ export default {
     // 鼠标操作，mousedown
     clickPianoKeyDown(e, keyCode) {
       if(!window.isMobile){
-        let pressedNote = this.getNoteByKeyCode(keyCode)
-        if (pressedNote) {
-          $(`[data-keyCode=${pressedNote.keyCode}]`).addClass('wkey-active');
+        let pressedNoteName = this.getNoteNameByKeyCode(keyCode)
+        if (pressedNoteName) {
+          $(`[data-keyCode=${keyCode}]`).addClass('wkey-active');
         }
       }
     },
@@ -359,8 +352,8 @@ export default {
     // 鼠标操作，mouseup
     clickPianoKeyUp(e, keyCode) {
       if(!window.isMobile){
-        let pressedNote = this.getNoteByKeyCode(keyCode)
-        if (pressedNote) {
+        let pressedNoteName = this.getNoteNameByKeyCode(keyCode)
+        if (pressedNoteName) {
           $(`.wkey`).removeClass('wkey-active');
         }
       }
@@ -369,10 +362,10 @@ export default {
     // 触摸操作，touchdown
     touchPianoKeyDown(e, keyCode) {
       if(window.isMobile){
-        let pressedNote = this.getNoteByKeyCode(keyCode)
-        if (pressedNote) {
-          this.playNote(pressedNote.name)
-          $(`[data-keyCode=${pressedNote.keyCode}]`).addClass('wkey-active');
+        let pressedNoteName = this.getNoteNameByKeyCode(keyCode)
+        if (pressedNoteName) {
+          this.playNote(pressedNoteName)
+          $(`[data-keyCode=${keyCode}]`).addClass('wkey-active');
           // e.preventDefault();
         }
       }
@@ -381,8 +374,8 @@ export default {
     // 触摸操作，touchup
     touchPianoKeyUp(e, keyCode) {
       if(window.isMobile){
-        let pressedNote = this.getNoteByKeyCode(keyCode)
-        if (pressedNote) {
+        let pressedNoteName = this.getNoteNameByKeyCode(keyCode)
+        if (pressedNoteName) {
           $(`.wkey`).removeClass('wkey-active');
           // e.preventDefault();
         }
@@ -391,15 +384,15 @@ export default {
 
     // 根据键值播放音符
     playNoteByKeyCode(keyCode) {
-      let pressedNote = this.getNoteByKeyCode(keyCode)
-      if (pressedNote) {
-        this.playNote(pressedNote.name)
-        let keyType = pressedNote.type;
-        if (keyType == 'white') {
-          $(`[data-keyCode=${pressedNote.keyCode}]`).addClass('wkey-active');
-        } else if (keyType == 'black') {
-          $(`[data-keyCode=${pressedNote.keyCode}]`).addClass('bkey-active');
-        }
+      let pressedNoteName = this.getNoteNameByKeyCode(keyCode)
+      if (pressedNoteName) {
+        this.playNote(pressedNoteName)
+        // let keyType = pressedNote.type;
+        // if (keyType == 'white') {
+          $(`[data-keyCode=${keyCode}]`).addClass('wkey-active');
+        // } else if (keyType == 'black') {
+        //   $(`[data-keyCode=${pressedNote.keyCode}]`).addClass('bkey-active');
+        // }
       }
     },
     // 触发单个音符播放

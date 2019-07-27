@@ -1,7 +1,9 @@
 // Mixin 说明：按照自定义简谱格式，触发piano组件的自动播放
 // 简谱英文 numbered musical notation
 import { ScoreNum, OBEvent } from 'config'
+import { MusicKeyMap } from '@/config/notes'
 import Observe from 'observe'
+import Piano from '@/components/Piano'
 
 const autoKeyActiveStyle = 'auto-key-active'
 const PosPerBar = 96
@@ -35,23 +37,29 @@ export default {
       // 各种音符的时长（单位：细分位置）
       noteDur: null,
       // 当前按下的按键
-      pressedNotes: null,
+      pressedInstrumentKeys: null,
       // 当前播放的速度
       curPlayBpm: 100,
     }
   },
   methods: {
-    // 将简谱numNotation映射为notename
-    mapNum2NoteName(keyname = '', numNotation = 0) {
-      if (numNotation && keyname && this.keyMap[keyname])  {
-        let curkey = this.keyMap[keyname]
-        if (curkey && curkey[numNotation]) {
-          let notename = curkey[numNotation]
-          return notename
-        }
-      }
-      return ''
-    },
+    // // 将简谱numNotation映射为notename
+    // mapNum2NoteName(keyname = '', numNotation = 0) {
+    //   // if (numNotation && keyname && this.keyMap[keyname])  {
+    //   //   let curkey = this.keyMap[keyname]
+    //   //   if (curkey && curkey[numNotation]) {
+    //   //     let notename = curkey[numNotation]
+    //   //     return notename
+    //   //   }
+    //   // }
+    //   for (let i = 0; i < MusicKeyMap.length; i++) {
+    //     let musicKey = MusicKeyMap[i]
+    //     if (musicKey.keyName == keyname) {
+    //       return musicKey.nameMap[numNotation - 1]
+    //     }
+    //   }
+    //   return ''
+    // },
     // 计算一个小节的时长
     millisecondsPerBar() {
       if (this.playingSheet) {
@@ -76,12 +84,12 @@ export default {
         let timePerBar = this.millisecondsPerBar()
         this.curPosInBar = Math.floor(PosPerBar * (curTime - this.curBarIdx * timePerBar) / timePerBar)
         
-        if (curTime >= this.pressedNotes.releaseTime) {
-          for (let i in this.pressedNotes.notes) {
-            $(`[data-keyCode=${this.pressedNotes.notes[i].keyCode}]`).removeClass(autoKeyActiveStyle);
+        if (curTime >= this.pressedInstrumentKeys.releaseTime) {
+          for (let i in this.pressedInstrumentKeys.keyCodes) {
+            $(`[data-keyCode=${this.pressedInstrumentKeys.keyCodes[i]}]`).removeClass(autoKeyActiveStyle);
           }
-          this.pressedNotes.notes.splice(0)
-          this.pressedNotes.releaseTime = Number.MAX_VALUE
+          this.pressedInstrumentKeys.keyCodes.splice(0)
+          this.pressedInstrumentKeys.releaseTime = Number.MAX_VALUE
         }
         
         if (this.curPosInBar >= PosPerBar) {
@@ -115,15 +123,16 @@ export default {
           if (this.curNoteInBar[channel] < this.curBar[channel].length) {
             let nextNotePos = Math.floor(this.curBar[channel][this.curNoteInBar[channel]] / 10000)
             if (this.curPosInBar >= nextNotePos) {
-              let notename = this.mapNum2NoteName(this.playingSheet.key, this.curBar[channel][this.curNoteInBar[channel]] % 100)
+              let instrumentKeyIdx = this.curBar[channel][this.curNoteInBar[channel]] % 100 - 1
+              let notename = this.getNoteNameByInstrumentKeyIdx(instrumentKeyIdx)
           
               this.playNote(notename)
 
               this.curNoteInBar[channel] ++
               notePosPlayedInThisFrame = nextNotePos
-              let pressedNote = this.getNoteByName(notename)
-              this.pressedNotes.notes.push(pressedNote)
-              if (pressedNote) $(`[data-keyCode=${pressedNote.keyCode}]`).addClass(autoKeyActiveStyle)
+              let pressedKeyCode = this.getKeyCodeByInstrumentKeyIdx(instrumentKeyIdx)
+              this.pressedInstrumentKeys.keyCodes.push(pressedKeyCode)
+              if (pressedKeyCode) $(`[data-keyCode=${pressedKeyCode}]`).addClass(autoKeyActiveStyle)
 
             }
             if (nextNotePos < nextMinPos) nextMinPos = nextNotePos
@@ -137,7 +146,7 @@ export default {
           if (nextMinPos - notePosPlayedInThisFrame > this.noteDur[4]) nextMinPos = notePosPlayedInThisFrame + this.noteDur[4]
           // 最短为16分音符时长
           if (nextMinPos - notePosPlayedInThisFrame < this.noteDur[16]) nextMinPos = notePosPlayedInThisFrame + this.noteDur[16]
-          this.pressedNotes.releaseTime = (this.curBarIdx + nextMinPos / PosPerBar) * timePerBar
+          this.pressedInstrumentKeys.releaseTime = (this.curBarIdx + nextMinPos / PosPerBar) * timePerBar
         }
       }
 
@@ -164,9 +173,9 @@ export default {
       $('.piano-key').removeClass(autoKeyActiveStyle)
       
       // 按下的键
-      this.pressedNotes = {}
-      this.pressedNotes.notes = []
-      this.pressedNotes.releaseTime = Number.MAX_VALUE
+      this.pressedInstrumentKeys = {}
+      this.pressedInstrumentKeys.keyCodes = []
+      this.pressedInstrumentKeys.releaseTime = Number.MAX_VALUE
     },
     
     // 根据名字载入乐谱，根据参数决定是否在载入后开始播放
