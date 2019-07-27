@@ -245,6 +245,8 @@ export default {
         }
         Observe.$emit(OBEvent.PIANO_KEY_CHANGED, MusicKeyMap[this.curMusicKey].keyName)
       })
+
+      Observe.$on(OBEvent.SET_AUTO_PLAY_BPM, (bpm) => { this.setBpm(bpm) })
     },
     // 根据keyCode返回音符名称
     getNoteNameByKeyCode(keyCode) {

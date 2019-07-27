@@ -33,6 +33,8 @@ export const OBEvent = {
   SET_AUTO_PLAY_PROGRESS: 'SET_AUTO_PLAY_PROGRESS',
   // 设置钢琴调性
   SET_PIANO_KEY: 'SET_PIANO_KEY',
+  // 设置播放速度
+  SET_AUTO_PLAY_BPM: 'SET_AUTO_PLAY_BPM',
 
   // 自动播放事件
   // 乐曲载入事件
@@ -45,7 +47,6 @@ export const OBEvent = {
   PLAY_PROGRESS_UPDATE: 'PLAY_PROGRESS_UPDATE',
   // 钢琴的调性改变
   PIANO_KEY_CHANGED: 'PIANO_KEY_CHANGED',
-
 }
 
 export const CDN_JSDELIVR_STATIC = 'https://cdn.jsdelivr.net/gh/warpprism/cdn@latest/autopiano/static/'

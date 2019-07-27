@@ -131,21 +131,21 @@ const noteBaseUrl = '/static/notes/'
 // ]
 
 export default [
-  {keyCode: '81', key: 'Q'},
-  {keyCode: '87', key: 'W'},
-  {keyCode: '69', key: 'E'},
-  {keyCode: '82', key: 'R'},
-  {keyCode: '84', key: 'T'},
-  {keyCode: '65', key: 'A'},
-  {keyCode: '83', key: 'S'},
-  {keyCode: '68', key: 'D'},
-  {keyCode: '70', key: 'F'},
-  {keyCode: '71', key: 'G'},
-  {keyCode: '90', key: 'Z'},
-  {keyCode: '88', key: 'X'},
-  {keyCode: '67', key: 'C'},
-  {keyCode: '86', key: 'V'},
-  {keyCode: '66', key: 'B'}
+  {keyCode: '81', key: 'Q', name: 'C4'},
+  {keyCode: '87', key: 'W', name: 'D4'},
+  {keyCode: '69', key: 'E', name: 'E4'},
+  {keyCode: '82', key: 'R', name: 'F4'},
+  {keyCode: '84', key: 'T', name: 'G4'},
+  {keyCode: '65', key: 'A', name: 'A4'},
+  {keyCode: '83', key: 'S', name: 'B4'},
+  {keyCode: '68', key: 'D', name: 'C5'},
+  {keyCode: '70', key: 'F', name: 'D5'},
+  {keyCode: '71', key: 'G', name: 'E5'},
+  {keyCode: '90', key: 'Z', name: 'F5'},
+  {keyCode: '88', key: 'X', name: 'G5'},
+  {keyCode: '67', key: 'C', name: 'A5'},
+  {keyCode: '86', key: 'V', name: 'B5'},
+  {keyCode: '66', key: 'B', name: 'C6'}
 ]
 
 export const MusicKeyMap = [
@@ -159,7 +159,7 @@ export const MusicKeyMap = [
     'D4','E4','F#4','G4','A4','B4','C#5','D5','E5','F#5','G5','A5','B5','C#6','D6'
   ]},
   { keyName: 'A', nameMap: [
-    'A3','B3','C#4','D4','E4','F#4','G4','A4','B4','C#5','D5','E5','F#5','G5','A5'
+    'A3','B3','C#4','D4','E4','F#4','G#4','A4','B4','C#5','D5','E5','F#5','G#5','A5'
   ]},
   { keyName: 'E', nameMap: [
     'E4','F#4','G#4','A4','B4','C#5','D#5','E5','F#5','G#5','A5','B5','C#6','D#6','E6',

@@ -214,6 +214,13 @@ export default {
       }
     },
 
+    setBpm (bpm) {
+      this.curPlayBpm = bpm
+      this.startStmp = new Date()
+      // 推测出正确的开始时间
+      this.startStmp -= (this.curBarIdx + this.curPosInBar / PosPerBar) * this.millisecondsPerBar()
+    },
+
     // 清除自动播放计时器，清除按键样式
     clearAutoPlayTimerAndStyle () {
       $(`.piano-key`).removeClass(autoKeyActiveStyle)

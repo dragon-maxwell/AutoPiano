@@ -1,12 +1,13 @@
 <style lang="less">
 @import url('../assets/style/variable.less');
-.component-auto-play-ctrller { width: 50%; min-height: 40px; padding: 5px 0; margin: 10px auto 0px 20px; text-align: left;
+.component-auto-play-ctrller { width: 80%; min-height: 40px; padding: 5px 0; margin: 10px auto 0px 20px; text-align: left;
   .horizontal-split {display: inline-block}
-  .sheet-music-name {font-size: 30px; margin: 5px auto 10px auto}
+  .sheet-music-name {width: 400px; font-size: 30px; margin: 5px auto 10px auto}
   .ctrl-btns { display: inline-block; width: 150px; word-spacing: 10px; text-align: center; font-size:20px; font-weight:bold; line-height: 50px; margin-bottom: 10px; background-color: #FFFFFF; color: @c-blue-d; border: 1px solid blue; border-radius: 25px; box-shadow: 2px 2px 2px #888888; cursor: pointer;
     &:hover { background-color: rgb(13, 61, 65); color: rgb(193, 243, 255);} }
   .progress-bar {background-color: rgb(13, 61, 65); border: 1px solid blue; border-radius: 2px;box-shadow: 2px 2px 2px #888888;}
-  .bmp-bar {width:100px; min-height:100px; background-color: rgb(13, 61, 65); border: 1px solid blue; border-radius: 2px;box-shadow: 2px 2px 2px #888888;}
+  .bpm-txt {font-size: 25px;}
+  .bpm-bar {margin: 0 0 -10px 0; background-color: rgb(13, 61, 65); border: 1px solid blue; border-radius: 2px;box-shadow: 2px 2px 2px #888888;}
   .slider-tool-tip {border: 0px; color:rgb(255, 255, 255); background-color: rgb(0, 0, 0); font-size:20px; font-weight:bold; line-height: 22px; }
 }
 </style>
@@ -14,14 +15,20 @@
 <template>
   <div class="component-auto-play-ctrller">
     <div class="horizontal-split">
-      <div class="sheet-music-name">{{CurrentSheetMusicNameLabelText}}</div>
+        <div class="sheet-music-name">{{CurrentSheetMusicNameLabelText}}</div>
+    </div>
+    <div class="horizontal-split">
+      <div class="bpm-txt">BPM:</div>
+    </div>
+    <div class="horizontal-split">
+      <vue-slider class="bpm-bar" ref="bpmBar" @drag-start="onBpmSliderDragStart" @drag-end="onBpmSliderDragEnd" @callback="onBpmSliderCallback" v-model="bpmSlider.value" v-bind="bpmSlider.options"></vue-slider>
+    </div>
+    <div>
       <div class="ctrl-btns" @click="onPlayBtnClick">{{PlayBtnTxt}}</div> 
       <div class="ctrl-btns" @click="onStopBtnClick">{{StopBtnTxt}}</div>
       <div class="ctrl-btns" @click="onKeyBtnClick">{{KeyBtnTxt}}</div>
     </div>
-    <div class="horizontal-split">
-      <vue-slider class="bmp-bar" ref="bmpBar" @drag-start="onBmpSliderDragStart" @drag-end="onBmpSliderDragEnd" @callback="onBmpSliderCallback" v-model="bmpSlider.value" v-bind="bmpSlider.options"></vue-slider>
-    </div>
+    <!-- <div class="horizontal-split">BMP:</div> -->
     <vue-slider class="progress-bar" ref="progressBar" @drag-start="onProgressDragStart" @drag-end="onProgressDragEnd" @callback="onProgressCallback" v-model="progressBar.value" v-bind="progressBar.options"></vue-slider>
   </div>
 </template>
@@ -39,82 +46,35 @@ export default {
         value: 0,
         isDrag: false,
         options: {
-          data: null,
           eventType: 'auto',
-          width: 'auto',
+          width: 616,
           height: 30,
           dotSize: 30,
-          dotHeight: null,
-          dotWidth: null,
           min: 0,
           max: 100,
           interval: 1,
           show: true,
           speed: 0.5,
-          disabled: false,
-          piecewise: false,
-          useKeyboard: false,
-          enableCross: true,
-          piecewiseStyle: false,
-          piecewiseLabel: false,
           tooltip: 'always',
           tooltipDir: 'right',
-          reverse: false,
-          data: null,
-          clickable: true,
-          realTime: false,
-          lazy: false,
-          formatter: null,
-          bgStyle: null,
-          sliderStyle: null,
-          processStyle: null,
-          piecewiseActiveStyle: null,
-          piecewiseStyle: null,
-          tooltipStyle: null,
           tooltipClass: 'slider-tool-tip',
-          labelStyle: null,
-          labelActiveStyle: null
         },
       },
-      bmpSlider: {
-        value: 0,
+      bpmSlider: {
+        value: 80,
         isDrag: false,
         options: {
-          direction: 'vertical',
-          eventType: 'auto',
-          width: 'auto',
-          height: 30,
+          width: 150,
+          height: 20,
           dotSize: 30,
-          dotHeight: null,
-          dotWidth: null,
-          min: 0,
-          max: 100,
+          min: 25,
+          max: 250,
           interval: 1,
           show: true,
           speed: 0.5,
-          disabled: false,
-          piecewise: false,
-          useKeyboard: false,
-          enableCross: true,
-          piecewiseStyle: false,
-          piecewiseLabel: false,
           tooltip: 'always',
           tooltipDir: 'right',
-          reverse: false,
-          data: null,
-          clickable: true,
-          realTime: false,
-          lazy: false,
-          formatter: null,
-          bgStyle: null,
-          sliderStyle: null,
-          processStyle: null,
-          piecewiseActiveStyle: null,
-          piecewiseStyle: null,
-          tooltipStyle: null,
           tooltipClass: 'slider-tool-tip',
-          labelStyle: null,
-          labelActiveStyle: null
         },
       },
       CurrentSheetMusicNameLabelText: '当前播放：没有乐谱',
@@ -143,6 +103,7 @@ export default {
       this.progressBar.options.min = 1
       this.progressBar.options.max = sheetMusic.notes.length * sheetMusic.timeSignature[0]
       this.progressBar.value = 1
+      this.bpmSlider.value = sheetMusic.bpm
     })
     Observe.$on(OBEvent.PLAY_PROGRESS_UPDATE, (curBar, curQnIdx) => {
       this.progressBar.value = (curBar - 1) * this.CurrentSheetMusicTimeSignature[0] + curQnIdx
@@ -176,11 +137,14 @@ export default {
       this.progressBar.isDrag = false
       Observe.$emit(OBEvent.SET_AUTO_PLAY_PROGRESS, context.val)
     },
-    onBmpSliderCallback (val) {
+    onBpmSliderCallback (val) {
+      Observe.$emit(OBEvent.SET_AUTO_PLAY_BPM, val)
     },
-    onBmpSliderDragStart (context) {
+    onBpmSliderDragStart (context) {
+      // Observe.$emit(OBEvent.SET_AUTO_PLAY_BPM, context.val)
     },
-    onBmpSliderDragEnd (context) {
+    onBpmSliderDragEnd (context) {
+      Observe.$emit(OBEvent.SET_AUTO_PLAY_BPM, context.val)
     },
   },
   components: {
