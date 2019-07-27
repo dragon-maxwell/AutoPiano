@@ -131,37 +131,40 @@ const noteBaseUrl = '/static/notes/'
 // ]
 
 export default [
-  {id: 1, name: 'C4', keyCode: '81', key: 'Q', url: noteBaseUrl + '1.0.wav', type: 'white'},
-  {id: 2, name: 'D4', keyCode: '87', key: 'W', url: noteBaseUrl + '2.0.wav', type: 'white'},
-  {id: 3, name: 'E4', keyCode: '69', key: 'E', url: noteBaseUrl + '3.0.wav', type: 'white'},
-  {id: 4, name: 'F4', keyCode: '82', key: 'R', url: noteBaseUrl + '4.0.wav', type: 'white'},
-  {id: 5, name: 'G4', keyCode: '84', key: 'T', url: noteBaseUrl + '5.0.wav', type: 'white'},
-  {id: 6, name: 'A4', keyCode: '65', key: 'A', url: noteBaseUrl + '6.0.wav', type: 'white'},
-  {id: 7, name: 'B4', keyCode: '83', key: 'S', url: noteBaseUrl + '7.0.wav', type: 'white'},
-  {id: 8, name: 'C5', keyCode: '68', key: 'D', url: noteBaseUrl + '8.0.wav', type: 'white'},
-  {id: 9, name: 'D5', keyCode: '70', key: 'F', url: noteBaseUrl + '9.0.wav', type: 'white'},
-  {id: 10, name: 'E5', keyCode: '71', key: 'G', url: noteBaseUrl + '10.0.wav', type: 'white'},
-  {id: 26, name: 'F5', keyCode: '90', key: 'Z', url: noteBaseUrl + '11.0.wav', type: 'white'},
-  {id: 32, name: 'G5', keyCode: '88', key: 'X', url: noteBaseUrl + '12.0.wav', type: 'white'},
-  {id: 14, name: 'A5', keyCode: '67', key: 'C', url: noteBaseUrl + '13.0.wav', type: 'white'},
-  {id: 27, name: 'B5', keyCode: '86', key: 'V', url: noteBaseUrl + '14.0.wav', type: 'white'},
-  {id: 28, name: 'C6', keyCode: '66', key: 'B', url: noteBaseUrl + '15.0.wav', type: 'white'}
+  {keyCode: '81', key: 'Q'},
+  {keyCode: '87', key: 'W'},
+  {keyCode: '69', key: 'E'},
+  {keyCode: '82', key: 'R'},
+  {keyCode: '84', key: 'T'},
+  {keyCode: '65', key: 'A'},
+  {keyCode: '83', key: 'S'},
+  {keyCode: '68', key: 'D'},
+  {keyCode: '70', key: 'F'},
+  {keyCode: '71', key: 'G'},
+  {keyCode: '90', key: 'Z'},
+  {keyCode: '88', key: 'X'},
+  {keyCode: '67', key: 'C'},
+  {keyCode: '86', key: 'V'},
+  {keyCode: '66', key: 'B'}
 ]
 
-export const NotesMap = [
-  { name: 'C4', file: '1.0.mp3' },
-  { name: 'D4', file: '2.0.mp3' },
-  { name: 'E4', file: '3.0.mp3' },
-  { name: 'F4', file: '4.0.mp3' },
-  { name: 'G4', file: '5.0.mp3' },
-  { name: 'A4', file: '6.0.mp3' },
-  { name: 'B4', file: '7.0.mp3' },
-  { name: 'C5', file: '8.0.mp3' },
-  { name: 'D5', file: '9.0.mp3' },
-  { name: 'E5', file: '10.0.mp3' },
-  { name: 'F5', file: '11.0.mp3' },
-  { name: 'G5', file: '12.0.mp3' },
-  { name: 'A5', file: '13.0.mp3' },
-  { name: 'B5', file: '14.0.mp3' },
-  { name: 'C6', file: '15.0.mp3' }
+export const MusicKeyMap = [
+  { keyName: 'C', nameMap: [
+    'C4','D4','E4','F4','G4','A4','B4','C5','D5','E5','F5','G5','A5','B5','C6'
+  ]},
+  { keyName: 'G', nameMap: [
+    'G3','A3','B3','C4','D4','E4','F#4','G4','A4','B4','C5','D5','E5','F#5','G5',
+  ]},
+  { keyName: 'D', nameMap: [
+    'D4','E4','F#4','G4','A4','B4','C#5','D5','E5','F#5','G5','A5','B5','C#6','D6'
+  ]},
+  { keyName: 'A', nameMap: [
+    'A3','B3','C#4','D4','E4','F#4','G4','A4','B4','C#5','D5','E5','F#5','G5','A5'
+  ]},
+  { keyName: 'E', nameMap: [
+    'E4','F#4','G#4','A4','B4','C#5','D#5','E5','F#5','G#5','A5','B5','C#6','D#6','E6',
+  ]},
+  { keyName: 'B', nameMap: [
+    'B3','C#4','D#4','E4','F#4','G#4','A#4','B4','C#5','D#5','E5','F#5','G#5','A#5','B5',
+  ]},
 ]
