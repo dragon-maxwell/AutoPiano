@@ -259,6 +259,10 @@ export default {
       }
       return target
     },
+    // 根据虚拟按键编码[1,15]返回音符名称
+    getNoteNameByVirtualKeyCode(virtualKeyCode) {
+      
+    },
     getNoteByName(name = 'C4') {
       // 改为更高性能的写法
       let target
