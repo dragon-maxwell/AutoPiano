@@ -70,10 +70,9 @@ var SampleLibrary = {
                     })
 
                 }
-
                 rt[t.instruments[i]] = new Tone.Sampler(
                     newT, {
-                        baseUrl: t.baseUrl + t.instruments[i] + "/",
+                        baseUrl: '',
                         onload: t.onload
                     }
                 )
@@ -111,7 +110,7 @@ var SampleLibrary = {
             // }
             var s = new Tone.Sampler(
                 newT, {
-                    baseUrl: t.baseUrl + t.instruments + "/",
+                    baseUrl: "",
                     onload: t.onload
                 }
             )
@@ -454,21 +453,21 @@ var SampleLibrary = {
         // 'B6':  mapFile('B6'),
         // 'C2':  mapFile('C2'),
         // 'C3':  mapFile('C3'),
-        'C4':  'C4.[mp3|ogg]',
-        'C5':  'C5.[mp3|ogg]',
-        'C6':  'C6.[mp3|ogg]',
+        'C4':  require('@static/samples/piano/C4.mp3'),
+        'C5':  require('@static/samples/piano/C5.mp3'),
+        'C6':  require('@static/samples/piano/C6.mp3'),
         // 'C7':  mapFile('C7'),
         // 'C#2': mapFile('C#2'),
         // 'C#3': mapFile('C#3'),
         // 'C#4': mapFile('C#4'),
-        'C#5': 'Cs5.[mp3|ogg]',
-        'C#6': 'Cs6.[mp3|ogg]',
+        'C#5': require('@static/samples/piano/Cs5.mp3'),
+        'C#6': require('@static/samples/piano/Cs6.mp3'),
         // 'D0':  mapFile('D0'),
         // 'D1':  mapFile('D1'),
         // 'D2':  mapFile('D2'),
         // 'D3':  mapFile('D3'),
-        'D4':  'D4.[mp3|ogg]',
-        'D5':  'D5.[mp3|ogg]',
+        'D4':  require('@static/samples/piano/D4.mp3'),
+        'D5':  require('@static/samples/piano/D5.mp3'),
         // 'D6':  mapFile('D6'),
         // 'D#2': mapFile('D#2'),
         // 'D#3': mapFile('D#3'),
@@ -477,23 +476,23 @@ var SampleLibrary = {
         // 'D#6': mapFile('D#6'),
         // 'E2':  mapFile('E2'),
         // 'E3':  mapFile('E3'),
-        'E4':  'E4.[mp3|ogg]',
-        'E5':  'E5.[mp3|ogg]',
+        'E4':  require('@static/samples/piano/E4.mp3'),
+        'E5':  require('@static/samples/piano/E5.mp3'),
         // 'E6':  mapFile('E6'),
         // 'F2':  mapFile('F2'),
         // 'F3':  mapFile('F3'),
-        'F4':  'F4.[mp3|ogg]',
-        'F5':  'F5.[mp3|ogg]',
+        'F4':  require('@static/samples/piano/F4.mp3'),
+        'F5':  require('@static/samples/piano/F5.mp3'),
         // 'F6':  mapFile('F6'),
         // 'F#2': mapFile('F#2'),
         // 'F#3': mapFile('FS3'),
-        'F#4': 'Fs4.[mp3|ogg]',
-        'F#5': 'Fs5.[mp3|ogg]',
+        'F#4': require('@static/samples/piano/Fs4.mp3'),
+        'F#5': require('@static/samples/piano/Fs5.mp3'),
         // 'F#6': mapFile('F#6'),
         // 'G2':  mapFile('G2'),
         // 'G3':  mapFile('G3'),
-        'G4':  'G4.[mp3|ogg]',
-        'G5':  'G5.[mp3|ogg]',
+        'G4':  require('@static/samples/piano/G4.mp3'),
+        'G5':  require('@static/samples/piano/G5.mp3'),
         // 'G6':  mapFile('G6'),
         // 'G#2': mapFile('G#2'),
         // 'G#3': mapFile('G#3'),

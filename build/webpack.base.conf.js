@@ -23,6 +23,7 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
+      '@static': resolve('static'),
       'config': resolve('src/config'),
       'observe': resolve('src/utils/observe')
     }
@@ -51,7 +52,7 @@ module.exports = {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
         loader: 'url-loader',
         options: {
-          limit: 10000,
+          limit: 50000,
           name: utils.assetsPath('media/[name].[hash:7].[ext]')
         }
       },
