@@ -36,6 +36,11 @@ export const OBEvent = {
   // 设置播放速度
   SET_AUTO_PLAY_BPM: 'SET_AUTO_PLAY_BPM',
 
+  // 开始录制
+  START_RECORDING: 'START_RECORDING',
+  // 停止录制
+  STOP_RECORDING: 'STOP_RECORDING',
+
   // 自动播放事件
   // 乐曲载入事件
   SHEET_MUSIC_LOADED: 'SHEET_MUSIC_LOADED',
@@ -47,6 +52,12 @@ export const OBEvent = {
   PLAY_PROGRESS_UPDATE: 'PLAY_PROGRESS_UPDATE',
   // 钢琴的调性改变
   PIANO_KEY_CHANGED: 'PIANO_KEY_CHANGED',
+  // 录音节拍
+  RECORDING_BEAT: 'RECORDING_BEAT',
+  // 录音开始
+  RECORDING_STARTED: 'RECORDING_STARTED',
+  // 录音结束
+  RECORDING_FINISHED: 'RECORDING_FINISHED',
 }
 
 export const CDN_JSDELIVR_STATIC = 'https://cdn.jsdelivr.net/gh/warpprism/cdn@latest/autopiano/static/'

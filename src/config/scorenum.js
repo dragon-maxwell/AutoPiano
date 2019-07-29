@@ -2,6 +2,7 @@
 
 const ScoreNum = [
   {
+    record: false,
     name: '大鱼',
     key: 'C',
     timeSignature: [4,4],
@@ -42,6 +43,7 @@ const ScoreNum = [
     ],
   },
   {
+    record: false,
     name: '测试用的假大鱼',
     key: 'D',
     timeSignature: [4,4],

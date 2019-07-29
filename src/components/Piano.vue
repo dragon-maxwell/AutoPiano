@@ -247,6 +247,8 @@ export default {
       })
 
       Observe.$on(OBEvent.SET_AUTO_PLAY_BPM, (bpm) => { this.setBpm(bpm) })
+      Observe.$on(OBEvent.START_RECORDING, (bpm) => { this.startRecording() })
+      Observe.$on(OBEvent.STOP_RECORDING, (bpm) => { this.stopRecording() })
     },
     // 根据keyCode返回音符名称
     getNoteNameByKeyCode(keyCode) {
@@ -270,6 +272,14 @@ export default {
     getKeyCodeByInstrumentKeyIdx(instrumentKeyIdx) {
       // 改为更高性能的写法
       return this.Notes[instrumentKeyIdx].keyCode
+    },
+    getInstrumentKeyIdxByKeyCode(keyCode) {
+      for (let i = 0; i < this.Notes.length; i++) {
+        if (this.Notes[i].keyCode == keyCode) {
+          return i
+        }
+      }
+      return -1
     },
 
     getCurMusicKeyName () {
@@ -350,6 +360,9 @@ export default {
       if(!window.isMobile){
         let pressedNoteName = this.getNoteNameByKeyCode(keyCode)
         if (pressedNoteName) {
+          if (this.isRecording) {
+            this.addRecordInput(keyCode)
+          }
           this.playNote(pressedNoteName)
         }
       }
@@ -380,6 +393,9 @@ export default {
       if(window.isMobile){
         let pressedNoteName = this.getNoteNameByKeyCode(keyCode)
         if (pressedNoteName) {
+          if (this.isRecording) {
+            this.addRecordInput(keyCode)
+          }
           this.playNote(pressedNoteName)
           $(`[data-keyCode=${keyCode}]`).addClass('wkey-active');
           // e.preventDefault();
@@ -402,6 +418,9 @@ export default {
     playNoteByKeyCode(keyCode) {
       let pressedNoteName = this.getNoteNameByKeyCode(keyCode)
       if (pressedNoteName) {
+        if (this.isRecording) {
+          this.addRecordInput(keyCode)
+        }
         this.playNote(pressedNoteName)
         // let keyType = pressedNote.type;
         // if (keyType == 'white') {
