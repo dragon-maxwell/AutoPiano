@@ -430,8 +430,8 @@ export default {
         let pressedNoteName = this.getNoteNameByKeyCode(keyCode)
         if (pressedNoteName) {
           // $(`[data-keyCode=${keyCode}]`).addClass('wkey-active');
-          $(`[data-keyCode=${pressedNote.keyCode}]`).css('animation', 'scale-keyframes 0.05s linear 1');
-          let rotateDataKeyCode = pressedNote.keyCode+'rotate';
+          $(`[data-keyCode=${keyCode}]`).css('animation', 'scale-keyframes 0.05s linear 1');
+          let rotateDataKeyCode = keyCode+'rotate';
           $(`[data-keyCode=${rotateDataKeyCode}]`).css('animation', 'rotate-keyframes 0.375s linear 1');
         }
       }
@@ -460,8 +460,8 @@ export default {
           }
           this.playNote(pressedNoteName)
           // $(`[data-keyCode=${keyCode}]`).addClass('wkey-active');
-          $(`[data-keyCode=${pressedNote.keyCode}]`).css('animation', 'scale-keyframes 0.05s linear 1');
-          let rotateDataKeyCode = pressedNote.keyCode+'rotate';
+          $(`[data-keyCode=${keyCode}]`).css('animation', 'scale-keyframes 0.05s linear 1');
+          let rotateDataKeyCode = keyCode+'rotate';
           $(`[data-keyCode=${rotateDataKeyCode}]`).css('animation', 'rotate-keyframes 0.375s linear 1');
           // 振动
           if (navigator.vibrate) {
