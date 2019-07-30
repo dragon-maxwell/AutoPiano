@@ -1,6 +1,7 @@
 <style lang="less">
 @import url('../assets/style/variable.less');
-.component-auto-play-ctrller { width: 80%; min-height: 40px; padding: 5px 0; margin: 10px auto 0px 20px; text-align: left;
+.component-auto-play-ctrller { width: 1000px; min-height: 40px; padding: 5px 0; margin: 10px auto 0px 20px; text-align: left;
+  .logo-imge {width: 200px; display:block}
   .horizontal-split {display: inline-block}
   .sheet-music-name {width: 400px; font-size: 30px; margin: 5px auto 10px auto}
   .ctrl-btns { display: inline-block; width: 150px; word-spacing: 10px; text-align: center; font-size:20px; font-weight:bold; line-height: 50px; margin-bottom: 10px; background-color: #FFFFFF; color: @c-blue-d; border: 1px solid blue; border-radius: 25px; box-shadow: 2px 2px 2px #888888; cursor: pointer;
@@ -18,6 +19,7 @@
 
 <template>
   <div class="component-auto-play-ctrller">
+    <img src="../assets/images/skylogo.png" alt="" class="logo-imge">
     <div class="horizontal-split">
         <div class="sheet-music-name">{{CurrentSheetMusicNameLabelText}}</div>
     </div>
@@ -33,7 +35,6 @@
       <div class="ctrl-btns" @click="onKeyBtnClick">{{KeyBtnTxt}}</div>
       <div class="ctrl-btns" id="record-btn" @click="onRecordBtnClick">{{RecordBtnTxt}}</div>
     </div>
-    <!-- <div class="horizontal-split">BMP:</div> -->
     <vue-slider class="progress-bar" ref="progressBar" @drag-start="onProgressDragStart" @drag-end="onProgressDragEnd" @callback="onProgressCallback" v-model="progressBar.value" v-bind="progressBar.options"></vue-slider>
   </div>
 </template>
