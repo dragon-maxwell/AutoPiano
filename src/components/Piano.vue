@@ -271,7 +271,9 @@ export default {
     },
     getKeyCodeByInstrumentKeyIdx(instrumentKeyIdx) {
       // 改为更高性能的写法
-      return this.Notes[instrumentKeyIdx].keyCode
+      if (instrumentKeyIdx >= 0 && this.Notes.length > instrumentKeyIdx) {
+        return this.Notes[instrumentKeyIdx].keyCode
+      } else { return -1 }
     },
     getInstrumentKeyIdxByKeyCode(keyCode) {
       for (let i = 0; i < this.Notes.length; i++) {
@@ -352,6 +354,9 @@ export default {
         }
         $(`.wkey`).removeClass('wkey-active')
         // $(`.bkey`).removeClass('bkey-active')
+        if (this.isRecording) {
+          this.addRecordRelease(keyCode)
+        }
       }, false)
     },
 
@@ -361,7 +366,7 @@ export default {
         let pressedNoteName = this.getNoteNameByKeyCode(keyCode)
         if (pressedNoteName) {
           if (this.isRecording) {
-            this.addRecordInput(keyCode)
+            this.addRecordPress(keyCode)
           }
           this.playNote(pressedNoteName)
         }
@@ -384,6 +389,9 @@ export default {
         let pressedNoteName = this.getNoteNameByKeyCode(keyCode)
         if (pressedNoteName) {
           $(`.wkey`).removeClass('wkey-active');
+          if (this.isRecording) {
+            this.addRecordRelease(keyCode)
+          }
         }
       }
     },
@@ -394,7 +402,7 @@ export default {
         let pressedNoteName = this.getNoteNameByKeyCode(keyCode)
         if (pressedNoteName) {
           if (this.isRecording) {
-            this.addRecordInput(keyCode)
+            this.addRecordPress(keyCode)
           }
           this.playNote(pressedNoteName)
           $(`[data-keyCode=${keyCode}]`).addClass('wkey-active');
@@ -409,6 +417,9 @@ export default {
         let pressedNoteName = this.getNoteNameByKeyCode(keyCode)
         if (pressedNoteName) {
           $(`.wkey`).removeClass('wkey-active');
+          if (this.isRecording) {
+            this.addRecordRelease(keyCode)
+          }
           // e.preventDefault();
         }
       }
@@ -419,7 +430,7 @@ export default {
       let pressedNoteName = this.getNoteNameByKeyCode(keyCode)
       if (pressedNoteName) {
         if (this.isRecording) {
-          this.addRecordInput(keyCode)
+          this.addRecordPress(keyCode)
         }
         this.playNote(pressedNoteName)
         // let keyType = pressedNote.type;
