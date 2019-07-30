@@ -482,6 +482,7 @@ export default {
           if (this.isRecording) {
             this.addRecordRelease(keyCode)
           }
+        }
       }
     },
 
