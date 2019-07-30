@@ -439,5 +439,23 @@ export default {
         this.recordData.notes[this.curBarIdx].push(100000 + this.curPosInBar * 100 + instrumentKeyIdx + 1)
       }
     },
+
+    exportRecordData () {
+        //定义文件内容，类型必须为Blob 否则createObjectURL会报错
+        let content = new Blob([JSON.stringify(this.recordData)])
+   
+        //生成url对象
+        let  urlObject = window.URL || window.webkitURL || window	
+        let url = urlObject.createObjectURL(content)	
+        //生成<a></a>DOM元素
+        let el = document.createElement('a')
+        //链接赋值
+        el.href = url
+        el.download ="我的演奏录音.txt"
+        //必须点击否则不会下载
+        el.click()		
+        //移除链接释放资源		
+        urlObject.revokeObjectURL(url)
+    },
   }
 }

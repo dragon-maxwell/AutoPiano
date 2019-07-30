@@ -40,6 +40,8 @@ export const OBEvent = {
   START_RECORDING: 'START_RECORDING',
   // 停止录制
   STOP_RECORDING: 'STOP_RECORDING',
+  // 保存录音文件
+  SAVE_RECORD_FILE: 'SAVE_RECORD_FILE',
 
   // 自动播放事件
   // 乐曲载入事件

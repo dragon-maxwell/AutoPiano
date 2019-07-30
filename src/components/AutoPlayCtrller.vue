@@ -34,6 +34,7 @@
       <div class="ctrl-btns" @click="onStopBtnClick">{{StopBtnTxt}}</div>
       <div class="ctrl-btns" @click="onKeyBtnClick">{{KeyBtnTxt}}</div>
       <div class="ctrl-btns" id="record-btn" @click="onRecordBtnClick">{{RecordBtnTxt}}</div>
+      <div class="ctrl-btns" @click="onSaveBtnClick">SaveRecordFile</div>
     </div>
     <vue-slider class="progress-bar" ref="progressBar" @drag-start="onProgressDragStart" @drag-end="onProgressDragEnd" @callback="onProgressCallback" v-model="progressBar.value" v-bind="progressBar.options"></vue-slider>
   </div>
@@ -52,6 +53,7 @@ export default {
         value: 0,
         isDrag: false,
         options: {
+          disabled: false,
           eventType: 'auto',
           width: 616,
           height: 30,
@@ -70,6 +72,7 @@ export default {
         value: 80,
         isDrag: false,
         options: {
+          disabled: false,
           width: 150,
           height: 20,
           dotSize: 30,
@@ -134,23 +137,28 @@ export default {
     Observe.$on(OBEvent.RECORDING_STARTED, () => {
       this.IsRecording = true
       this.RecordBtnTxt = 'FINISH'
-      this.CurrentSheetMusicNameLabelText = '正在录音'
+      this.CurrentSheetMusicNameLabelText = '正在录音...'
+      this.progressBar.options.disabled = true;
     })
     Observe.$on(OBEvent.RECORDING_FINISHED, () => {
       this.IsRecording = false
       this.RecordBtnTxt = 'RECORD'
+      this.progressBar.options.disabled = false;
     })
   },
   methods: {
     onPlayBtnClick () {
+      if (this.IsRecording) return
       if (this.IsPlaying) Observe.$emit(OBEvent.PAUSE_AUTO_PLAY)
       else Observe.$emit(OBEvent.START_AUTO_PLAY)
     },
     onStopBtnClick () {
+      if (this.IsRecording) return
         Observe.$emit(OBEvent.STOP_AUTO_PLAY)
     },
 
     onKeyBtnClick () {
+        if (this.IsRecording) return
         Observe.$emit(OBEvent.SET_PIANO_KEY)
     },
     onRecordBtnClick () {
@@ -181,6 +189,9 @@ export default {
     onBpmSliderDragEnd (context) {
       Observe.$emit(OBEvent.SET_AUTO_PLAY_BPM, context.val)
     },
+    onSaveBtnClick () {
+      Observe.$emit(OBEvent.SAVE_RECORD_FILE)
+    }
   },
   components: {
     vueSlider

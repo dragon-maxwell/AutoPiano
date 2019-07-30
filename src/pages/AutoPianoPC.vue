@@ -31,6 +31,7 @@
       <div class="score-section responsive-section-a">
         <!-- <ManualPlayScoreList></ManualPlayScoreList> -->
         <AutoPlayScoreList></AutoPlayScoreList>
+        <SheetImport></SheetImport>
       </div>
       <!-- <div class="right-drawer" :class="{'show': rightDrawerShow}">
         <div class="trigger" @click="toggleRightDrawer">歌曲列表</div>
@@ -54,6 +55,7 @@ import Piano from '@/components/Piano'
 import ManualPlayScoreList from '@/components/ManualPlayScoreList'
 import AutoPlayScoreList from '@/components/AutoPlayScoreList'
 import AutoPlayCtrller from '@/components/AutoPlayCtrller'
+import SheetImport from '@/components/SheetImport'
 
 
 import { mapActions, mapGetters } from 'vuex'
@@ -69,6 +71,7 @@ export default {
     ManualPlayScoreList,
     AutoPlayScoreList,
     AutoPlayCtrller,
+    SheetImport,
   },
   data() {
     return {
