@@ -14,6 +14,7 @@
       }
     }
     .right-drawer.show { right: 0; }
+    .wkey { margin: 3px 3px !important;}
   }
 }
 </style>

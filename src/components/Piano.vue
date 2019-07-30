@@ -6,16 +6,12 @@
   .piano-scroll-wrap { width: 100%; overflow: visible; }
   .piano-wrap.visible { opacity: 1; }
   .piano-wrap { width: 90%; margin: 20px auto; box-shadow: 5px 5px 20px 5px #888; border-radius: 5px; position: relative; overflow: hidden; opacity: 0;
-    .piano-band { width: 100%; height: 40px; line-height: 40px; background:#000;  box-shadow:inset 0px -1px 2px rgba(255,255,255,0.4),0 2px 3px rgba(0,0,0,0.4); border-width: 3px 2px 2px; border-style:solid; border-color: #555 #222 #111 #777; position: relative;
-      .piano-band-img { width: 130px; height:100%; position: absolute; top: 0; left: 50%; transform: translateX(-50%); }
-      .piano-tip { position: absolute; top: 50%; right: 20px; transform: translateY(-50%); color: #fff; font-size: 14px; }
-    }
     .piano-key-wrap { width: 100%; height: 300px; overflow: hidden; position: relative;
       .piano-key {
         &:hover { cursor: pointer; }
       }
 
-      .wkey { display: inline-block; width: 9%; height: 30%; margin: 0 auto; background:#fff; background:linear-gradient(-30deg,#f5f5f5,#fff); border:1px solid #ccc; box-shadow:inset 0 1px 0px #fff,inset 0 -1px 0px #fff,inset 1px 0px 0px #fff,inset -1px 0px 0px #fff,0 4px 3px rgba(0,0,0,0.7); border-radius: 0 0 5px 5px; position: relative;
+      .wkey { display: inline-block; width: 8%; height: 30%; margin: 8px 8px; background:hsla(0,0%,100%,.25) border-box;  border:1px solid #ccc; box-shadow:inset 0 1px 0px #fff,inset 0 -1px 0px #fff,inset 1px 0px 0px #fff,inset -1px 0px 0px #fff,0 4px 3px rgba(0,0,0,0.7); border-radius: 0 0 5px 5px; position: relative;
 
         
         // &:active:before { content:""; border-width:80px 5px 0px; border-style:solid; border-color:transparent rgba(0,0,0,0.1) transparent transparent; position: absolute; right: 0; bottom: 0; }
@@ -26,7 +22,7 @@
           .notename { color: @c-blue; font-weight: bold; }
         }
       }
-      .wkey-active { width: 9%; height: 30%; box-shadow:0 2px 2px rgba(255,0,0,0.4); top: -1%;  background: #FF8C00;
+      .wkey-active { width: 8%; height: 30%; box-shadow:0 2px 2px rgba(255,0,0,0.4); top: -1%;  background: #FF8C00;
         // &:before { content:""; border-width:250px 5px 0px; border-style:solid; border-color:transparent transparent transparent rgba(0,0,0,0.1); position: absolute; left: 0; bottom: 0; }
         // &:after { content:""; border-width:250px 5px 0px; border-style:solid; border-color:transparent rgba(0,0,0,0.1) transparent transparent; position: absolute; right: 0; bottom: 0; }
 
@@ -42,7 +38,7 @@
       }
       .bkey-active { height:101%; border-bottom-width:2px; box-shadow:inset 0px -1px 1px rgba(255,255,255,0.4),0 1px 0px rgba(0,0,0,0.8),0 2px 2px rgba(0,0,0,0.4),0 -1px 0px #000; }
 
-      .wkey.auto-key-active { width: 9%; height: 30%; box-shadow:0 2px 2px rgba(255,0,0,0.4); top: -1%;  background: #FF8C00;
+      .wkey.auto-key-active { width: 8%; height: 30%; box-shadow:0 2px 2px rgba(255,0,0,0.4); top: -1%;  background: #FF8C00;
         &:before { content:""; border-width:250px 5px 0px; border-style:solid; border-color:transparent transparent transparent rgba(0,0,0,0.1); position: absolute; top: 0; left: 0; }
         &:after { content:""; border-width:250px 5px 0px; border-style:solid; border-color:transparent rgba(0,0,0,0.1) transparent transparent; position: absolute; right: 0; left: 0; }
       }
@@ -81,6 +77,58 @@
       }
     }
   }
+
+  .key-scale-animation{
+      animation:scale-keyframes 0.05s linear 1;
+  }
+  @-webkit-keyframes scale-keyframes{
+    0%{transform: scale(1);}
+    50%{transform: scale(0.6);}
+    100%{transform: scale(1);}
+  }
+
+  .key-rotate-animation{
+    animation:rotate-keyframes 0.375s linear 1;
+  }
+  @-webkit-keyframes rotate-keyframes{
+    0%{-webkit-transform:rotateY(0deg) rotateZ(45deg);}
+    25%{-webkit-transform:rotateY(90deg) rotateZ(45deg);}
+    50%{-webkit-transform:rotateY(180deg) rotateZ(45deg);}
+    75%{-webkit-transform:rotateY(270deg) rotateZ(45deg);}
+    100%{-webkit-transform:rotateY(360deg) rotateZ(45deg);}
+  }
+
+  .diamonds{
+    width: 30%;
+    border: 1px solid orange;
+    box-shadow: 0px 0px 15px orange inset,0px 0px 15px orange;
+    transform:rotateZ(45deg);
+    -ms-transform:rotateZ(45deg); /* Internet Explorer */
+    -moz-transform:rotateZ(45deg); /* Firefox */
+    -webkit-transform:rotateZ(45deg); /* Safari 和 Chrome */
+    -o-transform:rotateZ(45deg); /* Opera */
+    margin: 25px auto;/*让菱形浏览器上居中*/
+    &:after {
+      content: '';
+      display: block;
+      margin-top: 100%; //margin 百分比相对父元素宽度计算
+    }
+  }
+
+  .circle {
+    width: 30%;
+    border: 1px solid orange;
+    box-shadow: 0px 0px 15px orange inset,0px 0px 15px orange;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    margin: 25px auto;/*让菱形浏览器上居中*/
+    &:after {
+      content: '';
+      display: block;
+      margin-top: 100%; //margin 百分比相对父元素宽度计算
+    }
+ }
 }
 
 </style>
@@ -94,30 +142,33 @@
           <div class="piano-tip">⇧ 代表 shift 键</div>
         </div> -->
         <div class="piano-key-wrap">
-          <div class="piano-key wkey" v-for="(note,index) in Notes" :key="note.keyCode" :data-keyCode="note.keyCode"
+          <div class="piano-key wkey key-scale-animation" v-for="(note,index) in Notes" :key="note.keyCode" :data-keyCode="note.keyCode"
             :data-name="note.name" v-if="index<=4 && index>=0" @click.stop="clickPianoKey($event, note.keyCode)" 
             @mousedown="clickPianoKeyDown($event, note.keyCode)" @mouseup="clickPianoKeyUp($event, note.keyCode)" 
             @touchstart="touchPianoKeyDown($event, note.keyCode)" @touchend="touchPianoKeyUp($event, note.keyCode)">
+            <div class="key-rotate-animation" :class="(index%2 ==0) ? 'diamonds' : 'circle'" :data-keyCode="note.keyCode+'rotate'"></div>
             <div class="keytip">
               <div class="keyname" v-show="showKeyName">{{note.key}}</div>
               <div class="notename" v-show="showNoteName">{{note.name}}</div>
             </div>
           </div>
           <div></div>
-          <div class="piano-key wkey" v-for="(note,index) in Notes" :key="note.keyCode" :data-keyCode="note.keyCode"
+          <div class="piano-key wkey key-scale-animation" v-for="(note,index) in Notes" :key="note.keyCode" :data-keyCode="note.keyCode"
             :data-name="note.name" v-if="index<=9 && index>=5" @click.stop="clickPianoKey($event, note.keyCode)" 
             @mousedown="clickPianoKeyDown($event, note.keyCode)" @mouseup="clickPianoKeyUp($event, note.keyCode)" 
             @touchstart="touchPianoKeyDown($event, note.keyCode)" @touchend="touchPianoKeyUp($event, note.keyCode)">
+            <div class="key-rotate-animation" :class="(index%2 ==0) ? 'diamonds' : 'circle'" :data-keyCode="note.keyCode+'rotate'"></div>
             <div class="keytip">
               <div class="keyname" v-show="showKeyName">{{note.key}}</div>
               <div class="notename" v-show="showNoteName">{{note.name}}</div>
             </div>
           </div>
           <div></div>
-          <div class="piano-key wkey" v-for="(note,index) in Notes" :key="note.keyCode" :data-keyCode="note.keyCode"
+          <div class="piano-key wkey key-scale-animation" v-for="(note,index) in Notes" :key="note.keyCode" :data-keyCode="note.keyCode"
             :data-name="note.name" v-if="index<=14 && index>=10" @click.stop="clickPianoKey($event, note.keyCode)" 
             @mousedown="clickPianoKeyDown($event, note.keyCode)" @mouseup="clickPianoKeyUp($event, note.keyCode)" 
             @touchstart="touchPianoKeyDown($event, note.keyCode)" @touchend="touchPianoKeyUp($event, note.keyCode)">
+            <div class="key-rotate-animation" :class="(index%2 ==0) ? 'diamonds' : 'circle'" :data-keyCode="note.keyCode+'rotate'"></div>
             <div class="keytip">
               <div class="keyname" v-show="showKeyName">{{note.key}}</div>
               <div class="notename" v-show="showNoteName">{{note.name}}</div>
@@ -378,7 +429,10 @@ export default {
       if(!window.isMobile){
         let pressedNoteName = this.getNoteNameByKeyCode(keyCode)
         if (pressedNoteName) {
-          $(`[data-keyCode=${keyCode}]`).addClass('wkey-active');
+          // $(`[data-keyCode=${keyCode}]`).addClass('wkey-active');
+          $(`[data-keyCode=${pressedNote.keyCode}]`).css('animation', 'scale-keyframes 0.05s linear 1');
+          let rotateDataKeyCode = pressedNote.keyCode+'rotate';
+          $(`[data-keyCode=${rotateDataKeyCode}]`).css('animation', 'rotate-keyframes 0.375s linear 1');
         }
       }
     },
@@ -388,7 +442,7 @@ export default {
       if(!window.isMobile){
         let pressedNoteName = this.getNoteNameByKeyCode(keyCode)
         if (pressedNoteName) {
-          $(`.wkey`).removeClass('wkey-active');
+          // $(`.wkey`).removeClass('wkey-active');
           if (this.isRecording) {
             this.addRecordRelease(keyCode)
           }
@@ -405,8 +459,16 @@ export default {
             this.addRecordPress(keyCode)
           }
           this.playNote(pressedNoteName)
-          $(`[data-keyCode=${keyCode}]`).addClass('wkey-active');
-          // e.preventDefault();
+          // $(`[data-keyCode=${keyCode}]`).addClass('wkey-active');
+          $(`[data-keyCode=${pressedNote.keyCode}]`).css('animation', 'scale-keyframes 0.05s linear 1');
+          let rotateDataKeyCode = pressedNote.keyCode+'rotate';
+          $(`[data-keyCode=${rotateDataKeyCode}]`).css('animation', 'rotate-keyframes 0.375s linear 1');
+          // 振动
+          if (navigator.vibrate) {
+              navigator.vibrate(100);
+          } else if (navigator.webkitVibrate) {
+              navigator.webkitVibrate(100);
+          }
         }
       }
     },
@@ -420,8 +482,6 @@ export default {
           if (this.isRecording) {
             this.addRecordRelease(keyCode)
           }
-          // e.preventDefault();
-        }
       }
     },
 
@@ -449,5 +509,19 @@ export default {
       } catch (e) {}
     }
   }
+}
+
+window.onload=function(){
+  $(".key-scale-animation").each(function() {
+    $(this)[0].addEventListener("animationend",function(){
+        $(this).css("animation","none");
+    });
+  });
+
+  $(".key-rotate-animation").each(function() {
+    $(this)[0].addEventListener("animationend",function(){
+        $(this).css("animation","none");
+    });
+  });
 }
 </script>
