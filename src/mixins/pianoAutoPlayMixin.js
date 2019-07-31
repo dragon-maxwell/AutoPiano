@@ -1,9 +1,7 @@
 // Mixin 说明：按照自定义简谱格式，触发piano组件的自动播放
 // 简谱英文 numbered musical notation
 import { ScoreNum, OBEvent } from 'config'
-import { MusicKeyMap } from '@/config/notes'
 import Observe from 'observe'
-import Piano from '@/components/Piano'
 
 const autoKeyActiveStyle = 'auto-key-active'
 const PosPerBar = 96
@@ -378,7 +376,7 @@ export default {
       // this.recordData.splice(0)
       this.recordData = {
         record: true,
-        name: '演奏录音',
+        name: '我的演奏',
         key: this.getCurMusicKeyName(),
         timeSignature: [4,4],
         bpm: this.curPlayBpm,
@@ -454,8 +452,8 @@ export default {
       }
       this.pauseAutoPlay()
       this.rewindPlayPos()
-
+      this.startAutoPlay()
       Observe.$emit(OBEvent.SHEET_MUSIC_LOADED, this.playingSheet)
     },
-  }
+  },
 }

@@ -304,7 +304,6 @@ export default {
       Observe.$on(OBEvent.SET_AUTO_PLAY_BPM, (bpm) => { this.setBpm(bpm) })
       Observe.$on(OBEvent.START_RECORDING, (bpm) => { this.startRecording() })
       Observe.$on(OBEvent.STOP_RECORDING, (bpm) => { this.stopRecording() })
-      // Observe.$on(OBEvent.SAVE_RECORD_FILE, () => { this.exportRecordData() })
     },
     // 根据keyCode返回音符名称
     getNoteNameByKeyCode(keyCode) {
