@@ -97,6 +97,7 @@
         <!-- <ManualPlayScoreList></ManualPlayScoreList> -->
         <AutoPlayScoreList></AutoPlayScoreList>
       </div>
+      <SheetShare></SheetShare>
       <div class="blank" style="height: 100px;"></div>
       <!-- <PageFooter></PageFooter> -->
     </div>
@@ -111,6 +112,7 @@ import Piano from '@/components/Piano'
 import ManualPlayScoreList from '@/components/ManualPlayScoreList'
 import AutoPlayScoreList from '@/components/AutoPlayScoreList'
 import AutoPlayCtrller from '@/components/AutoPlayCtrller'
+import SheetShare from '@/components/SheetShare'
 
 export default {
   name: 'AutoPianoMobile',
@@ -122,6 +124,7 @@ export default {
     ManualPlayScoreList,
     AutoPlayScoreList,
     AutoPlayCtrller,
+    SheetShare,
   },
   data() {
     return {

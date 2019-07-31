@@ -326,7 +326,7 @@ export default {
     startAutoPlay() {
       if (this.playingSheet) {  
         if (this.playingSheet.notes.length == 0) {
-          alert('音乐是空的哦')
+          Observe.$emit(OBEvent.POPUP_DIALOG, '音乐是空的哦')
           return
         }
         this.initPlayParam()
@@ -350,7 +350,7 @@ export default {
     setAutoPlayProgress (progressPos) {
       if (this.playingSheet) {
         if (this.playingSheet.notes.length == 0) {
-          alert('音乐是空的哦')
+          Observe.$emit(OBEvent.POPUP_DIALOG, '音乐是空的哦')
           return
         }
         this.curBarIdx = Math.floor((progressPos - 1) / this.playingSheet.timeSignature[0])
@@ -432,6 +432,7 @@ export default {
       // }
 
       Observe.$emit(OBEvent.SHEET_MUSIC_LOADED, this.playingSheet)
+      Observe.$emit(OBEvent.POPUP_DIALOG, '录音完成！点击播放试听，下面也可以分享哦~')
     },
 
     addRecordPress (keyCode) {
