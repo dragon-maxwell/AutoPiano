@@ -16,12 +16,20 @@
     .right-drawer.show { right: 0; }
     .wkey { margin: 3px 3px !important;}
   }
+  .hero-bkg-animated {
+  background: gray url(../assets/images/congruent_pentagon.png) repeat 0 0;
+  -webkit-animation: slide 40s linear infinite;
+  }
+  @-webkit-keyframes slide {
+    from { background-position: 0 0; }
+    to { background-position: 0 -400px; }
+  }
 }
 </style>
 
 <template>
   <div class="page-pc">
-    <div class="app-bg" :style="appBgStyle"></div>
+    <div class="app-bg hero-bkg-animated" ></div>
 
     <div class="app-content">
       <!-- <PageHeader></PageHeader> -->
@@ -84,7 +92,8 @@ export default {
 			'$currentWallpaper'
     ]),
     appBgStyle() {
-      return `background-image: url(${this.$currentWallpaper});`
+      // return `background: gray url(../assets/images/floor-tile.png) repeat 0 0;`
+      return `background: url(../../static/img/wheat.png) repeat 0 0;`
     }
   },
   mounted() {

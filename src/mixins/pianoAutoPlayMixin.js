@@ -14,13 +14,6 @@ export default {
       ScoreNum,
       playTimer: null,
       playingSheet: null,
-      keyMap: {
-        'C': {
-          1:'C4', 2:'D4', 3:'E4', 4:'F4', 5:'G4',
-          6:'A4', 7:'B4', 8:'C5', 9:'D5', 10:'E5',
-          11:'F5', 12:'G5', 13:'A5', 14:'B5', 15:'C6'
-        },
-      },
       isRecording: false,
       metronomeOn: true,
       recordData: null,
@@ -32,7 +25,7 @@ export default {
       // 当前小节的音符
       curBar: [],
       // 当前各小节的待播放音符序号
-      curNoteInBar: [],
+      curNoteInBar: 0,
       // 开始播放时的时间戳
       startStmp: null,
       // 当前播放的拍子编号
@@ -55,91 +48,6 @@ export default {
       }
     },
 
-    // sky sheet music
-    autoPlaySheet () {
-      if (!this.playingSheet) return
-
-      let notes = this.playingSheet.notes
-      let totalBar = notes.length
-
-      let loop = () => {
-        let curStmp = new Date()
-        let curTime = curStmp - this.startStmp
-
-        // 播放时会实时调整播放bmp，所以要每次循环计算
-        let timePerBar = this.millisecondsPerBar()
-        this.curPosInBar = Math.floor(PosPerBar * (curTime - this.curBarIdx * timePerBar) / timePerBar)
-        
-        if (curTime >= this.pressedInstrumentKeys.releaseTime) {
-          for (let i in this.pressedInstrumentKeys.keyCodes) {
-            $(`[data-keyCode=${this.pressedInstrumentKeys.keyCodes[i]}]`).removeClass(autoKeyActiveStyle);
-          }
-          this.pressedInstrumentKeys.keyCodes.splice(0)
-          this.pressedInstrumentKeys.releaseTime = Number.MAX_VALUE
-        }
-        
-        if (this.curPosInBar >= PosPerBar) {
-          this.curBarIdx++
-          this.curPosInBar -= PosPerBar
-          if (this.curBarIdx >= totalBar) {
-            this.stopAutoPlay()
-            return
-          } else {
-            this.curNoteInBar = [0,0,0,0,0]
-            this.curBar = notes[this.curBarIdx]
-          }
-          this.prevQnIdx = 0
-          Observe.$emit(OBEvent.PLAY_PROGRESS_UPDATE, this.curBarIdx + 1, this.prevQnIdx + 1)
-        } else {
-          // 小节内拍子序号
-          let qnIdx = Math.floor(this.curPosInBar / this.noteDur[this.playingSheet.timeSignature[0]])
-          if (this.prevQnIdx != qnIdx) {
-            this.prevQnIdx = qnIdx
-            Observe.$emit(OBEvent.PLAY_PROGRESS_UPDATE, this.curBarIdx + 1, this.prevQnIdx + 1)
-          }
-        }
-        
-        let nextMinPos = PosPerBar
-        let notePosPlayedInThisFrame = -1
-        for (let channel = ChannelCnt - 1; channel >= 0; channel--) {
-          
-          if (this.curNoteInBar[channel] < this.curBar[channel].length) {
-            let nextNotePos = Math.floor(this.curBar[channel][this.curNoteInBar[channel]] / 10000)
-            if (this.curPosInBar >= nextNotePos) {
-              let instrumentKeyIdx = this.curBar[channel][this.curNoteInBar[channel]] % 100 - 1
-              let notename = this.getNoteNameByInstrumentKeyIdx(instrumentKeyIdx)
-          
-              this.playNote(notename)
-
-              this.curNoteInBar[channel] ++
-              notePosPlayedInThisFrame = nextNotePos
-              let pressedKeyCode = this.getKeyCodeByInstrumentKeyIdx(instrumentKeyIdx)
-              this.pressedInstrumentKeys.keyCodes.push(pressedKeyCode)
-              if (pressedKeyCode) $(`[data-keyCode=${pressedKeyCode}]`).addClass(autoKeyActiveStyle)
-
-            }
-            if (nextNotePos < nextMinPos) nextMinPos = nextNotePos
-          }
-        }
-
-        if (notePosPlayedInThisFrame >= 0) {
-          // 在下一个最近音符的前32分音符个位置释放按键
-          nextMinPos -= this.noteDur[32]
-          // 如果按键时长超过一个四分音符，则设置为一个四分音符
-          if (nextMinPos - notePosPlayedInThisFrame > this.noteDur[4]) nextMinPos = notePosPlayedInThisFrame + this.noteDur[4]
-          // 最短为16分音符时长
-          if (nextMinPos - notePosPlayedInThisFrame < this.noteDur[16]) nextMinPos = notePosPlayedInThisFrame + this.noteDur[16]
-          this.pressedInstrumentKeys.releaseTime = (this.curBarIdx + nextMinPos / PosPerBar) * timePerBar
-        }
-      }
-
-
-      this.playTimer = setInterval(() => {
-        loop()
-      }, 20)
-      Observe.$emit(OBEvent.AUTO_PLAY_STARTED, this.curBarIdx + 1, 1 + Math.floor(this.curPosInBar / this.noteDur[this.playingSheet.timeSignature[0]]))
-    },
-
     autoPlayRecord () {
       if (!this.playingSheet) return
 
@@ -153,23 +61,15 @@ export default {
         // 播放时会实时调整播放bmp，所以要每次循环计算
         let timePerBar = this.millisecondsPerBar()
         this.curPosInBar = Math.floor(PosPerBar * (curTime - this.curBarIdx * timePerBar) / timePerBar)
-        // if (curTime >= this.pressedInstrumentKeys.releaseTime) {
-        //   for (let i in this.pressedInstrumentKeys.keyCodes) {
-        //     $(`[data-keyCode=${this.pressedInstrumentKeys.keyCodes[i]}]`).removeClass(autoKeyActiveStyle);
-        //   }
-        //   this.pressedInstrumentKeys.keyCodes.splice(0)
-        //   this.pressedInstrumentKeys.releaseTime = Number.MAX_VALUE
-        // }
-        
         
         if (this.curPosInBar >= PosPerBar) {
           this.curBarIdx++
           this.curPosInBar -= PosPerBar
           // 要把小节内剩余的操作记录播完
-          while (this.curNoteInBar[0] < this.curBar.length) {
-            let instrumentKeyIdx = this.curBar[this.curNoteInBar[0]] % 100 - 1
+          while (this.curNoteInBar < this.curBar.length) {
+            let instrumentKeyIdx = this.curBar[this.curNoteInBar] % 100 - 1
             // 如果是按下记录
-            if (this.curBar[this.curNoteInBar[0]] < 100000) {
+            if (this.curBar[this.curNoteInBar] < 100000) {
               let notename = this.getNoteNameByInstrumentKeyIdx(instrumentKeyIdx)
               this.playNote(notename)
               let keyCode = this.getKeyCodeByInstrumentKeyIdx(instrumentKeyIdx)
@@ -177,13 +77,13 @@ export default {
             } else {
               this.pressedInstrumentKeys.push(instrumentKeyIdx)
             }
-            this.curNoteInBar[0] ++
+            this.curNoteInBar ++
           }
           if (this.curBarIdx >= totalBar) {
             this.stopAutoPlay()
             return
           } else {
-            this.curNoteInBar = [0,0,0,0,0]
+            this.curNoteInBar = 0
             this.curBar = notes[this.curBarIdx]
           }
           this.prevQnIdx = 0
@@ -203,20 +103,18 @@ export default {
             }
             this.pressedInstrumentKeys.shift()
         }
-        while (this.curNoteInBar[0] < this.curBar.length && this.curPosInBar >= Math.floor((this.curBar[this.curNoteInBar[0]] % 100000) / 100)) {
-          let instrumentKeyIdx = this.curBar[this.curNoteInBar[0]] % 100 - 1
+        while (this.curNoteInBar < this.curBar.length && this.curPosInBar >= Math.floor((this.curBar[this.curNoteInBar] % 100000) / 100)) {
+          let instrumentKeyIdx = this.curBar[this.curNoteInBar] % 100 - 1
           // 如果是按下记录
-          if (this.curBar[this.curNoteInBar[0]] < 100000) {
+          if (this.curBar[this.curNoteInBar] < 100000) {
             let notename = this.getNoteNameByInstrumentKeyIdx(instrumentKeyIdx)
             this.playNote(notename)
             let keyCode = this.getKeyCodeByInstrumentKeyIdx(instrumentKeyIdx)
-            // console.log('press keycode: ' + keyCode + ' curBarIdx: ' + this.curBarIdx + ' curNoteInBar: ' + this.curNoteInBar[0] + ' curPosInBar: ' + this.curPosInBar)
             $(`[data-keyCode=${keyCode}]`).addClass(autoKeyActiveStyle)
           } else {
             this.pressedInstrumentKeys.push(instrumentKeyIdx)
-            // console.log('release instrumentKeyIdx: ' + instrumentKeyIdx)
           }
-          this.curNoteInBar[0] ++
+          this.curNoteInBar ++
         }
       }
       this.playTimer = setInterval(() => {
@@ -268,31 +166,14 @@ export default {
       // 推测出正确的开始时间
       this.startStmp -= (this.curBarIdx + this.curPosInBar / PosPerBar) * this.millisecondsPerBar()
       this.curBar = this.playingSheet.notes[this.curBarIdx]
-      this.curNoteInBar = [0,0,0,0,0]
-      if (this.playingSheet.record) {
-        while (this.curNoteInBar[0] < this.curBar.length &&
-          Math.floor(this.curBar[this.curNoteInBar[0]] / 10000) < this.curPosInBar) {
-            this.curNoteInBar[0]++
-        }
-      } else {
-        // 初始化到当前播放位置
-        for (let channel = 0; channel < ChannelCnt; channel++) {
-          while (this.curNoteInBar[channel] < this.curBar[channel].length &&
-            Math.floor(this.curBar[channel][this.curNoteInBar[channel]] / 10000) < this.curPosInBar) {
-              this.curNoteInBar[channel]++
-          }
-        }
+      this.curNoteInBar = 0
+      while (this.curNoteInBar < this.curBar.length &&
+        Math.floor(this.curBar[this.curNoteInBar] / 10000) < this.curPosInBar) {
+          this.curNoteInBar++
       }
       $('.piano-key').removeClass(autoKeyActiveStyle)
       
-      if (this.playingSheet.record) {
-        this.pressedInstrumentKeys = []
-      } else {
-        // 按下的键
-        this.pressedInstrumentKeys = {}
-        this.pressedInstrumentKeys.keyCodes = []
-        this.pressedInstrumentKeys.releaseTime = Number.MAX_VALUE
-      }
+      this.pressedInstrumentKeys = []
     },
     
     // 根据名字载入乐谱，根据参数决定是否在载入后开始播放
@@ -330,11 +211,15 @@ export default {
           return
         }
         this.initPlayParam()
-        if (this.playingSheet.record) {
-          this.autoPlayRecord()
-        } else {
-          this.autoPlaySheet()
-        }
+        this.autoPlayRecord()
+      }
+
+      this.recordData = {
+        name: '我的演奏',
+        key: this.getCurMusicKeyName(),
+        timeSignature: [4,4],
+        bpm: this.curPlayBpm,
+        notes: []
       }
     },
     pauseAutoPlay() {
@@ -391,7 +276,6 @@ export default {
       this.startStmp = new Date()
       // this.recordData.splice(0)
       this.recordData = {
-        record: true,
         name: '我的演奏',
         key: this.getCurMusicKeyName(),
         timeSignature: [4,4],

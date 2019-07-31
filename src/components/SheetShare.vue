@@ -1,7 +1,7 @@
 <style lang="less">
 @import url('../assets/style/variable.less');
 .sheet-share { width: 32%; min-width: 500px; height:400px; margin: 20px auto auto 5%; font-size: 14px; overflow: hidden; background: rgba(255, 255, 255, .6); border-radius: 5px; border: solid 1px #ddd; position: relative;
-.list-view { width: 100%; height: 100%; position: absolute; top: 0; left: 0; padding: 20px 15px; overflow-y: scroll;  }
+.list-view { width: 100%; height: 100%; position: absolute; top: 0; left: 0; padding: 20px 15px; overflow-y: scroll; }
   .component-title { margin: 20px 0 10px 15px; font-size: 18px; font-weight: bold; line-height: 26px; position: relative;
     .music-img { display: inline-block; width: 26px; vertical-align: middle; }
     .title { vertical-align: middle; margin-left: 5px; }
@@ -33,7 +33,7 @@
       v-clipboard:error="onCopyError">复制到剪贴板分享</div>
   </div>
 
-  <textarea class="text-input" v-model="recordTxt" placeholder="请点击进度条上方的录音按钮开始录音，录下的内容会显示在这里~"></textarea>
+  <textarea class="text-input" id="text-area" v-model="recordTxt" placeholder="请点击进度条上方的录音按钮开始录音，录下的内容会显示在这里~"></textarea>
   </div>
 </template>
 
@@ -51,6 +51,8 @@ export default {
     }
   },
   mounted () {
+    // document.getElementById("text-area").addEventListener("focus", this.onTextAreaFocus);
+
     Observe.$on(OBEvent.RECORDING_FINISHED, (recordTxt) => {
       this.recordTxt = JSON.stringify(recordTxt, null, 2)
     })
@@ -71,7 +73,7 @@ export default {
         return
       }
       // 检查内容完整性
-      if (typeof(recordObj) != Object || recordObj == null || !("name" in recordObj) || !("key" in recordObj) || !("timeSignature" in recordObj) || !("bpm" in recordObj) || !("notes" in recordObj)) {
+      if (typeof(recordObj) != "object" || recordObj == null || !("name" in recordObj) || !("key" in recordObj) || !("timeSignature" in recordObj) || !("bpm" in recordObj) || !("notes" in recordObj)) {
         Observe.$emit(OBEvent.POPUP_DIALOG, '加载录音失败，请检查复制的内容是否完整')
         return
       }
@@ -86,7 +88,7 @@ export default {
           return
       }
       // 检查内容完整性
-      if (typeof(recordObj) != Object || recordObj == null || !("name" in recordObj) || !("key" in recordObj) || !("timeSignature" in recordObj) || !("bpm" in recordObj) || !("notes" in recordObj)) {
+      if (typeof(recordObj) != "object" || recordObj == null || !("name" in recordObj) || !("key" in recordObj) || !("timeSignature" in recordObj) || !("bpm" in recordObj) || !("notes" in recordObj)) {
         Observe.$emit(OBEvent.POPUP_DIALOG, '保存录音失败，请检查内容是否完整')
         return
       }
@@ -107,6 +109,26 @@ export default {
       urlObject.revokeObjectURL(url)
       Observe.$emit(OBEvent.POPUP_DIALOG, '已下载txt文件到默认下载文件夹，快发给小伙伴们听听吧~')
     },
+
+    // onTextAreaFocus () {
+    //   // 检查有效性，无效不做反应
+    //   let recordObj = null
+    //   try {
+    //     recordObj = JSON.parse(this.recordTxt);
+    //   } catch (e) {
+    //       return
+    //   }
+    //   // 检查内容完整性
+    //   if (typeof(recordObj) != "object" || recordObj == null || !("name" in recordObj) || !("key" in recordObj) || !("timeSignature" in recordObj) || !("bpm" in recordObj) || !("notes" in recordObj)) {
+    //     return
+    //   }
+    //   this.$copyText(this.recordTxt).then(function (e) {
+    //     Observe.$emit(OBEvent.POPUP_DIALOG, '已复制录音数据到剪贴板，快发给小伙伴们听听吧~')
+    //   }, function (e) {
+    //     Observe.$emit(OBEvent.POPUP_DIALOG, '复制失败，我也不知道为什么')
+    //     console.log(e)
+    //   })
+    // },
     onCopySuccess () {
       Observe.$emit(OBEvent.POPUP_DIALOG, '已复制录音数据到剪贴板，快发给小伙伴们听听吧~')
     },

@@ -80,12 +80,20 @@
     font-weight: 700;
     // margin-left: 150px;
   }
+  .hero-bkg-animated {
+  background: gray url(../assets/images/congruent_pentagon.png) repeat 0 0;
+  -webkit-animation: slide 40s linear infinite;
+  }
+  @-webkit-keyframes slide {
+    from { background-position: 0 0; }
+    to { background-position: 0 -400px; }
+  }
 }
 </style>
 
 <template>
   <div id="page-mobile" class="page-mobile">
-    <div class="app-bg" :style="appBgStyle"></div>
+    <div class="app-bg hero-bkg-animated"></div>
     <div class="app-content">
       <!-- <h2 class="mobile-tip">请在电脑上用Chrome浏览器访问：www.autopiano.cn</h2> -->
       <!-- <PageHeader></PageHeader> -->
@@ -132,7 +140,7 @@ export default {
     }
   },
   beforeMount() {
-    this.setWallPaper()
+    // this.setWallPaper()
     if (window.isMobile) {
       // alert('为了您更好的浏览体验，请在电脑端浏览器访问: \n www.autopiano.cn')
       this.horizontalScreen('body')
