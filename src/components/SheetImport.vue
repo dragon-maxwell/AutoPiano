@@ -14,6 +14,7 @@
 </style>
 <template>
   <div class="sheet-import">
+    
   <sweet-modal ref="smodal">This is an alert.</sweet-modal>
 
   <p class="component-title">

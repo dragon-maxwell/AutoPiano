@@ -112,6 +112,9 @@ export default {
       this.CurrentSheetMusicTimeSignature = sheetMusic.timeSignature
       this.progressBar.options.min = 1
       this.progressBar.options.max = sheetMusic.notes.length * sheetMusic.timeSignature[0]
+      if (this.progressBar.options.max < 2) {
+        this.progressBar.options.max = 2
+      }
       this.progressBar.value = 1
       this.bpmSlider.value = sheetMusic.bpm
     })
@@ -138,11 +141,13 @@ export default {
       this.RecordBtnTxt = '停止录音'
       this.CurrentSheetMusicNameLabelText = '正在录音...'
       this.progressBar.options.disabled = true;
+      this.bpmSlider.options.disabled = true;
     })
     Observe.$on(OBEvent.RECORDING_FINISHED, (recordData) => {
       this.IsRecording = false
       this.RecordBtnTxt = '开始录音'
       this.progressBar.options.disabled = false;
+      this.bpmSlider.options.disabled = false;
     })
   },
   methods: {
