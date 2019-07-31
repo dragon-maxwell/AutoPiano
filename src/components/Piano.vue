@@ -5,7 +5,7 @@
   #audioEffectCanvas { display: none; }
   .piano-scroll-wrap { width: 100%; overflow: visible; }
   .piano-wrap.visible { opacity: 1; }
-  .piano-wrap { width: 90%; margin: 20px auto; box-shadow: 5px 5px 20px 5px #888; border-radius: 5px; position: relative; overflow: hidden; opacity: 0;
+  .piano-wrap { width: 90%; margin: 20px auto; position: relative; overflow: hidden; opacity: 0;
     .piano-key-wrap { width: 100%; height: 300px; overflow: hidden; position: relative;
       .piano-key {
         &:hover { cursor: pointer; }
@@ -496,7 +496,10 @@ export default {
         this.playNote(pressedNoteName)
         // let keyType = pressedNote.type;
         // if (keyType == 'white') {
-          $(`[data-keyCode=${keyCode}]`).addClass('wkey-active');
+        //   $(`[data-keyCode=${keyCode}]`).addClass('wkey-active');
+        $(`[data-keyCode=${keyCode}]`).css('animation', 'scale-keyframes 0.05s linear 1');
+        let rotateDataKeyCode = keyCode+'rotate';
+        $(`[data-keyCode=${rotateDataKeyCode}]`).css('animation', 'rotate-keyframes 0.375s linear 1');
         // } else if (keyType == 'black') {
         //   $(`[data-keyCode=${pressedNote.keyCode}]`).addClass('bkey-active');
         // }
