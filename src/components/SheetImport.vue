@@ -14,6 +14,8 @@
 </style>
 <template>
   <div class="sheet-import">
+  <sweet-modal ref="smodal">This is an alert.</sweet-modal>
+
   <p class="component-title">
     <img src="../assets/images/music_cd.png" alt="" class="music-img">
     <span class="title">演奏录音</span>
@@ -94,6 +96,7 @@ export default {
       alert('已下载txt文件到默认下载文件夹，快发给小伙伴们听听吧~')
     },
     onCopySuccess () {
+      this.$refs.smodal.open
       alert('已复制录音数据到剪贴板，快发给小伙伴们听听吧~')
     },
     onCopyError () {

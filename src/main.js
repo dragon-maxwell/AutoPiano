@@ -5,7 +5,7 @@ import App from './App'
 import store from './store'
 import router from './router'
 import VueClipboard from 'vue-clipboard2'
-
+import SweetModal from 'sweet-modal-vue/src/plugin.js'
 // // 添加Fastclick移除移动端点击延迟
 // import FastClick from 'fastclick'
 // //FastClick的ios点击穿透解决方案
@@ -24,7 +24,7 @@ import VueClipboard from 'vue-clipboard2'
 Vue.config.productionTip = false
 VueClipboard.config.autoSetContainer = true // add this line
 Vue.use(VueClipboard)
-
+Vue.use(SweetModal)
 /* eslint-disable no-new */
 // new Vue({
 //   el: '#app',
