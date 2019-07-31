@@ -86,7 +86,7 @@
   }
   @-webkit-keyframes slide {
     from { background-position: 0 0; }
-    to { background-position: 0 -400px; }
+    to { background-position: 0 -600px; }
   }
 }
 </style>
