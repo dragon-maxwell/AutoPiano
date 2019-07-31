@@ -14,7 +14,7 @@
 </style>
 <template>
   <div class="sheet-import">
-  <sweet-modal ref="smodal">This is an alert.</sweet-modal>
+  <sweet-modal ref="smodal">{{modalData}}</sweet-modal>
 
   <p class="component-title">
     <img src="../assets/images/music_cd.png" alt="" class="music-img">
@@ -23,7 +23,7 @@
   <div class="btn-bar">
     <div class="ctrl-btns" @click="onLoadBtn">播放下方内容</div>
     <div class="ctrl-btns" @click="onSaveBtnClick">下载录音存档</div>
-    <div class="ctrl-btns" 
+    <div class="ctrl-btns"
       v-clipboard:copy="message"
       v-clipboard:success="onCopySuccess"
       v-clipboard:error="onCopyError">复制到剪贴板分享</div>
@@ -41,7 +41,8 @@ export default {
   name: 'SheetImport',
   data() {
       return {
-          message: ''
+          message: '',
+          modalData: ''
     }
   },
   mounted () {
@@ -96,8 +97,8 @@ export default {
       alert('已下载txt文件到默认下载文件夹，快发给小伙伴们听听吧~')
     },
     onCopySuccess () {
-      this.$refs.smodal.open
-      alert('已复制录音数据到剪贴板，快发给小伙伴们听听吧~')
+      this.modalData = '已复制录音数据到剪贴板，快发给小伙伴们听听吧~';
+      this.$refs.smodal.open();
     },
     onCopyError () {
       alert('复制失败，我也不知道为什么')
