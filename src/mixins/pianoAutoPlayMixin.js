@@ -22,6 +22,7 @@ export default {
         },
       },
       isRecording: false,
+      metronomeOn: true,
       recordData: null,
       // 播放控制信息
       // 当前小节
@@ -227,7 +228,7 @@ export default {
     // 录制输入
     recordInput () {
       let timePerBar = this.millisecondsPerBar()
-      this.playNote('A1')
+      if (this.metronomeOn) this.playNote('A1')
       let loop = () => {
         let curStmp = new Date()
         let curTime = curStmp - this.startStmp
@@ -244,7 +245,7 @@ export default {
           }
           // 节拍器声音
           this.prevQnIdx = 0
-          this.playNote('A1')
+          if (this.metronomeOn) this.playNote('A1')
           Observe.$emit(OBEvent.PLAY_PROGRESS_UPDATE, this.curBarIdx + 1, this.prevQnIdx + 1)
         } else {
           // 小节内拍子序号
@@ -252,7 +253,7 @@ export default {
           if (this.prevQnIdx != qnIdx) {
             this.prevQnIdx = qnIdx
             // 节拍器声音
-            this.playNote('B1')
+            if (this.metronomeOn) this.playNote('B1')
             Observe.$emit(OBEvent.PLAY_PROGRESS_UPDATE, this.curBarIdx + 1, this.prevQnIdx + 1)
           }
         }
@@ -385,6 +386,8 @@ export default {
 
     startRecording () {
       this.stopAutoPlay()
+      // 每次开始录音总是默认打开节拍器
+      this.metronomeOn = true
       this.startStmp = new Date()
       // this.recordData.splice(0)
       this.recordData = {
@@ -395,11 +398,6 @@ export default {
         bpm: this.curPlayBpm,
         notes: []
       }
-      // this.recordData.notes[0].push(1)
-      // this.recordData.notes[0].push(2)
-      // this.recordData.notes.push([])
-      // this.recordData.notes[1].push(4)
-      // console.log('this.recordData: ' + this.recordData.notes[1])
       this.isRecording = true
       this.recordInput()
       Observe.$emit(OBEvent.RECORDING_STARTED)
@@ -419,23 +417,21 @@ export default {
       }
       Observe.$emit(OBEvent.RECORDING_FINISHED, this.recordData)
 
-      // if (this.recordData.notes.length != 0) {
-        this.playingSheet = this.recordData
-        this.setCurMusicKey(this.playingSheet.key)
-        this.curPlayBpm = this.playingSheet.bpm
-        // 音符时长，单位为 小节位置数量
-        this.noteDur = {1:PosPerBar * this.playingSheet.timeSignature[1] / this.playingSheet.timeSignature[0]}
-        for (let i = 2; i <= 32; i *= 2) {
-          this.noteDur[i] = this.noteDur[1] / i
-        }
-        this.pauseAutoPlay()
-        this.rewindPlayPos()
-        // if (beginPlayAfterLoad) {
-        //   this.startAutoPlay()
-        // }
-
-        Observe.$emit(OBEvent.SHEET_MUSIC_LOADED, this.playingSheet)
+      this.playingSheet = this.recordData
+      this.setCurMusicKey(this.playingSheet.key)
+      this.curPlayBpm = this.playingSheet.bpm
+      // 音符时长，单位为 小节位置数量
+      this.noteDur = {1:PosPerBar * this.playingSheet.timeSignature[1] / this.playingSheet.timeSignature[0]}
+      for (let i = 2; i <= 32; i *= 2) {
+        this.noteDur[i] = this.noteDur[1] / i
+      }
+      this.pauseAutoPlay()
+      this.rewindPlayPos()
+      // if (beginPlayAfterLoad) {
+      //   this.startAutoPlay()
       // }
+
+      Observe.$emit(OBEvent.SHEET_MUSIC_LOADED, this.playingSheet)
     },
 
     addRecordPress (keyCode) {

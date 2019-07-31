@@ -42,6 +42,8 @@ export const OBEvent = {
   STOP_RECORDING: 'STOP_RECORDING',
   // 载入录音文本
   LOAD_RECORD_TEXT: 'LOAD_RECORD_TEXT',
+  // 节拍器开启关闭
+  METRONOME_SWITCH: 'METRONOME_SWITCH',
 
   // 自动播放事件
   // 乐曲载入事件
