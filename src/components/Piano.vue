@@ -276,6 +276,10 @@ export default {
       Observe.$on(OBEvent.LOAD_SHEET_MUSIC, (sheetMusicName, beginPlayAfterLoad) => {
         this.loadSheetMusicByName(sheetMusicName, beginPlayAfterLoad)
       })
+      // 载入录音
+      Observe.$on(OBEvent.LOAD_RECORD_TEXT, (recordObj) => {
+        this.loadRecord(recordObj)
+      })
       // 播放乐谱
       Observe.$on(OBEvent.START_AUTO_PLAY, () => {
         this.startAutoPlay()
@@ -300,7 +304,7 @@ export default {
       Observe.$on(OBEvent.SET_AUTO_PLAY_BPM, (bpm) => { this.setBpm(bpm) })
       Observe.$on(OBEvent.START_RECORDING, (bpm) => { this.startRecording() })
       Observe.$on(OBEvent.STOP_RECORDING, (bpm) => { this.stopRecording() })
-      Observe.$on(OBEvent.SAVE_RECORD_FILE, () => { this.exportRecordData() })
+      // Observe.$on(OBEvent.SAVE_RECORD_FILE, () => { this.exportRecordData() })
     },
     // 根据keyCode返回音符名称
     getNoteNameByKeyCode(keyCode) {

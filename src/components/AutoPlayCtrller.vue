@@ -7,7 +7,7 @@
   .ctrl-btns { display: inline-block; width: 150px; word-spacing: 10px; text-align: center; font-size:20px; font-weight:bold; line-height: 50px; margin-bottom: 10px; background-color: #FFFFFF; color: @c-blue-d; border: 1px solid blue; border-radius: 25px; box-shadow: 2px 2px 2px #888888; cursor: pointer;
     &:hover { background-color: rgb(13, 61, 65); color: rgb(193, 243, 255);} }
   .progress-bar {background-color: rgb(13, 61, 65); border: 1px solid blue; border-radius: 2px;box-shadow: 2px 2px 2px #888888;}
-  .bpm-txt {font-size: 25px;}
+  .bpm-txt {font-size: 20px;}
   .bpm-bar {margin: 0 0 -10px 0; background-color: rgb(13, 61, 65); border: 1px solid blue; border-radius: 2px;box-shadow: 2px 2px 2px #888888;}
   .slider-tool-tip {border: 0px; color:rgb(255, 255, 255); background-color: rgb(0, 0, 0); font-size:20px; font-weight:bold; line-height: 22px; }
   .record-beat-tip1 {background-color: rgb(255, 0, 0);
@@ -19,12 +19,12 @@
 
 <template>
   <div class="component-auto-play-ctrller">
-    <img src="../assets/images/skylogo.png" alt="" class="logo-imge">
+    <!-- <img src="../assets/images/skylogo.png" alt="" class="logo-imge"> -->
     <div class="horizontal-split">
         <div class="sheet-music-name">{{CurrentSheetMusicNameLabelText}}</div>
     </div>
     <div class="horizontal-split">
-      <div class="bpm-txt">BPM:</div>
+      <div class="bpm-txt">音乐速度:</div>
     </div>
     <div class="horizontal-split">
       <vue-slider class="bpm-bar" ref="bpmBar" @drag-start="onBpmSliderDragStart" @drag-end="onBpmSliderDragEnd" @callback="onBpmSliderCallback" v-model="bpmSlider.value" v-bind="bpmSlider.options"></vue-slider>
@@ -34,7 +34,6 @@
       <div class="ctrl-btns" @click="onStopBtnClick">{{StopBtnTxt}}</div>
       <div class="ctrl-btns" @click="onKeyBtnClick">{{KeyBtnTxt}}</div>
       <div class="ctrl-btns" id="record-btn" @click="onRecordBtnClick">{{RecordBtnTxt}}</div>
-      <div class="ctrl-btns" @click="onSaveBtnClick">SaveRecordFile</div>
     </div>
     <vue-slider class="progress-bar" ref="progressBar" @drag-start="onProgressDragStart" @drag-end="onProgressDragEnd" @callback="onProgressCallback" v-model="progressBar.value" v-bind="progressBar.options"></vue-slider>
   </div>
@@ -88,10 +87,10 @@ export default {
       },
       CurrentSheetMusicNameLabelText: '当前播放：没有乐谱',
       CurrentSheetMusicTimeSignature: [],
-      PlayBtnTxt: 'PLAY',
-      StopBtnTxt: 'STOP',
-      KeyBtnTxt: 'KEY: C',
-      RecordBtnTxt: 'RECORD',
+      PlayBtnTxt: '播放',
+      StopBtnTxt: '停止',
+      KeyBtnTxt: '调性: C',
+      RecordBtnTxt: '开始录音',
       IsPlaying: false,
       IsRecording: false,
       // 实际播放进度
@@ -101,11 +100,11 @@ export default {
   mounted() {
     Observe.$on(OBEvent.AUTO_PLAY_STOPPED, () => {
       this.IsPlaying = false
-      this.PlayBtnTxt = 'PLAY'
+      this.PlayBtnTxt = '播放'
     })
     Observe.$on(OBEvent.AUTO_PLAY_STARTED, (curBar, curQnIdx) => {
       this.IsPlaying = true
-      this.PlayBtnTxt = 'PAUSE'
+      this.PlayBtnTxt = '暂停'
       this.progressBar.value = (curBar - 1) * this.CurrentSheetMusicTimeSignature[0] + curQnIdx
     })
     Observe.$on(OBEvent.SHEET_MUSIC_LOADED, (sheetMusic) => {
@@ -132,17 +131,17 @@ export default {
       }
     })
     Observe.$on(OBEvent.PIANO_KEY_CHANGED, (newkey) => {
-      this.KeyBtnTxt = 'KEY: ' + newkey
+      this.KeyBtnTxt = '调性: ' + newkey
     })
     Observe.$on(OBEvent.RECORDING_STARTED, () => {
       this.IsRecording = true
-      this.RecordBtnTxt = 'FINISH'
+      this.RecordBtnTxt = '停止录音'
       this.CurrentSheetMusicNameLabelText = '正在录音...'
       this.progressBar.options.disabled = true;
     })
-    Observe.$on(OBEvent.RECORDING_FINISHED, () => {
+    Observe.$on(OBEvent.RECORDING_FINISHED, (recordData) => {
       this.IsRecording = false
-      this.RecordBtnTxt = 'RECORD'
+      this.RecordBtnTxt = '开始录音'
       this.progressBar.options.disabled = false;
     })
   },
@@ -189,9 +188,7 @@ export default {
     onBpmSliderDragEnd (context) {
       Observe.$emit(OBEvent.SET_AUTO_PLAY_BPM, context.val)
     },
-    onSaveBtnClick () {
-      Observe.$emit(OBEvent.SAVE_RECORD_FILE)
-    }
+    
   },
   components: {
     vueSlider

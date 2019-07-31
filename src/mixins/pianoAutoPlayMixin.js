@@ -398,27 +398,30 @@ export default {
     stopRecording () {
       this.stopAutoPlay()
       this.isRecording = false
-      Observe.$emit(OBEvent.RECORDING_FINISHED)
+      Observe.$emit(OBEvent.RECORDING_FINISHED, this.recordData)
       // console.log('this.recordData: ' + this.recordData.notes)
       // 删除头部的空白数据
       while (this.recordData.notes.length > 1 && this.recordData.notes[0].length == 0) {
         this.recordData.notes.shift()
       }
+      while (this.recordData.notes.length > 1 && this.recordData.notes[this.recordData.notes.length - 1].length == 0) {
+        this.recordData.notes.pop()
+      }
       this.playingSheet = this.recordData
-        this.setCurMusicKey(this.playingSheet.key)
-        this.curPlayBpm = this.playingSheet.bpm
-        // 音符时长，单位为 小节位置数量
-        this.noteDur = {1:PosPerBar * this.playingSheet.timeSignature[1] / this.playingSheet.timeSignature[0]}
-        for (let i = 2; i <= 32; i *= 2) {
-          this.noteDur[i] = this.noteDur[1] / i
-        }
-        this.pauseAutoPlay()
-        this.rewindPlayPos()
-        // if (beginPlayAfterLoad) {
-        //   this.startAutoPlay()
-        // }
+      this.setCurMusicKey(this.playingSheet.key)
+      this.curPlayBpm = this.playingSheet.bpm
+      // 音符时长，单位为 小节位置数量
+      this.noteDur = {1:PosPerBar * this.playingSheet.timeSignature[1] / this.playingSheet.timeSignature[0]}
+      for (let i = 2; i <= 32; i *= 2) {
+        this.noteDur[i] = this.noteDur[1] / i
+      }
+      this.pauseAutoPlay()
+      this.rewindPlayPos()
+      // if (beginPlayAfterLoad) {
+      //   this.startAutoPlay()
+      // }
 
-        Observe.$emit(OBEvent.SHEET_MUSIC_LOADED, this.playingSheet)
+      Observe.$emit(OBEvent.SHEET_MUSIC_LOADED, this.playingSheet)
     },
 
     addRecordPress (keyCode) {
@@ -440,22 +443,19 @@ export default {
       }
     },
 
-    exportRecordData () {
-        //定义文件内容，类型必须为Blob 否则createObjectURL会报错
-        let content = new Blob([JSON.stringify(this.recordData)])
-   
-        //生成url对象
-        let  urlObject = window.URL || window.webkitURL || window	
-        let url = urlObject.createObjectURL(content)	
-        //生成<a></a>DOM元素
-        let el = document.createElement('a')
-        //链接赋值
-        el.href = url
-        el.download ="我的演奏录音.txt"
-        //必须点击否则不会下载
-        el.click()		
-        //移除链接释放资源		
-        urlObject.revokeObjectURL(url)
+    loadRecord (recordObj) {
+      this.playingSheet = recordObj
+      this.setCurMusicKey(this.playingSheet.key)
+      this.curPlayBpm = this.playingSheet.bpm
+      // 音符时长，单位为 小节位置数量
+      this.noteDur = {1:PosPerBar * this.playingSheet.timeSignature[1] / this.playingSheet.timeSignature[0]}
+      for (let i = 2; i <= 32; i *= 2) {
+        this.noteDur[i] = this.noteDur[1] / i
+      }
+      this.pauseAutoPlay()
+      this.rewindPlayPos()
+
+      Observe.$emit(OBEvent.SHEET_MUSIC_LOADED, this.playingSheet)
     },
   }
 }

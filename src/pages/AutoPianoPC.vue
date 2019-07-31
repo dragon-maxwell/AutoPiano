@@ -31,8 +31,8 @@
       <div class="score-section responsive-section-a">
         <!-- <ManualPlayScoreList></ManualPlayScoreList> -->
         <AutoPlayScoreList></AutoPlayScoreList>
-        <SheetImport></SheetImport>
       </div>
+      <SheetImport></SheetImport>
       <!-- <div class="right-drawer" :class="{'show': rightDrawerShow}">
         <div class="trigger" @click="toggleRightDrawer">歌曲列表</div>
         <div class="close" @click="hideRightDrawer">X</div>
