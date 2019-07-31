@@ -10,10 +10,11 @@
   .bpm-txt {font-size: 20px;}
   .bpm-bar {margin: 0 0 -10px 0; background-color: rgb(13, 61, 65); border: 1px solid blue; border-radius: 2px;box-shadow: 2px 2px 2px #888888;}
   .slider-tool-tip {border: 0px; color:rgb(255, 255, 255); background-color: rgb(0, 0, 0); font-size:20px; font-weight:bold; line-height: 22px; }
-  .record-beat-tip1 {background-color: rgb(255, 0, 0);
-    &:hover { background-color: rgb(255, 0, 0); color: rgb(193, 243, 255);} }
-  .record-beat-tip2 {background-color: rgb(255, 190, 190);
-    &:hover { background-color: rgb(255, 190, 190); color: rgb(193, 243, 255);} }
+  .record-beat-tip1 {background-color: rgb(255, 174, 0);
+    &:hover { background-color: rgb(255, 174, 0); color: rgb(193, 243, 255);} }
+  .record-beat-tip2 {background-color: rgb(255, 234, 201);
+    &:hover { background-color: rgb(255, 234, 201); color: rgb(193, 243, 255);} }
+  .hide-btn {display: none}
 }
 </style>
 
@@ -34,6 +35,7 @@
       <div class="ctrl-btns" @click="onStopBtnClick">{{StopBtnTxt}}</div>
       <div class="ctrl-btns" @click="onKeyBtnClick">{{KeyBtnTxt}}</div>
       <div class="ctrl-btns" id="record-btn" @click="onRecordBtnClick">{{RecordBtnTxt}}</div>
+      <div class="ctrl-btns hide-btn" id="metronome-switch-btn" @click="onMetronomeBtnClick">{{MetronomeBtnTxt}}</div>
     </div>
     <vue-slider class="progress-bar" ref="progressBar" @drag-start="onProgressDragStart" @drag-end="onProgressDragEnd" @callback="onProgressCallback" v-model="progressBar.value" v-bind="progressBar.options"></vue-slider>
   </div>
@@ -91,8 +93,10 @@ export default {
       StopBtnTxt: '停止',
       KeyBtnTxt: '调性: C',
       RecordBtnTxt: '开始录音',
+      MetronomeBtnTxt: '关闭节拍器',
       IsPlaying: false,
       IsRecording: false,
+      metronomeOn: true,
       // 实际播放进度
       progress:0
     }
@@ -112,6 +116,9 @@ export default {
       this.CurrentSheetMusicTimeSignature = sheetMusic.timeSignature
       this.progressBar.options.min = 1
       this.progressBar.options.max = sheetMusic.notes.length * sheetMusic.timeSignature[0]
+      if (this.progressBar.options.max < 2) {
+        this.progressBar.options.max = 2
+      }
       this.progressBar.value = 1
       this.bpmSlider.value = sheetMusic.bpm
     })
@@ -137,12 +144,18 @@ export default {
       this.IsRecording = true
       this.RecordBtnTxt = '停止录音'
       this.CurrentSheetMusicNameLabelText = '正在录音...'
-      this.progressBar.options.disabled = true;
+      this.progressBar.options.disabled = true
+      this.bpmSlider.options.disabled = true
+      this.metronomeOn = true
+      this.MetronomeBtnTxt = '关闭节拍器'
+      document.getElementById("metronome-switch-btn").classList.remove("hide-btn")
     })
     Observe.$on(OBEvent.RECORDING_FINISHED, (recordData) => {
       this.IsRecording = false
       this.RecordBtnTxt = '开始录音'
-      this.progressBar.options.disabled = false;
+      this.progressBar.options.disabled = false
+      this.bpmSlider.options.disabled = false
+      document.getElementById("metronome-switch-btn").classList.add("hide-btn")
     })
   },
   methods: {
@@ -167,6 +180,18 @@ export default {
         Observe.$emit(OBEvent.START_RECORDING)
       }
     },
+    onMetronomeBtnClick () {
+      if (this.metronomeOn) {
+        Observe.$emit(OBEvent.METRONOME_SWITCH, false)
+        this.MetronomeBtnTxt = '开启节拍器'
+        this.metronomeOn = false
+      } else {
+        Observe.$emit(OBEvent.METRONOME_SWITCH, true)
+        this.MetronomeBtnTxt = '关闭节拍器'
+        this.metronomeOn = true
+      }
+    },
+
     onProgressCallback (val) {
       if (!this.progressBar.isDrag) {
         Observe.$emit(OBEvent.SET_AUTO_PLAY_PROGRESS, val)

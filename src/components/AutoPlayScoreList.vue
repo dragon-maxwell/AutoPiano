@@ -171,7 +171,7 @@ export default {
           }
         },
         fail: () => {
-          alert('加载乐谱出错，请检查网络')
+          Observe.$emit(OBEvent.POPUP_DIALOG, '加载乐谱出错，请检查网络')
         }
       })
     },

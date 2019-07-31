@@ -22,6 +22,7 @@ export default {
         },
       },
       isRecording: false,
+      metronomeOn: true,
       recordData: null,
       // 播放控制信息
       // 当前小节
@@ -227,6 +228,7 @@ export default {
     // 录制输入
     recordInput () {
       let timePerBar = this.millisecondsPerBar()
+      if (this.metronomeOn) this.playNote('A1')
       let loop = () => {
         let curStmp = new Date()
         let curTime = curStmp - this.startStmp
@@ -241,13 +243,17 @@ export default {
           } else {
             
           }
+          // 节拍器声音
           this.prevQnIdx = 0
+          if (this.metronomeOn) this.playNote('A1')
           Observe.$emit(OBEvent.PLAY_PROGRESS_UPDATE, this.curBarIdx + 1, this.prevQnIdx + 1)
         } else {
           // 小节内拍子序号
           let qnIdx = Math.floor(this.curPosInBar / this.noteDur[this.playingSheet.timeSignature[0]])
           if (this.prevQnIdx != qnIdx) {
             this.prevQnIdx = qnIdx
+            // 节拍器声音
+            if (this.metronomeOn) this.playNote('B1')
             Observe.$emit(OBEvent.PLAY_PROGRESS_UPDATE, this.curBarIdx + 1, this.prevQnIdx + 1)
           }
         }
@@ -318,7 +324,11 @@ export default {
     },
 
     startAutoPlay() {
-      if (this.playingSheet) {
+      if (this.playingSheet) {  
+        if (this.playingSheet.notes.length == 0) {
+          Observe.$emit(OBEvent.POPUP_DIALOG, '音乐是空的哦')
+          return
+        }
         this.initPlayParam()
         if (this.playingSheet.record) {
           this.autoPlayRecord()
@@ -339,6 +349,10 @@ export default {
 
     setAutoPlayProgress (progressPos) {
       if (this.playingSheet) {
+        if (this.playingSheet.notes.length == 0) {
+          Observe.$emit(OBEvent.POPUP_DIALOG, '音乐是空的哦')
+          return
+        }
         this.curBarIdx = Math.floor((progressPos - 1) / this.playingSheet.timeSignature[0])
         this.prevQnIdx = (progressPos - 1) % this.playingSheet.timeSignature[0]
         this.curPosInBar = this.prevQnIdx * this.noteDur[this.playingSheet.timeSignature[1]]
@@ -372,6 +386,8 @@ export default {
 
     startRecording () {
       this.stopAutoPlay()
+      // 每次开始录音总是默认打开节拍器
+      this.metronomeOn = true
       this.startStmp = new Date()
       // this.recordData.splice(0)
       this.recordData = {
@@ -382,11 +398,6 @@ export default {
         bpm: this.curPlayBpm,
         notes: []
       }
-      // this.recordData.notes[0].push(1)
-      // this.recordData.notes[0].push(2)
-      // this.recordData.notes.push([])
-      // this.recordData.notes[1].push(4)
-      // console.log('this.recordData: ' + this.recordData.notes[1])
       this.isRecording = true
       this.recordInput()
       Observe.$emit(OBEvent.RECORDING_STARTED)
@@ -396,7 +407,6 @@ export default {
     stopRecording () {
       this.stopAutoPlay()
       this.isRecording = false
-      Observe.$emit(OBEvent.RECORDING_FINISHED, this.recordData)
       // console.log('this.recordData: ' + this.recordData.notes)
       // 删除头部的空白数据
       while (this.recordData.notes.length > 1 && this.recordData.notes[0].length == 0) {
@@ -405,6 +415,8 @@ export default {
       while (this.recordData.notes.length > 1 && this.recordData.notes[this.recordData.notes.length - 1].length == 0) {
         this.recordData.notes.pop()
       }
+      Observe.$emit(OBEvent.RECORDING_FINISHED, this.recordData)
+
       this.playingSheet = this.recordData
       this.setCurMusicKey(this.playingSheet.key)
       this.curPlayBpm = this.playingSheet.bpm
@@ -420,6 +432,7 @@ export default {
       // }
 
       Observe.$emit(OBEvent.SHEET_MUSIC_LOADED, this.playingSheet)
+      Observe.$emit(OBEvent.POPUP_DIALOG, '录音完成！点击播放试听，下面也可以分享哦~')
     },
 
     addRecordPress (keyCode) {

@@ -26,6 +26,9 @@ export const OBEvent = {
 
   CHANGE_WALLPAPER: 'CHANGE_WALLPAPER',
 
+  // 弹出对话框, 参数1(string) 对话框内容
+  POPUP_DIALOG: 'POPUP_DIALOG',
+
   LOAD_SHEET_MUSIC: 'LOAD_SHEET_MUSIC',
   START_AUTO_PLAY: 'START_AUTO_PLAY',
   STOP_AUTO_PLAY: 'STOP_AUTO_PLAY',
@@ -42,6 +45,8 @@ export const OBEvent = {
   STOP_RECORDING: 'STOP_RECORDING',
   // 载入录音文本
   LOAD_RECORD_TEXT: 'LOAD_RECORD_TEXT',
+  // 节拍器开启关闭
+  METRONOME_SWITCH: 'METRONOME_SWITCH',
 
   // 自动播放事件
   // 乐曲载入事件

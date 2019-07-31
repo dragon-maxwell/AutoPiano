@@ -436,6 +436,9 @@ var SampleLibrary = {
     },
 
     'piano': {
+        // 节拍器音色
+        'A1': require('@static/samples/piano/metronome1.mp3'),
+        'B1': require('@static/samples/piano/metronome2.mp3'),
         // 'A2': mapFile('A2'),
         // 'A3': mapFile('A3'),
         // 'A4': mapFile('A4'),
