@@ -1,39 +1,45 @@
 <style lang="less">
 @import url('../assets/style/variable.less');
-.sheet-share { width: 32%; min-width: 500px; height:400px; margin: 20px auto auto 5%; font-size: 14px; overflow: hidden; background: rgba(255, 255, 255, .6); border-radius: 5px; border: solid 1px #ddd; position: relative;
-.list-view { width: 100%; height: 100%; position: absolute; top: 0; left: 0; padding: 20px 15px; overflow-y: scroll; }
-  .component-title { margin: 20px 0 10px 15px; font-size: 18px; font-weight: bold; line-height: 26px; position: relative;
-    .music-img { display: inline-block; width: 26px; vertical-align: middle; }
-    .title { vertical-align: middle; margin-left: 5px; }
+.sheet-share { width: 100%; min-width: 500px; height:400px;
+  .share-wrap { width: 90%; height: 100%; margin: 50px auto;
+    .share-content { width: 32%; position: relative; overflow: hidden;font-size: 14px; overflow: hidden; background: rgba(255, 255, 255, .6); border-radius: 5px; border: solid 1px #ddd; position: relative;
+      .list-view { width: 100%; height: 100%; position: absolute; top: 0; left: 0; padding: 20px 15px; overflow-y: scroll; }
+      .component-title { margin: 20px 0 10px 15px; font-size: 18px; font-weight: bold; line-height: 26px; position: relative;
+        .music-img { display: inline-block; width: 26px; vertical-align: middle; }
+        .title { vertical-align: middle; margin-left: 5px; }
+      }
+      .btn-bar {margin: -10px auto 2% 2%;}
+      .ctrl-btns { display: inline-block; width: 150px; word-spacing: 10px; text-align: center; font-size:15px; font-weight:bold; line-height: 30px; margin-bottom: 10px; background-color: #FFFFFF; color: @c-blue-d; border: 1px solid blue; border-radius: 25px; box-shadow: 2px 2px 2px #888888; cursor: pointer;
+        &:hover { background-color: rgb(13, 61, 65); color: rgb(193, 243, 255);}
+      }
+      .text-input { resize: none; width: 96%; height: 300px; font-size: 15px;align-items: center; margin: -10px auto 2% 2%; overflow-Y: scroll;}
+    }
   }
-.btn-bar {margin: -10px auto 2% 2%;}
-.ctrl-btns { display: inline-block; width: 150px; word-spacing: 10px; text-align: center; font-size:15px; font-weight:bold; line-height: 30px; margin-bottom: 10px; background-color: #FFFFFF; color: @c-blue-d; border: 1px solid blue; border-radius: 25px; box-shadow: 2px 2px 2px #888888; cursor: pointer;
-    &:hover { background-color: rgb(13, 61, 65); color: rgb(193, 243, 255);} }
-.text-input { resize: none; width: 96%; height: 300px; font-size: 15px;align-items: center; margin: -10px auto 2% 2%; overflow-Y: scroll;}
 }
 </style>
 <template>
   <div class="sheet-share">
-
-  <sweet-modal ref="smodalNormal">{{modalData}}</sweet-modal>
-  <!-- <sweet-modal ref="smodalSuccess" icon="success">{{modalData}}</sweet-modal>
-  <sweet-modal ref="smodalWarning" icon="warning">{{modalData}}</sweet-modal>
-  <sweet-modal ref="smodalError" icon="error" title="Oh noooo">{{modalData}}</sweet-modal> -->
-
-  <p class="component-title">
-    <img src="../assets/images/music_cd.png" alt="" class="music-img">
-    <span class="title">演奏录音</span>
-  </p>
-  <div class="btn-bar">
-    <div class="ctrl-btns" @click="onLoadBtn">播放下方内容</div>
-    <div class="ctrl-btns" @click="onSaveBtnClick">下载录音存档</div>
-    <div class="ctrl-btns"
-      v-clipboard:copy="recordTxt"
-      v-clipboard:success="onCopySuccess"
-      v-clipboard:error="onCopyError">复制到剪贴板分享</div>
-  </div>
-
-  <textarea class="text-input" id="text-area" v-model="recordTxt" placeholder="请点击进度条上方的录音按钮开始录音，录下的内容会显示在这里~"></textarea>
+    <div class="share-wrap responsive-section-a">
+      <div class="share-content">
+        <sweet-modal ref="smodalNormal">{{modalData}}</sweet-modal>
+        <!-- <sweet-modal ref="smodalSuccess" icon="success">{{modalData}}</sweet-modal>
+        <sweet-modal ref="smodalWarning" icon="warning">{{modalData}}</sweet-modal>
+        <sweet-modal ref="smodalError" icon="error" title="Oh noooo">{{modalData}}</sweet-modal> -->
+        <p class="component-title">
+          <img src="../assets/images/music_cd.png" alt="" class="music-img">
+          <span class="title">演奏录音</span>
+        </p>
+        <div class="btn-bar">
+          <div class="ctrl-btns" @click="onLoadBtn">播放下方内容</div>
+          <div class="ctrl-btns" @click="onSaveBtnClick">下载录音存档</div>
+          <div class="ctrl-btns"
+               v-clipboard:copy="recordTxt"
+               v-clipboard:success="onCopySuccess"
+               v-clipboard:error="onCopyError">复制到剪贴板分享</div>
+        </div>
+        <textarea class="text-input" id="text-area" v-model="recordTxt" placeholder="请点击进度条上方的录音按钮开始录音，录下的内容会显示在这里~"></textarea>
+      </div>
+    </div>
   </div>
 </template>
 
