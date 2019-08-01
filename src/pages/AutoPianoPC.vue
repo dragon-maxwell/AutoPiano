@@ -19,8 +19,8 @@
     .piano-wrap { left: 25%; }
     .piano-options { left: 25%; }
     .skytitle {
-      width: 1334px;
-      height: 173px;
+      width: 900px;
+      height: 96px;
       margin: 20px auto;
       -moz-background-size:100% 100%;
       background-size:100% 100%;

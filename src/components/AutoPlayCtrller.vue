@@ -1,16 +1,16 @@
 <style lang="less">
 @import url('../assets/style/variable.less');
 .component-auto-play-ctrller { width: 100%; min-height: 40px; padding: 5px 0;
-  .ctrller-wrap { width: 90%; height: 100%; margin: 20px auto; position: relative; overflow: hidden;
-    .logo-imge {width: 200px; display:block}
+  .ctrller-wrap { width: 90%; height: 100%; margin: 0 auto; position: relative; overflow: hidden;
+    // .logo-imge {width: 200px; display:block}
     .horizontal-split {display: inline-block}
-    .sheet-music-name {width: 400px; font-size: 30px; margin: 5px auto 10px auto}
-    .ctrl-btns { display: inline-block; width: 150px; word-spacing: 10px; text-align: center; font-size:20px; font-weight:bold; line-height: 50px; margin-bottom: 10px; background-color: #FFFFFF; color: @c-blue-d; border: 1px solid blue; border-radius: 25px; box-shadow: 2px 2px 2px #888888; cursor: pointer;
+    .sheet-music-name {color:rgb(0, 86, 142); width:100%; font-size: 30px; margin: 30px auto 10px auto}
+    .ctrl-btns { display: inline-block; width: 10.3%; word-spacing: 10px; text-align: center; font-size:20px; font-weight:bold; line-height: 50px; margin: 10px auto 20px auto; background-color: #FFFFFF; color: @c-blue-d; border: 1px solid blue; border-radius: 25px; box-shadow: 2px 2px 2px #888888; cursor: pointer;
       &:hover { background-color: rgb(13, 61, 65); color: rgb(193, 243, 255);} }
-    .progress-bar {background-color: rgb(13, 61, 65); border: 1px solid blue; border-radius: 2px;box-shadow: 2px 2px 2px #888888;}
-    .bpm-txt {font-size: 20px;}
-    .bpm-bar {margin: 0 0 -10px 0; background-color: rgb(13, 61, 65); border: 1px solid blue; border-radius: 2px;box-shadow: 2px 2px 2px #888888;}
-    .slider-tool-tip {border: 0px; color:rgb(255, 255, 255); background-color: rgb(0, 0, 0); font-size:20px; font-weight:bold; line-height: 22px; }
+    .progress-bar {margin: 10px 0 0 0; width:43.8%}
+    .bpm-txt {color:rgb(0, 86, 142); font-size: 20px; margin-left:80px}
+    .bpm-bar {margin: 0 0 -18px 0; }
+    // .slider-tool-tip {border: 0px; color:rgb(255, 255, 255); background-color: rgb(0, 0, 0); font-size:20px; font-weight:bold; line-height: 22px; }
     .record-beat-tip1 {background-color: rgb(255, 174, 0);
       &:hover { background-color: rgb(255, 174, 0); color: rgb(193, 243, 255);} }
     .record-beat-tip2 {background-color: rgb(255, 234, 201);
@@ -40,7 +40,9 @@
         <div class="ctrl-btns" id="record-btn" @click="onRecordBtnClick">{{RecordBtnTxt}}</div>
         <div class="ctrl-btns hide-btn" id="metronome-switch-btn" @click="onMetronomeBtnClick">{{MetronomeBtnTxt}}</div>
       </div>
-      <vue-slider class="progress-bar" ref="progressBar" @drag-start="onProgressDragStart" @drag-end="onProgressDragEnd" @callback="onProgressCallback" v-model="progressBar.value" v-bind="progressBar.options"></vue-slider>
+      <div class="progress-bar" >
+        <vue-slider ref="progressBar" @drag-start="onProgressDragStart" @drag-end="onProgressDragEnd" @callback="onProgressCallback" v-model="progressBar.value" v-bind="progressBar.options"></vue-slider>
+      </div>
     </div>
   </div>
 </template>
@@ -60,7 +62,6 @@ export default {
         options: {
           disabled: false,
           eventType: 'auto',
-          width: 616,
           height: 30,
           dotSize: 30,
           min: 0,
@@ -69,8 +70,8 @@ export default {
           show: true,
           speed: 0.5,
           tooltip: 'always',
-          tooltipDir: 'right',
-          tooltipClass: 'slider-tool-tip',
+          tooltipDir: 'top',
+          tooltipClass: null,
         },
       },
       bpmSlider: {
@@ -79,7 +80,7 @@ export default {
         options: {
           disabled: false,
           width: 150,
-          height: 20,
+          height:20,
           dotSize: 30,
           min: 25,
           max: 250,
@@ -87,8 +88,8 @@ export default {
           show: true,
           speed: 0.5,
           tooltip: 'always',
-          tooltipDir: 'right',
-          tooltipClass: 'slider-tool-tip',
+          tooltipDir: 'top',
+          tooltipClass: null,
         },
       },
       CurrentSheetMusicNameLabelText: '当前播放：没有乐谱',
