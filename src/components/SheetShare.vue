@@ -45,7 +45,7 @@
         <p class="component-title">
           <img src="../assets/images/music_cd.png" alt="" class="music-img">
           <span class="title">演奏录音</span>
-          <!-- <span class="staff-btn" @click="onStaffBtn">神秘按钮</span> -->
+          <span class="staff-btn" @click="onStaffBtn">神秘按钮</span>
         </p>
         <div class="btn-bar">
           <div class="ctrl-btns" @click="onLoadBtn">播放下方内容</div>
