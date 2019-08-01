@@ -1,8 +1,8 @@
 <style lang="less">
 @import url('../assets/style/variable.less');
 .sheet-share { width: 100%; min-width: 500px; height:400px;
-  .share-wrap { width: 90%; height: 100%; margin: 50px auto;
-    .share-content { width: 32%; position: relative; overflow: hidden;font-size: 14px; overflow: hidden; background: rgba(255, 255, 255, .6); border-radius: 5px; border: solid 1px #ddd; position: relative;
+  .share-wrap { width: 90%; height: 100%; margin: 50px auto; left: 25%; position: relative;
+    .share-content { width: 40%; position: relative; overflow: hidden;font-size: 14px; overflow: hidden; background: rgba(255, 255, 255, .6); border-radius: 5px; border: solid 1px #ddd; position: relative;
       .list-view { width: 100%; height: 100%; position: absolute; top: 0; left: 0; padding: 20px 15px; overflow-y: scroll; }
       .component-title { margin: 20px 0 10px 15px; font-size: 18px; font-weight: bold; line-height: 26px; position: relative;
         .music-img { display: inline-block; width: 26px; vertical-align: middle; }
@@ -37,7 +37,8 @@
           <br>进度条显示的数字是拍数，可以拖动进度条到指定拍数。
           <br>调性按钮和乐曲速度拖动条可以实时改变调性或播放速度。
           <br>点击录音按钮开始录音，录音时可以关闭节拍器声音。
-          <br>录音完毕可以在页面下方分享。</span>
+          <br>录音完毕可以在页面下方分享。
+          <br>(还没来得及做在线提交乐谱的功能，以后会加上)</span>
         </sweet-modal>
 
         <sweet-modal ref="smodalNormal">{{modalData}}</sweet-modal>

@@ -4,7 +4,7 @@
   .app-bg { width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: -100; opacity: 1; background-size: cover; background-repeat: no-repeat; transition: all .5s linear; }
   .app-content { width: 100%; height: 100%; overflow-y: scroll; position: relative;
     .piano-scroll-wrap { overflow: hidden; }
-    .score-section { width: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+    .score-section { width: 100%; left: 25%; margin: 0 auto; position: relative; display: flex; align-items: center; justify-content: space-between; }
     .right-drawer { width: 500px; height: 100%; position: fixed; top: 0; right: -500px; z-index: 100; border-left: solid 1px #ccc; transition: all .3s ease-in-out;
       .trigger { width: 30px; height: 86px; font-size: 16px; text-align: center; padding-top: 7px;  position: absolute; top: 50%; left: -32px; background: @c-red; color: #fff; cursor: pointer; z-index: 101; }
       // .trigger::before { content: ''; width: 8px; height: 8px; background: #f00;; position: absolute; top: -2px; right: -2px; border-radius: 50%; }
@@ -14,7 +14,18 @@
       }
     }
     .right-drawer.show { right: 0; }
-    .wkey { margin: 3px 3px !important;}
+    .wkey { margin: 3px 3px !important; }
+    .ctrller-wrap { left: 25%; }
+    .piano-wrap { left: 25%; }
+    .piano-options { left: 25%; }
+    .skytitle {
+      width: 900px;
+      height: 96px;
+      margin: 20px auto;
+      -moz-background-size:100% 100%;
+      background-size:100% 100%;
+      background-image: url("../assets/images/skytitle.png");
+    }
   }
   .hero-bkg-animated {
   background: gray url(../assets/images/congruent_pentagon.png) repeat 0 0;
@@ -32,7 +43,8 @@
     <div class="app-bg hero-bkg-animated" ></div>
 
     <div class="app-content">
-      <!-- <PageHeader></PageHeader> -->
+      <PageHeader></PageHeader>
+      <div class="skytitle"></div>
       <!-- <RandomLyric></RandomLyric> -->
       <AutoPlayCtrller></AutoPlayCtrller>
       <Piano></Piano>
