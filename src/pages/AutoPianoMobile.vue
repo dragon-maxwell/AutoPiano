@@ -33,7 +33,7 @@
       }
     }
 
-    .score-section { width: 100%; margin-top: 30px; padding: 0px; display: flex; align-items: center; justify-content: space-around;
+    .score-section { width: 100%; margin-top: 30px; padding: 0px; display: flex; align-items: center; justify-content: flex-start;
       .score-container { width: 720px; height: 850px; padding: 20px; font-size: 30px;
         .component-title { font-size: 40px; margin: 10px 0 20px 10px;
           .join { display: none; }
@@ -50,6 +50,14 @@
       }
     }
   }
+
+  .share-wrap { left: 0 !important; margin: 50px 0 !important;}
+  .share-content { width: 55% !important;}
+  .component-title { font-size: 30px !important; padding-bottom: 10px;
+    .music-img { width: 40px !important;}
+  }
+  .ctrl-btns { width: 200px !important; font-size:20px !important;}
+
   .component-page-footer { height: 75px; line-height: 75px; position: static;
     .left-section { display: none; }
     a { font-size: 35px; }
@@ -95,8 +103,8 @@
   <div id="page-mobile" class="page-mobile">
     <div class="app-bg hero-bkg-animated"></div>
     <div class="app-content">
-      <!-- <h2 class="mobile-tip">请在电脑上用Chrome浏览器访问：www.autopiano.cn</h2> -->
-      <!-- <PageHeader></PageHeader> -->
+       <!--<h2 class="mobile-tip">请在电脑上用Chrome浏览器访问：www.autopiano.cn</h2>-->
+       <PageHeader></PageHeader>
       <!-- <RandomLyric></RandomLyric> -->
       <AutoPlayCtrller></AutoPlayCtrller>
       <Piano></Piano>

@@ -1,9 +1,9 @@
 <style lang="less">
 @import url('../assets/style/variable.less');
 .component-page-header { width: 100%; height: 60px; line-height: 60px; margin: 10px auto; padding: 0 5%;
-  .trade-mark { display: block; width: 350px; position: relative; display: flex; justify-content: flex-start; align-items: center; float: left;
+  .trade-mark { display: block; width: 500px; position: relative; display: flex; justify-content: flex-start; align-items: center; float: left;
     .icon-piano { display: block; transform: scale(0.7); transform-origin: 50% 30%; }
-    .trade-mark-txt { font-size: 28px; font-weight: 500; color: #000; margin: 0 0 0 10px;
+    .trade-mark-txt { font-size: 28px; font-weight: 500; color: #000;
       .trade-mark-txt--en { font-style: italic; font-size: 20px; color: #666; margin-left: 7px; }
     }
   }
@@ -22,12 +22,12 @@
   <div class="component-page-header clearfix" ref="PageHeaderComponent">
     <a class="trade-mark" target="_blank" href="/" >
       <i class="icon-piano"></i>
-      <h1 class="trade-mark-txt">自由钢琴<span class="trade-mark-txt--en">AutoPiano.cn</span></h1>
+      <h1 class="trade-mark-txt">Sky光遇音乐<span class="trade-mark-txt--en">skysheetmusic.com</span></h1>
     </a>
     <div class="menu">
       <router-link class="menu-item" :to="{ path: '/' }" active-class="menu-item-active" exact>首页</router-link>
-      <router-link class="menu-item" :to="{ path: '/links' }" active-class="menu-item-active" exact>友情链接</router-link>
-      <a class="menu-item" @click.stop="emitChangeWallPaper">更换壁纸</a>
+      <!--<router-link class="menu-item" :to="{ path: '/links' }" active-class="menu-item-active" exact>友情链接</router-link>-->
+      <!--<a class="menu-item" @click.stop="emitChangeWallPaper">更换壁纸</a>-->
       <!--<a class="menu-item" >钢琴基础教学</a>-->
     </div>
   </div>

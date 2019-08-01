@@ -5,8 +5,8 @@
   #audioEffectCanvas { display: none; }
   .piano-scroll-wrap { width: 100%; overflow: visible; }
   .piano-wrap.visible { opacity: 1; }
-  .piano-wrap { width: 90%; margin: 20px auto; position: relative; overflow: hidden; opacity: 0;
-    .piano-key-wrap { width: 100%; height: 300px; overflow: hidden; position: relative;
+  .piano-wrap { width: 90%; margin: 20px auto; position: relative; overflow: visible; opacity: 0;
+    .piano-key-wrap { width: 100%; height: 300px; overflow: visible; position: relative;
       .piano-key {
         &:hover { cursor: pointer; }
       }

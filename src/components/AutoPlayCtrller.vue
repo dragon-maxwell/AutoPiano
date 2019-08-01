@@ -23,7 +23,7 @@
 <template>
   <div class="component-auto-play-ctrller">
     <div class="ctrller-wrap responsive-section-a">
-       <img src="../assets/images/skylogo.png" alt="" class="logo-imge">
+      <!--<img src="../assets/images/skylogo.png" alt="" class="logo-imge">-->
       <div class="horizontal-split">
         <div class="sheet-music-name">{{CurrentSheetMusicNameLabelText}}</div>
       </div>
