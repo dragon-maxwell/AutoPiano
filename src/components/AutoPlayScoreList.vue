@@ -74,6 +74,7 @@
           </span> -->
         </li>
       </ol>
+      (因为录音时使用的是我们没有优化的手机版，所以不是最佳状态)
 
       <!-- <p class="component-title">
         <img src="../assets/images/lab.png" alt="" class="music-img">
