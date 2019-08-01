@@ -2,7 +2,7 @@
 @import url('../assets/style/variable.less');
 
 #page-mobile.page-mobile { width: 100%; height: 100%; padding: 1px; font-family: 'Avenir', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; color: #2c3e50; position: absolute; top: 0; left: 0; overflow-x: hidden;
-  .app-bg { width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: -100; opacity: 0.5; background-size: cover; }
+  .app-bg { width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: -100; opacity: 1; background-size: cover; }
   .app-content { width: 100%; height: 100%; overflow-x: hidden; overflow-y: scroll; font-size: 30px; position: relative;
     .mobile-tip { padding: 5px; float: right; background: #fff; color: @c-red; font-size: 30px; }
 
@@ -30,7 +30,7 @@
   }
   @-webkit-keyframes slide {
     from { background-position: 0 0; }
-    to { background-position: 0 -600px; }
+    to { background-position: 600px -600px; }
   }
 }
 </style>
