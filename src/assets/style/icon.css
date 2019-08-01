@@ -4,6 +4,6 @@
 .icon-heartbeat { display:inline-block; width: 32px; height: 32px; background-position: -96px -64px; vertical-align:top; background-image: url('../images/sprite.png'); }
 .icon-hot { display:inline-block; width: 32px; height: 32px; background-position: -64px -96px; vertical-align:top; background-image: url('../images/sprite.png'); }
 .icon-pause { display:inline-block; width: 32px; height: 32px; background-position: -96px -96px; vertical-align:top; background-image: url('../images/sprite.png'); }
-.icon-piano { display:inline-block; width: 64px; height: 64px; background-position: -64px 0px; vertical-align:top; background-image: url('../images/sprite.png'); }
+.icon-piano { display:inline-block; width: 100px; height: 100px; -moz-background-size:100% 100%; background-size:100% 100%; vertical-align:top; background-image: url('../images/skylogo.png'); }
 .icon-star { display:inline-block; width: 32px; height: 32px; background-position: -128px 0px; vertical-align:top; background-image: url('../images/sprite.png'); }
 .icon-wxpay { display:inline-block; width: 64px; height: 64px; background-position: 0px -64px; vertical-align:top; background-image: url('../images/sprite.png'); }
