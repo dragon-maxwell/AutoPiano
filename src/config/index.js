@@ -26,6 +26,8 @@ export const OBEvent = {
 
   CHANGE_WALLPAPER: 'CHANGE_WALLPAPER',
 
+  HOW_TO_USE: 'HOW_TO_USE',
+
   // 弹出对话框, 参数1(string) 对话框内容
   POPUP_DIALOG: 'POPUP_DIALOG',
 

@@ -128,7 +128,11 @@
       display: block;
       margin-top: 100%; //margin 百分比相对父元素宽度计算
     }
+
  }
+  .how-to-use-btn {display: inline; margin-left:0; color:rgb(21,102,178); text-decoration: underline;
+    &:hover { color: rgb(24, 159, 201);}
+  }
 }
 
 </style>
@@ -196,6 +200,8 @@
             <i></i>
           </label>
         </div>
+
+        <div class="how-to-use-btn" @click="onBtnHowtoUse">使用指南</div>
       </div>
     </div>
 
@@ -516,7 +522,11 @@ export default {
       try {
         this.synth.triggerAttackRelease(notename, duration);
       } catch (e) {}
-    }
+    },
+
+    onBtnHowtoUse () {
+      Observe.$emit(OBEvent.HOW_TO_USE)
+    },
   }
 }
 

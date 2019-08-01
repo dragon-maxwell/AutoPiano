@@ -10,10 +10,28 @@
 .ctrl-btns { display: inline-block; width: 150px; word-spacing: 10px; text-align: center; font-size:15px; font-weight:bold; line-height: 30px; margin-bottom: 10px; background-color: #FFFFFF; color: @c-blue-d; border: 1px solid blue; border-radius: 25px; box-shadow: 2px 2px 2px #888888; cursor: pointer;
     &:hover { background-color: rgb(13, 61, 65); color: rgb(193, 243, 255);} }
 .text-input { resize: none; width: 96%; height: 300px; font-size: 15px;align-items: center; margin: -10px auto 2% 2%; overflow-Y: scroll;}
+.staff-img {width: 400px}
+.staff-btn {vertical-align: middle; margin-left: 60%;font-size:15px; color:#888888;}
 }
 </style>
 <template>
   <div class="sheet-share">
+
+  <sweet-modal ref="staffDialog">
+    <img src="../assets/images/staff.png" alt="" class="staff-img">
+    <br><span style="font-size: 20px;">给各位摸鱼大佬比个心(´▽`ʃ♡ƪ)</span>
+    <br><span style="font-size: 15px; text-decoration: line-through;">实际并没有心可送</span>
+    </sweet-modal>
+
+  <sweet-modal ref="howtouse">
+    <br><span style="font-size: 20px;">使用指南</span>
+    <span style="font-size: 15px; align-items: left; text-align: left;">
+    <br>点击控制栏的播放按钮自动播放乐谱，同时显示指法。
+    <br>进度条显示的数字是拍数，可以拖动进度条到指定拍数。
+    <br>调性按钮和乐曲速度拖动条可以实时改变调性或播放速度。
+    <br>点击录音按钮开始录音，录音时可以关闭节拍器声音。
+    <br>录音完毕可以在页面下方分享。</span>
+  </sweet-modal>
 
   <sweet-modal ref="smodalNormal">{{modalData}}</sweet-modal>
   <!-- <sweet-modal ref="smodalSuccess" icon="success">{{modalData}}</sweet-modal>
@@ -22,7 +40,7 @@
 
   <p class="component-title">
     <img src="../assets/images/music_cd.png" alt="" class="music-img">
-    <span class="title">演奏录音</span>
+    <span class="title">演奏录音</span><span class="staff-btn" @click="onStaffBtn">神秘按钮</span>
   </p>
   <div class="btn-bar">
     <div class="ctrl-btns" @click="onLoadBtn">播放下方内容</div>
@@ -60,6 +78,9 @@ export default {
     Observe.$on(OBEvent.POPUP_DIALOG, (dialogContent) => {
       this.modalData = dialogContent
       this.$refs.smodalNormal.open()
+    })
+    Observe.$on(OBEvent.HOW_TO_USE, () => {
+      this.$refs.howtouse.open()
     })
     
   },
@@ -134,6 +155,10 @@ export default {
     },
     onCopyError () {
       Observe.$emit(OBEvent.POPUP_DIALOG, '复制失败，我也不知道为什么')
+    },
+
+    onStaffBtn () {
+      this.$refs.staffDialog.open()
     },
   },
 }
