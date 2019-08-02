@@ -139,7 +139,7 @@
 
 <template>
   <div class="component-autopiano" ref="PianoComponent">
-    <div class="piano-scroll-wrap">
+    <div class="piano-scroll-wrap" @touchstart.prevent>
       <div class="piano-wrap responsive-section-a" :class="{'visible': pianoShow}">
         <!-- <div class="piano-band">
           <img class="piano-band-img" :src="bandImg" alt="">
