@@ -3,7 +3,7 @@
 
 #page-mobile.page-mobile { width: 100%; height: 100%; padding: 1px; font-family: 'Avenir', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; color: #2c3e50; position: absolute; top: 0; left: 0; overflow-x: hidden;
   .app-bg { width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: -100; opacity: 1; background-size: cover; }
-  .app-content { width: 100%; height: 100%; overflow-x: hidden; overflow-y: scroll; font-size: 30px; position: relative;
+  .app-content { width: 100%; height: 100%; overflow-x: hidden; overflow-y: scroll; font-size: 30px; position: relative; touch-action: manipulation; -ms-touch-action: manipulation;
     .mobile-tip { padding: 5px; float: right; background: #fff; color: @c-red; font-size: 30px; }
 
     .trade-mark { width: 600px;
@@ -24,6 +24,8 @@
       .keytip { font-size: 30px; }
     }
   }
+  .component-autopiano { margin-top: 80px; }
+  .piano-options{ display: none; }
   .hero-bkg-animated {
   background: gray url(../assets/images/congruent_pentagon.png) repeat 0 0;
   -webkit-animation: slide 40s linear infinite;
@@ -38,7 +40,7 @@
 <template>
   <div id="page-mobile" class="page-mobile">
     <div class="app-bg hero-bkg-animated"></div>
-    <div class="app-content">
+    <div class="app-content" @touchstart.prevent>
       <Piano></Piano>
     </div>
   </div>
