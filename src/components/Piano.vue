@@ -263,7 +263,7 @@ export default {
         instruments: "piano"
       }).toMaster()
 
-      this.loadSheetMusicByName('大鱼')
+      this.loadSheetMusicByName('卡农-烛子')
 
       // this.synth = new Tone.PolySynth( 10 ).toMaster()
     },
