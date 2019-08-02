@@ -2,14 +2,14 @@
 @import url('../assets/style/variable.less');
 .score-container.component-auto-list { width: 40%; min-width: 500px; padding-bottom: 11%; font-size: 14px; overflow: hidden; background: rgba(255, 255, 255, .6); border-radius: 5px; border: solid 1px #ddd; position: relative;
 
-  .list-view { width: 100%; height: 100%; position: absolute; top: 0; left: 0; padding: 20px 15px; overflow-y: scroll;  }
+  .list-view { width: 100%; height: 100%; position: absolute; top: 0; left: 0; padding: 10px 15px; overflow-y: scroll;  }
   .component-title { margin: 0 0 10px 0; font-size: 18px; font-weight: bold; line-height: 26px; position: relative;
     .music-img { display: inline-block; width: 26px; vertical-align: middle; }
     .title { vertical-align: middle; margin-left: 5px; }
-    .degree { width: 150px; float: right; text-align: left; }
+    // .degree { width: 150px; float: right; text-align: left; }
   }
-  .list { width: 100%; padding-left: 25px; padding-bottom: 10px; line-height: 32px;
-    .list-item {  height: 32px; line-height: 32px;  list-style: none;
+  .list { width: 100%; padding-left: 25px; padding-bottom: 5px; line-height: 25px;
+    .list-item {  height: 25px; line-height: 23px;  list-style: none;
       a { display: inline-block; min-width: 120px; cursor: pointer; }
       .icon-pause { display: inline-block; transform: scale(0.6); cursor: pointer;
         &:hover { opacity: 0.8; }
@@ -68,13 +68,12 @@
           <a href="javascript:;" @click="clickScoreItem(item)">
             {{ item.name }}
           </a>
-          <i class="pause icon-pause" v-show="item.playing" @click="pauseAutoPlay(item)" />
+          <!-- <i class="pause icon-pause" v-show="item.playing" @click="pauseAutoPlay(item)" /> -->
           <!-- <span class="difficulty-degree">
             <i class="icon-heartbeat" v-for="(star, sindex) in new Array(item.degree)" :key="sindex"></i>
           </span> -->
         </li>
       </ol>
-      (因为录音时使用的是我们没有优化的手机版，所以不是最佳状态)
 
       <!-- <p class="component-title">
         <img src="../assets/images/lab.png" alt="" class="music-img">

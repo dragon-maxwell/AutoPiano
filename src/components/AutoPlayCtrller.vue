@@ -92,7 +92,7 @@ export default {
           tooltipClass: null,
         },
       },
-      CurrentSheetMusicNameLabelText: '当前播放：没有乐谱',
+      CurrentSheetMusicNameLabelText: '没有乐谱',
       CurrentSheetMusicTimeSignature: [],
       PlayBtnTxt: '播放',
       StopBtnTxt: '停止',
@@ -117,7 +117,7 @@ export default {
       this.progressBar.value = (curBar - 1) * this.CurrentSheetMusicTimeSignature[0] + curQnIdx
     })
     Observe.$on(OBEvent.SHEET_MUSIC_LOADED, (sheetMusic) => {
-      this.CurrentSheetMusicNameLabelText = '当前播放：' + sheetMusic.name
+      this.CurrentSheetMusicNameLabelText = sheetMusic.name
       this.CurrentSheetMusicTimeSignature = sheetMusic.timeSignature
       this.progressBar.options.min = 1
       this.progressBar.options.max = sheetMusic.notes.length * sheetMusic.timeSignature[0]
